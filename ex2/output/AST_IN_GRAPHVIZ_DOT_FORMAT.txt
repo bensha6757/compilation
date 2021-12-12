@@ -1,0 +1,59 @@
+digraph
+{
+graph [ordering = "out"]
+v0 [label = "TYPE_ID(k)
+"];
+v1 [label = "TYPE_ID(p)
+"];
+v2 [label = "NIL"];
+v3 [label = "AST
+VARDEC
+TYPEEXP
+(t)"];
+v3 -> v1;
+v3 -> v2;
+v4 [label = "AST
+STMT
+VARDEC
+"];
+v4 -> v3;
+v5 [label = "AST
+STMT
+LIST
+"];
+v5 -> v4;
+v6 [label = "AST
+FUNCDEC
+STMT
+(j)"];
+v6 -> v0;
+v6 -> v5;
+v7 [label = "AST
+CFIELD
+FUNCDEC"];
+v7 -> v6;
+v8 [label = "AST
+CFIELD
+LIST
+"];
+v8 -> v7;
+v9 [label = "CLASS
+(a)"];
+v9 [label = "PARENT
+CLASS
+(b)"];
+v9 -> v8;
+v10 [label = "AST
+DEC
+CLASSDEC"];
+v10 -> v9;
+v11 [label = "AST
+DEC
+LIST
+"];
+v11 -> v10;
+v12 [label = "AST
+PROGRAM
+DEC"];
+v12 -> v11;
+}

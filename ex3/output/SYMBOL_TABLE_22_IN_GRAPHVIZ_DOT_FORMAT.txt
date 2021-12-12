@@ -1,0 +1,248 @@
+digraph structs {
+rankdir = LR
+node [shape=record];
+hashTable [label="<f0>
+0
+|<f1>
+1
+|<f2>
+2
+|<f3>
+3
+|<f4>
+4
+|<f5>
+5
+|<f6>
+6
+|<f7>
+7
+|<f8>
+8
+|<f9>
+9
+|<f10>
+10
+|<f11>
+11
+|<f12>
+12
+|<f13>
+13
+|<f14>
+14
+|<f15>
+15
+|<f16>
+16
+|<f17>
+17
+|<f18>
+18
+|<f19>
+19
+|<f20>
+20
+|<f21>
+21
+|<f22>
+22
+|<f23>
+23
+|<f24>
+24
+|<f25>
+25
+|<f26>
+26
+|<f27>
+27
+|<f28>
+28
+|<f29>
+29
+|<f30>
+30
+|<f31>
+31
+|<f32>
+32
+|<f33>
+33
+|<f34>
+34
+|<f35>
+35
+|<f36>
+36
+|<f37>
+37
+|<f38>
+38
+|<f39>
+39
+|<f40>
+40
+|<f41>
+41
+|<f42>
+42
+|<f43>
+43
+|<f44>
+44
+|<f45>
+45
+|<f46>
+46
+|<f47>
+47
+|<f48>
+48
+|<f49>
+49
+|<f50>
+50
+|<f51>
+51
+|<f52>
+52
+|<f53>
+53
+|<f54>
+54
+|<f55>
+55
+|<f56>
+56
+|<f57>
+57
+|<f58>
+58
+|<f59>
+59
+|<f60>
+60
+|<f61>
+61
+|<f62>
+62
+|<f63>
+63
+|<f64>
+64
+|<f65>
+65
+|<f66>
+66
+|<f67>
+67
+|<f68>
+68
+|<f69>
+69
+|<f70>
+70
+|<f71>
+71
+|<f72>
+72
+|<f73>
+73
+|<f74>
+74
+|<f75>
+75
+|<f76>
+76
+|<f77>
+77
+|<f78>
+78
+|<f79>
+79
+|<f80>
+80
+|<f81>
+81
+|<f82>
+82
+|<f83>
+83
+|<f84>
+84
+|<f85>
+85
+|<f86>
+86
+|<f87>
+87
+|<f88>
+88
+|<f89>
+89
+|<f90>
+90
+|<f91>
+91
+|<f92>
+92
+|<f93>
+93
+|<f94>
+94
+|<f95>
+95
+|<f96>
+96
+|<f97>
+97
+|<f98>
+98
+|<f99>
+99
+"];
+hashTable:f0 -> node_0_0:f0;
+node_0_0 [label="<f0>PrintTrace|<f1>PrintTrace|<f2>prevtop=6|<f3>next"];
+hashTable:f5 -> node_5_0:f0;
+node_5_0 [label="<f0>i|<f1>int|<f2>prevtop=18|<f3>next"];
+node_5_0 -> node_5_1 [style=invis,weight=10];
+node_5_0:f3 -> node_5_1:f0;
+node_5_1 [label="<f0>i|<f1>int|<f2>prevtop=11|<f3>next"];
+hashTable:f6 -> node_6_0:f0;
+node_6_0 [label="<f0>j|<f1>int|<f2>prevtop=15|<f3>next"];
+hashTable:f10 -> node_10_0:f0;
+node_10_0 [label="<f0>PrintInt|<f1>PrintInt|<f2>prevtop=4|<f3>next"];
+hashTable:f14 -> node_14_0:f0;
+node_14_0 [label="<f0>min|<f1>int|<f2>prevtop=12|<f3>next"];
+node_14_0 -> node_14_1 [style=invis,weight=10];
+node_14_0:f3 -> node_14_1:f0;
+node_14_1 [label="<f0>IntArray|<f1>IntArray|<f2>prevtop=7|<f3>next"];
+hashTable:f27 -> node_27_0:f0;
+node_27_0 [label="<f0>SCOPE-BOUNDARY|<f1>NONE|<f2>prevtop=17|<f3>next"];
+node_27_0 -> node_27_1 [style=invis,weight=10];
+node_27_0:f3 -> node_27_1:f0;
+node_27_1 [label="<f0>SCOPE-BOUNDARY|<f1>NONE|<f2>prevtop=16|<f3>next"];
+node_27_1 -> node_27_2 [style=invis,weight=10];
+node_27_1:f3 -> node_27_2:f0;
+node_27_2 [label="<f0>SCOPE-BOUNDARY|<f1>NONE|<f2>prevtop=14|<f3>next"];
+node_27_2 -> node_27_3 [style=invis,weight=10];
+node_27_2:f3 -> node_27_3:f0;
+node_27_3 [label="<f0>SCOPE-BOUNDARY|<f1>NONE|<f2>prevtop=8|<f3>next"];
+hashTable:f31 -> node_31_0:f0;
+node_31_0 [label="<f0>int|<f1>int|<f2>prevtop=0|<f3>next"];
+hashTable:f40 -> node_40_0:f0;
+node_40_0 [label="<f0>minIndex|<f1>int|<f2>prevtop=13|<f3>next"];
+hashTable:f45 -> node_45_0:f0;
+node_45_0 [label="<f0>string|<f1>string|<f2>prevtop=1|<f3>next"];
+hashTable:f46 -> node_46_0:f0;
+node_46_0 [label="<f0>PrintString|<f1>PrintString|<f2>prevtop=5|<f3>next"];
+hashTable:f53 -> node_53_0:f0;
+node_53_0 [label="<f0>size|<f1>int|<f2>prevtop=10|<f3>next"];
+hashTable:f64 -> node_64_0:f0;
+node_64_0 [label="<f0>void|<f1>void|<f2>prevtop=3|<f3>next"];
+hashTable:f65 -> node_65_0:f0;
+node_65_0 [label="<f0>arr|<f1>IntArray|<f2>prevtop=9|<f3>next"];
+hashTable:f73 -> node_73_0:f0;
+node_73_0 [label="<f0>nil|<f1>nil|<f2>prevtop=2|<f3>next"];
+}
