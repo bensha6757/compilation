@@ -104,7 +104,6 @@ public class SYMBOL_TABLE
                 return false;
             }
         } else if (isFunction != type.isFunction()){
-            System.out.println(type.getClass().getName());
             System.out.println("Error not both funcs");
             return false;
         }
@@ -134,19 +133,22 @@ public class SYMBOL_TABLE
         if (t != null){
             return t;
         }
-
-        for (e2 = e; e2 != null; e2 = e2.next)
-        {
-            if (name.equals(e2.name)) {
-                //return compareBetweenFunctions(isFunction, e.type, returnTypeName, params) ? e.type : "ERROR";
-				if(compareBetweenFunctions(isFunction, e2.type, returnTypeName, params)){
-					return e2.type;
-				}
-				else {
-					throw new FindException("Illegal override or non exist function 2");
-				}
+        // for foo(5)
+        if (returnTypeName == null || returnTypeName.equals("")){
+            for (e2 = e; e2 != null; e2 = e2.next)
+            {
+                if (name.equals(e2.name)) {
+                    //return compareBetweenFunctions(isFunction, e.type, returnTypeName, params) ? e.type : "ERROR";
+                    if(compareBetweenFunctions(isFunction, e2.type, returnTypeName, params)){
+                        return e2.type;
+                    }
+                    else {
+                        throw new FindException("Illegal override or non exist function 2");
+                    }
+                }
             }
         }
+
         return null;
     }
 
@@ -176,17 +178,31 @@ public class SYMBOL_TABLE
         if ((returnTypeName == null) || returnTypeName.equals(fatherFunc.returnType.name)){
 			TYPE_LIST fatherFuncParams = fatherFunc.params;
             while (params != null && fatherFuncParams != null){
-                if (!fatherFuncParams.head.name.equals(params.head.name)){
+				if((!fatherFuncParams.head.isInt() && !fatherFuncParams.head.isString() && params.head.isNil()) ||
+                    fatherFuncParams.head.name.equals(params.head.name) ||
+                    (isFather(params.head, fatherFuncParams.head))){
+					fatherFuncParams = fatherFuncParams.tail;
+					params = params.tail;
+				}
+                else{
                     return false;
                 }
-                fatherFuncParams = fatherFuncParams.tail;
-                params = params.tail;
             }
             return params == null && fatherFuncParams == null;
         }
 		return false;
     }
 
+    public boolean isFather(TYPE son, TYPE father){
+        if (son != null && son.isClass() && father!=null && father.isClass()){
+            for (TYPE_CLASS fatherClass = ((TYPE_CLASS) son).father ; fatherClass != null ; fatherClass = fatherClass.father){
+                if (fatherClass.name.equals(father.name)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public boolean checkIfGlobal(){
         return scopeCount == 0;
@@ -221,6 +237,13 @@ public class SYMBOL_TABLE
         return (TYPE_FUNCTION)(curTop.type);
     }
 
+
+    public boolean checkVariableShadowing(String varName, TYPE varType) throws FindException {
+        TYPE t = SYMBOL_TABLE.getInstance().findInParents(varName, null, null, curFather, false);
+        if (t == null)
+            return false;
+        return !t.name.equals(varType.name);
+    }
 
     public boolean checkIfVarExistsInCurrentScope(String var){
         SYMBOL_TABLE_ENTRY curTop = top;
@@ -395,7 +418,6 @@ public class SYMBOL_TABLE
 			/*************************************/
 			/* [2] How should we handle void ??? */
 			/*************************************/
-            instance.enter("void", TYPE_VOID.getInstance());
 
 			/***************************************/
 			/* [3] Enter library function PrintInt */

@@ -96,6 +96,17 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
             this.error();
         }
 
+        try{
+            if (SYMBOL_TABLE.getInstance().checkVariableShadowing(varName, t1))
+            {
+                System.out.format(">> ERROR [%d:%d] variable %s already exists in father class\n",2,2,varName);
+                this.error();
+            }
+        } catch (FindException e){
+            System.out.format(">> ERROR [%d:%d] variable %s already exists in father class as function\n",2,2,varName);
+            this.error();
+        }
+
         /***************************************************/
         /* [3] Enter the Function Type to the Symbol Table */
         /***************************************************/

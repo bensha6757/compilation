@@ -53,6 +53,7 @@ public class Main
 			/* [7] Semant the AST ... */
 			/**************************/
 			AST.SemantMe();
+            System.out.println("OKKKKKKKK");
 			file_writer.write("OK\n");
 
 

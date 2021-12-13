@@ -75,16 +75,20 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         /* [0] return type */
         /*******************/
         try{
-            returnType = SYMBOL_TABLE.getInstance().find(type.typeName);
+            if (type.typeName.equals("void")){
+                returnType = TYPE_VOID.getInstance();
+            } else {
+                returnType = SYMBOL_TABLE.getInstance().find(type.typeName);
+            }
         }
         catch (FindException e){
             System.out.format(">> ERROR [%d:%d] non existing return type \n",6,6);
-            this.error();
+            type.error();
         }
         if (returnType == null)
         {
             System.out.format(">> ERROR [%d:%d] non existing return type %s\n",6,6,returnType);
-            this.error();
+            type.error();
         }
 
         /**************************************/
@@ -93,7 +97,7 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         if (SYMBOL_TABLE.getInstance().checkIfVarExistsInCurrentScope(funcName))
         {
             System.out.format(">> ERROR [%d:%d] function %s already exists in scope\n",2,2,funcName);
-            this.error();
+            type.error();
         }
 
         try {
@@ -104,7 +108,7 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
             SYMBOL_TABLE.getInstance().find(funcName, returnType.name, params, true);
         } catch (FindException e) {
             System.out.format(">> ERROR [%d:%d] illegal override function %s\n",2,2,funcName);
-            this.error();
+            type.error();
         }
 
         /***************************************************/
@@ -134,7 +138,7 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
             if (t == null)
             {
                 System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,param.head.typeName);
-                this.error();
+                param.head.error();
             }
             else
             {

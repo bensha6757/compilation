@@ -114,7 +114,7 @@ public class AST_EXP_BINOP extends AST_EXP
                 return TYPE_STRING.getInstance();
             }
             if (OP == 6){
-                if ((!t1.isInt() && !t1.isString() && t2.isNil()) || (!t2.isInt() && !t2.isString() && t1.isNil()) || t1 == t2){
+                if ((!t1.isInt() && !t1.isString() && t2.isNil()) || (!t2.isInt() && !t2.isString() && t1.isNil()) || SYMBOL_TABLE.getInstance().isFather(t1, t2) || SYMBOL_TABLE.getInstance().isFather(t2, t1) || t1 == t2){
                     return TYPE_INT.getInstance();
                 }
             }

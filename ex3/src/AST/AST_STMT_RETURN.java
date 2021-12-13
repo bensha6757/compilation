@@ -62,12 +62,16 @@ public class AST_STMT_RETURN extends AST_STMT {
     @Override
     public TYPE SemantMe() {
         TYPE_FUNCTION myFunc = SYMBOL_TABLE.getInstance().getMyFunc();
-        TYPE expressionType = exp.SemantMe();
+        TYPE expressionType = null;
+        if (exp != null){
+            expressionType = exp.SemantMe();
+        }
         if ((myFunc.returnType.isVoid() && expressionType != null) ||
             (!myFunc.returnType.isVoid() && expressionType == null) ||
             ((myFunc.returnType.isString() || myFunc.returnType.isInt()) && expressionType != null && expressionType.isNil()) ||
-            (expressionType != null && !expressionType.isNil() && myFunc.returnType != expressionType) ){
-            System.out.format("return statement type mismatch return %s while return type should be %s", myFunc.returnType.name, expressionType.name);
+            (expressionType != null && !expressionType.isNil() &&
+                (!(SYMBOL_TABLE.getInstance().isFather(expressionType, myFunc.returnType)) && myFunc.returnType != expressionType))){
+            System.out.format("return statement type mismatch return %s while return type should be\n", myFunc.returnType.name);
             this.error();
         }
         return expressionType;

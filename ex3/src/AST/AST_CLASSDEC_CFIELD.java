@@ -64,7 +64,6 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
 
     public TYPE SemantMe()
     {
-
         if (!SYMBOL_TABLE.getInstance().checkIfGlobal()){
             System.out.format(">> ERROR [%d:%d] class wasn't defined globally\n",9,9);
             this.error();
@@ -80,13 +79,18 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
         }
 
 
-
         /***************************/
         /* [2] Semant Data Members */
         /***************************/
-        TYPE_CLASS t = null;
+        TYPE_CLASS t = null, father = null;
         try{
-            TYPE_CLASS father = (TYPE_CLASS) SYMBOL_TABLE.getInstance().find(parentClassName);
+            if (parentClassName != null){
+                father = (TYPE_CLASS) SYMBOL_TABLE.getInstance().find(parentClassName);
+                if (father == null){
+                    System.out.format(">> ERROR [%d:%d] parent class not found %s\n",9,9, parentClassName);
+                    cFieldList.error();
+                }
+            }
             SYMBOL_TABLE.getInstance().curFather = father;
             t = new TYPE_CLASS(father, className,null);
             SYMBOL_TABLE.getInstance().enter(className,t);
@@ -95,6 +99,7 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
             /* [1] Begin Class Scope */
             /*************************/
             SYMBOL_TABLE.getInstance().beginScope("class");
+
             cFieldList.SemantMe(t);
         }
         catch (FindException e){

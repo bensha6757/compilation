@@ -9,7 +9,6 @@ parser code
 	public Lexer lexer;
 	public int prev_token_line;
 
-
 	public Parser(Lexer lexer)
 	{
 		super(lexer);
@@ -167,16 +166,16 @@ cFieldList	       ::=	cField:c cFieldList:l  {: RESULT = new AST_CFIELD_LIST(c,l
 Program     ::=     decList:l                              {: RESULT = new AST_PROGRAM_DEC(l); RESULT.LineNumber = parser.prev_token_line;:}
                     ;
 
-dec         ::=     varDec:vd                           {: RESULT = new AST_DEC_VARDEC(vd);:}
-                    | funcDec:fd                        {: RESULT = new AST_DEC_FUNCDEC(fd);:}
-                    | classDec:cd                       {: RESULT = new AST_DEC_CLASSDEC(cd);:}
-                    | arrayTypedef:atd                  {: RESULT = new AST_DEC_ARRAYTYPEDEF(atd);:}
+dec         ::=     varDec:vd                           {: RESULT = new AST_DEC_VARDEC(vd); RESULT.LineNumber = parser.prev_token_line; :}
+                    | funcDec:fd                        {: RESULT = new AST_DEC_FUNCDEC(fd); RESULT.LineNumber = parser.prev_token_line; :}
+                    | classDec:cd                       {: RESULT = new AST_DEC_CLASSDEC(cd); RESULT.LineNumber = parser.prev_token_line; :}
+                    | arrayTypedef:atd                  {: RESULT = new AST_DEC_ARRAYTYPEDEF(atd); RESULT.LineNumber = parser.prev_token_line; :}
                     ;
 
 type         ::=     TYPE_INT                           {: RESULT = new AST_TYPE_BINOP(0); RESULT.LineNumber = parser.prev_token_line; :}
-                    | TYPE_STRING                       {: RESULT = new AST_TYPE_BINOP(1);RESULT.LineNumber = parser.prev_token_line;:}
-                    | TYPE_VOID                         {: RESULT = new AST_TYPE_BINOP(2);RESULT.LineNumber = parser.prev_token_line;:}
-                    | ID:typeName						{: RESULT = new AST_TYPE_SIMPLE(typeName);RESULT.LineNumber = parser.prev_token_line;:}
+                    | TYPE_STRING                       {: RESULT = new AST_TYPE_BINOP(1); RESULT.LineNumber = parser.prev_token_line;:}
+                    | TYPE_VOID                         {: RESULT = new AST_TYPE_BINOP(2); RESULT.LineNumber = parser.prev_token_line;:}
+                    | ID:typeName						{: RESULT = new AST_TYPE_SIMPLE(typeName); RESULT.LineNumber = parser.prev_token_line;:}
                     ;
 
 arrayTypedef  ::=    ARRAY ID:arrayName EQ type:t LBRACK RBRACK SEMICOLON      {: RESULT = new AST_ARRAYTYPEDEF_ID(arrayName,t);RESULT.LineNumber = parser.prev_token_line;:}
@@ -184,7 +183,7 @@ arrayTypedef  ::=    ARRAY ID:arrayName EQ type:t LBRACK RBRACK SEMICOLON      {
 
 varDec        ::=     type:t ID:varName ASSIGN exp:e SEMICOLON     {: RESULT = new AST_VARDEC_TYPEEXP(t,varName,e);    RESULT.LineNumber = parser.prev_token_line;      :}
                       | type:t ID:varName SEMICOLON                {: RESULT = new AST_VARDEC_TYPEEXP(t,varName, null);    RESULT.LineNumber = parser.prev_token_line;      :}
-                      | type:t ID:varName ASSIGN newExp:ne SEMICOLON      {: RESULT = new AST_VARDEC_TYPEEXP(t,varName,ne);:}
+                      | type:t ID:varName ASSIGN newExp:ne SEMICOLON      {: RESULT = new AST_VARDEC_TYPEEXP(t,varName,ne); RESULT.LineNumber = parser.prev_token_line;:}
                       ;
 
 funcDec        ::=     type:t ID:funcName LPAREN TypeIDList:l RPAREN LBRACE stmtList:sl RBRACE       {: RESULT = new AST_FUNCDEC_STMT(t,funcName,l,sl);    RESULT.LineNumber = parser.prev_token_line;      :}
@@ -219,7 +218,7 @@ var			::=		ID:name								{: RESULT = new AST_VAR_SIMPLE(name);       RESULT.Lin
 					| var:v LBRACK exp:e RBRACK			{: RESULT = new AST_VAR_SUBSCRIPT(v,e);      RESULT.LineNumber = parser.prev_token_line;         :}
 					;
 
-stmt		::=		varDec:vd                                                   {: RESULT = new AST_STMT_VARDEC(vd);    :}
+stmt		::=		varDec:vd                                                   {: RESULT = new AST_STMT_VARDEC(vd);   RESULT.LineNumber = parser.prev_token_line; :}
                     | var:v ASSIGN exp:e SEMICOLON								{: RESULT = new AST_STMT_ASSIGN(v,e);        RESULT.LineNumber = parser.prev_token_line;        :}
                     | var:v ASSIGN newExp:ne SEMICOLON							{: RESULT = new AST_STMT_ASSIGN(v,ne);       RESULT.LineNumber = parser.prev_token_line;        :}
                     | RETURN exp:e SEMICOLON                                    {: RESULT = new AST_STMT_RETURN(e);        RESULT.LineNumber = parser.prev_token_line;          :}
@@ -236,6 +235,6 @@ newExp      ::=     NEW type:t                        {: RESULT = new AST_NEWEXP
                     | NEW type:t LBRACK exp:e RBRACK  {: RESULT = new AST_NEWEXP_NEW(t, e);    RESULT.LineNumber = parser.prev_token_line;      :}
                     ;
 
-cField      ::=     varDec:vd                          {: RESULT = new AST_CFIELD_VARDEC(vd);       :}
-                    | funcDec:fd                       {: RESULT = new AST_CFIELD_FUNCDEC(fd);      :}
+cField      ::=     varDec:vd                          {: RESULT = new AST_CFIELD_VARDEC(vd);     RESULT.LineNumber = parser.prev_token_line;  :}
+                    | funcDec:fd                       {: RESULT = new AST_CFIELD_FUNCDEC(fd);  RESULT.LineNumber = parser.prev_token_line;    :}
                     ;

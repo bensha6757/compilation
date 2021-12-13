@@ -95,4 +95,4 @@ public class AST_TYPEID_LIST extends AST_Node {
         }
     }
 
-    }
+}
