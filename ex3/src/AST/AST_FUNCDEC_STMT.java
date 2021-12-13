@@ -67,9 +67,9 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
 
     public TYPE SemantMe()
     {
-        TYPE t = null, t2 = null;
+        TYPE t = null;
         TYPE returnType = null;
-        TYPE_LIST type_list = null, head = null;
+        TYPE_LIST type_list = null;
 
         /*******************/
         /* [0] return type */
@@ -107,10 +107,17 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
             this.error();
         }
 
+        /***************************************************/
+        /* [5] Enter the Function Type to the Symbol Table */
+        /***************************************************/
+        TYPE_FUNCTION funcType = new TYPE_FUNCTION(returnType, funcName, null);
+        SYMBOL_TABLE.getInstance().enter(funcName, funcType);
+
         /****************************/
         /* [1] Begin Function Scope */
         /****************************/
-        SYMBOL_TABLE.getInstance().beginScope();
+        SYMBOL_TABLE.getInstance().beginScope("function");
+
 
         /***************************/
         /* [2] Semant Input Params */
@@ -131,51 +138,43 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
             }
             else
             {
+                TYPE_LIST node = new TYPE_LIST(t, param.name, null);
                 if (type_list == null){
-                    type_list = new TYPE_LIST(t, param.name, null);
-                    head = type_list;
+                    type_list = node;
+                    funcType.params = type_list;
                 } else {
-                    type_list.tail = new TYPE_LIST(t, param.name, null);
+                    type_list.tail = node;
                     type_list = type_list.tail;
                 }
+
                 SYMBOL_TABLE.getInstance().enter(param.name,t);
             }
         }
-        type_list = head;
+
 
         /*******************/
         /* [3] Semant Body */
         /*******************/
-        t2 = stmts.SemantMe();
-        System.out.println(this.funcName);
-        System.out.println(this.type.typeName);
-        if (((returnType.isVoid() && t2 != null)) || ((returnType != t2) && (t2 != null))){
-            System.out.println("$$$$ " + t2.name);
-            System.out.format(">> ERROR [%d:%d] type mismatch for return statement\n",6,6);
-            this.error();
-        }
+
+        stmts.SemantMe();
 
         /*****************/
         /* [4] End Scope */
         /*****************/
         SYMBOL_TABLE.getInstance().endScope();
 
-        /***************************************************/
-        /* [5] Enter the Function Type to the Symbol Table */
-        /***************************************************/
-        SYMBOL_TABLE.getInstance().enter(funcName, new TYPE_FUNCTION(returnType, funcName, type_list));
 
         /*********************************************************/
         /* [6] Return value is irrelevant for class declarations */
         /*********************************************************/
-        return returnType;
+        return funcType;
     }
 
     @Override
     public void SemantMe(TYPE_CLASS cls) {
-        TYPE func_type = this.SemantMe();
+        TYPE funcType = this.SemantMe();
         if (cls != null){
-            cls.addMember(func_type, funcName);
+            cls.addMember(funcType, funcName);
         }
     }
 

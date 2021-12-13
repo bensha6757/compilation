@@ -100,11 +100,12 @@ public class SYMBOL_TABLE
     public boolean compareBetweenFunctions(boolean isFunction, TYPE type, String returnTypeName, TYPE_LIST params){
         if (isFunction && type.isFunction()){
             if (!checkIfFuncIdentical(returnTypeName, params, (TYPE_FUNCTION) type)){
-                System.out.format("Error not identical");
+                System.out.println("Error not identical");
                 return false;
             }
         } else if (isFunction != type.isFunction()){
-            System.out.format("Error not both funcs");
+            System.out.println(type.getClass().getName());
+            System.out.println("Error not both funcs");
             return false;
         }
         return true;
@@ -136,10 +137,10 @@ public class SYMBOL_TABLE
 
         for (e2 = e; e2 != null; e2 = e2.next)
         {
-            if (name.equals(e.name)) {
+            if (name.equals(e2.name)) {
                 //return compareBetweenFunctions(isFunction, e.type, returnTypeName, params) ? e.type : "ERROR";
-				if(compareBetweenFunctions(isFunction, e.type, returnTypeName, params)){
-					return e.type;
+				if(compareBetweenFunctions(isFunction, e2.type, returnTypeName, params)){
+					return e2.type;
 				}
 				else {
 					throw new FindException("Illegal override or non exist function 2");
@@ -155,7 +156,6 @@ public class SYMBOL_TABLE
 	}
 
     private TYPE findInParents(String name, String returnTypeName, TYPE_LIST params, TYPE_CLASS father, boolean isFunction) throws FindException {
-		System.out.format("3");
         for (TYPE_CLASS fatherClass = father ; fatherClass != null ; fatherClass = fatherClass.father){
             for (TYPE_LIST member = fatherClass.data_members ; member != null ; member = member.tail){
                 if (member.name.equals(name)){
@@ -175,8 +175,6 @@ public class SYMBOL_TABLE
     private boolean checkIfFuncIdentical(String returnTypeName, TYPE_LIST params, TYPE_FUNCTION fatherFunc){
         if ((returnTypeName == null) || returnTypeName.equals(fatherFunc.returnType.name)){
 			TYPE_LIST fatherFuncParams = fatherFunc.params;
-			System.out.println(params.head.name + "    " + params.tail.head.name);
-			System.out.println(fatherFuncParams==null);
             while (params != null && fatherFuncParams != null){
                 if (!fatherFuncParams.head.name.equals(params.head.name)){
                     return false;
@@ -208,9 +206,19 @@ public class SYMBOL_TABLE
         {
             curTop = curTop.prevtop;
         }
-        curTop = curTop.prevtop;
-        return curTop.type.isClass();
+        return curTop.type.name.equals("class");
     }
+
+    public TYPE_FUNCTION getMyFunc(){
+        SYMBOL_TABLE_ENTRY curTop = top;
+        while (!(curTop.name.equals("SCOPE-BOUNDARY")) || !curTop.type.name.equals("function"))
+        {
+            curTop = curTop.prevtop;
+        }
+        curTop = curTop.prevtop;
+        return (TYPE_FUNCTION)(curTop.type);
+    }
+
 
     public boolean checkIfVarExistsInCurrentScope(String var){
         SYMBOL_TABLE_ENTRY curTop = top;
@@ -228,7 +236,7 @@ public class SYMBOL_TABLE
     /***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
 	/***************************************************************************/
-	public void beginScope()
+	public void beginScope(String name)
 	{
 		/************************************************************************/
 		/* Though <SCOPE-BOUNDARY> entries are present inside the symbol table, */
@@ -239,7 +247,7 @@ public class SYMBOL_TABLE
         scopeCount++;
 		enter(
 			"SCOPE-BOUNDARY",
-			new TYPE_FOR_SCOPE_BOUNDARIES("NONE"));
+			new TYPE_FOR_SCOPE_BOUNDARIES(name));
 
 		/*********************************************/
 		/* Print the symbol table after every change */

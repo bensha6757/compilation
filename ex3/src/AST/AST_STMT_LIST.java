@@ -66,11 +66,9 @@ public class AST_STMT_LIST extends AST_Node
 
     public TYPE SemantMe()
     {
-        TYPE t1 = null, t2 = null;
-        if (head != null) t1 = head.SemantMe();
-        if (tail != null) t2 = tail.SemantMe();
-		if (t1 != null && (head instanceof AST_STMT_RETURN)) return t1;
-        return t2;
+        if (head != null) head.SemantMe();
+        if (tail != null) tail.SemantMe();
+        return null;
     }
 
 }

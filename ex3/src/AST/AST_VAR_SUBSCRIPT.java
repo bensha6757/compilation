@@ -64,38 +64,30 @@ public class AST_VAR_SUBSCRIPT extends AST_VAR
 
 	public TYPE SemantMe()
 	{
-		TYPE t1 = null, t2;
+		TYPE varType, subscriptType;
 
 		/****************************/
 		/* [1] Check If var exists and is array */
 		/****************************/
-		try{
-			t1 = SYMBOL_TABLE.getInstance().find(var.name);
-		}
-		catch (FindException e){
-			this.error();
-		}
-		if ((t1 == null) || !t1.isArray())
+        varType = var.SemantMe();
+		if ((varType == null) || !varType.isArray())
 		{
 			System.out.format(">> ERROR [%d:%d] var is not an array %s\n",2, 2, var.name);
 			this.error();
-			//System.exit(0);
 		}
 
-		t2 = subscript.SemantMe();
-		if(t2.isInt() && (subscript instanceof AST_EXP_INT) && (((AST_EXP_INT)subscript).value < 0)) {
-			System.out.format(">> ERROR [%d:%d] subscript expression is negative constant %s\n",2,2,t2.name);
+        subscriptType = subscript.SemantMe();
+		if(subscriptType.isInt() && (subscript instanceof AST_EXP_INT) && (((AST_EXP_INT)subscript).value < 0)) {
+			System.out.format(">> ERROR [%d:%d] subscript expression is negative constant %s\n",2,2,subscriptType.name);
 			this.error();
-			//System.exit(0);
-		} else if (!t2.isInt()) {
-			System.out.format(">> ERROR [%d:%d] subscript expression is not an integer type %s\n",2,2,t2.name);
+		} else if (!subscriptType.isInt()) {
+			System.out.format(">> ERROR [%d:%d] subscript expression is not an integer type %s\n",2,2,subscriptType.name);
 			this.error();
-			//System.exit(0);
 		}
 
 		/*********************************************************/
 		/* [4] Return value is irrelevant for class declarations */
 		/*********************************************************/
-		return ((TYPE_ARRAY)t1).type;
+		return ((TYPE_ARRAY)varType).type;
 	}
 }

@@ -62,7 +62,7 @@ public class AST_STMT_WHILE extends AST_STMT
         /*************************/
         /* [1] Begin Class Scope */
         /*************************/
-        SYMBOL_TABLE.getInstance().beginScope();
+        SYMBOL_TABLE.getInstance().beginScope("while");
 
         /***************************/
         /* [2] Semant Data Members */

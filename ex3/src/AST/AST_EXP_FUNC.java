@@ -66,7 +66,7 @@ public class AST_EXP_FUNC extends AST_EXP {
 
     public TYPE SemantMe()
     {
-        TYPE t, t2 = null;
+        TYPE t = null;
         TYPE varType = null;
         TYPE_LIST params = null;
 
@@ -85,7 +85,9 @@ public class AST_EXP_FUNC extends AST_EXP {
                 this.error();
             }
         }
-        params = exps.SemantMe();
+        if (exps != null){
+            params = exps.SemantMe();
+        }
 
 
         /**************************************/
@@ -93,12 +95,12 @@ public class AST_EXP_FUNC extends AST_EXP {
         /**************************************/
         try {
             if (varType != null){
-                t2 = SYMBOL_TABLE.getInstance().find(name,  params, true, (TYPE_CLASS)varType);
+                t = SYMBOL_TABLE.getInstance().find(name,  params, true, (TYPE_CLASS)varType);
             }
             else {
-                t2 = SYMBOL_TABLE.getInstance().find(name, null, params, true);
+                t = SYMBOL_TABLE.getInstance().find(name, null, params, true);
             }
-            if (t2 == null){
+            if (t == null){
                 System.out.format(">> ERROR [%d:%d] illegal call function %s\n",2,2,name);
                 this.error();
             }
@@ -111,6 +113,6 @@ public class AST_EXP_FUNC extends AST_EXP {
         /*********************************************************/
         /* [6] Return value is irrelevant for class declarations */
         /*********************************************************/
-        return ((TYPE_FUNCTION)t2).returnType;
+        return ((TYPE_FUNCTION)t).returnType;
     }
 }

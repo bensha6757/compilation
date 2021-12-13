@@ -62,6 +62,15 @@ public class AST_ARRAYTYPEDEF_ID extends AST_ARRAYTYPEDEF {
             this.error();
         }
 
+        /**************************************/
+        /* [2] Check That Name does NOT exist */
+        /**************************************/
+        if (SYMBOL_TABLE.getInstance().checkIfVarExistsInCurrentScope(arrayName))
+        {
+            System.out.format(">> ERROR [%d:%d] function %s already exists in scope\n",2,2,arrayName);
+            this.error();
+        }
+
         /***************************/
         /* [2] Semant Data Members */
         /***************************/

@@ -100,7 +100,7 @@ public class AST_EXP_BINOP extends AST_EXP
 
         if (left  != null) t1 = left.SemantMe();
         if (right != null) t2 = right.SemantMe();
-        if(OP == 3 && t2 != null && t2.isInt()) {
+        if (OP == 3 && t2 != null && t2.isInt()) {
             if (((AST_EXP_INT) right).value == 0) {
                 System.out.format(">> ERROR [%d:%d] illegal division with 0 \n",2,2);
                 this.error();
@@ -113,8 +113,12 @@ public class AST_EXP_BINOP extends AST_EXP
             } else if (OP == 0 && t1.isString() && t2.isString()) {
                 return TYPE_STRING.getInstance();
             }
+            if (OP == 6){
+                if ((!t1.isInt() && !t1.isString() && t2.isNil()) || (!t2.isInt() && !t2.isString() && t1.isNil()) || t1 == t2){
+                    return TYPE_INT.getInstance();
+                }
+            }
         }
-        //System.exit(0);
         System.out.format(">> ERROR [%d:%d] illegal Binop operation \n",2,2);
         this.error();
         return null;

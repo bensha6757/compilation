@@ -70,10 +70,16 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
             this.error();
         }
 
-        /*************************/
-        /* [1] Begin Class Scope */
-        /*************************/
-        SYMBOL_TABLE.getInstance().beginScope();
+        /**************************************/
+        /* [2] Check That Name does NOT exist */
+        /**************************************/
+        if (SYMBOL_TABLE.getInstance().checkIfVarExistsInCurrentScope(className))
+        {
+            System.out.format(">> ERROR [%d:%d] function %s already exists in scope\n",2,2,className);
+            this.error();
+        }
+
+
 
         /***************************/
         /* [2] Semant Data Members */
@@ -84,8 +90,12 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
             SYMBOL_TABLE.getInstance().curFather = father;
             t = new TYPE_CLASS(father, className,null);
             SYMBOL_TABLE.getInstance().enter(className,t);
+
+            /*************************/
+            /* [1] Begin Class Scope */
+            /*************************/
+            SYMBOL_TABLE.getInstance().beginScope("class");
             cFieldList.SemantMe(t);
-            System.out.println("FATHER   " + father);
         }
         catch (FindException e){
             this.error();
