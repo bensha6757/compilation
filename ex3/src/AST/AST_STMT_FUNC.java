@@ -84,7 +84,9 @@ public class AST_STMT_FUNC extends AST_STMT {
                 this.error();
             }
         }
-        params = exps.SemantMe();
+        if (exps != null){
+            params = exps.SemantMe();
+        }
 
 
         /**************/

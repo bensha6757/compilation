@@ -202,10 +202,12 @@ public class SYMBOL_TABLE
 
     public boolean isInClassScope(){
         SYMBOL_TABLE_ENTRY curTop = top;
-        while (!(curTop.name.equals("SCOPE-BOUNDARY")))
+        while (curTop!= null && !(curTop.name.equals("SCOPE-BOUNDARY")))
         {
             curTop = curTop.prevtop;
         }
+        if (curTop == null)
+            return false;
         return curTop.type.name.equals("class");
     }
 

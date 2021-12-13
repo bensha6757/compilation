@@ -85,7 +85,6 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
         {
             System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,type.typeName);
             this.error();
-            //System.exit(0);
         }
 
         /**************************************/
