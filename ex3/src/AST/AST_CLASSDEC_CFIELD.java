@@ -88,7 +88,7 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
                 father = (TYPE_CLASS) SYMBOL_TABLE.getInstance().find(parentClassName);
                 if (father == null){
                     System.out.format(">> ERROR [%d:%d] parent class not found %s\n",9,9, parentClassName);
-                    cFieldList.error();
+                    this.error();
                 }
             }
             SYMBOL_TABLE.getInstance().curFather = father;
@@ -99,8 +99,9 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
             /* [1] Begin Class Scope */
             /*************************/
             SYMBOL_TABLE.getInstance().beginScope("class");
-
-            cFieldList.SemantMe(t);
+            if (cFieldList != null){
+                cFieldList.SemantMe(t);
+            }
         }
         catch (FindException e){
             this.error();

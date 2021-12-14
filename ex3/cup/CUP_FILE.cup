@@ -190,8 +190,8 @@ funcDec        ::=     type:t ID:funcName LPAREN TypeIDList:l RPAREN LBRACE stmt
                       | type:t ID:funcName LPAREN RPAREN LBRACE stmtList:sl RBRACE               {: RESULT = new AST_FUNCDEC_STMT(t,funcName,null,sl);    RESULT.LineNumber = parser.prev_token_line;      :}
                       ;
 
-classDec        ::=   CLASS ID:className EXTENDS ID:parentClassName LBRACE cFieldList:l RBRACE       {: RESULT = new AST_CLASSDEC_CFIELD(className,parentClassName,l);    RESULT.LineNumber = parser.prev_token_line;      :}
-                      | CLASS ID:className LBRACE cFieldList:l RBRACE                                {: RESULT = new AST_CLASSDEC_CFIELD(className,null,l);    RESULT.LineNumber = parser.prev_token_line;      :}
+classDec        ::=   CLASS:c ID:className EXTENDS ID:parentClassName LBRACE cFieldList:l RBRACE       {: RESULT = new AST_CLASSDEC_CFIELD(className,parentClassName,l);    RESULT.LineNumber = cleft + 1;      :}
+                      | CLASS:c ID:className LBRACE cFieldList:l RBRACE                                {: RESULT = new AST_CLASSDEC_CFIELD(className,null,l);    RESULT.LineNumber = cleft + 1;      :}
                       ;
 
 exp			::=		INT:i							            	{: RESULT = new AST_EXP_INT(i);       RESULT.LineNumber = parser.prev_token_line;             :}
