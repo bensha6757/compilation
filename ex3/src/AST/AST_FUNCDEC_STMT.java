@@ -160,7 +160,8 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         /* [3] Semant Body */
         /*******************/
 
-        stmts.SemantMe();
+        if (stmts != null)
+            stmts.SemantMe();
 
         /*****************/
         /* [4] End Scope */
