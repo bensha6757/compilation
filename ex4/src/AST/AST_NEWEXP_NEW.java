@@ -1,7 +1,8 @@
 package AST;
 
-import TYPES.TYPE;
-import TYPES.TYPE_ARRAY_RIGHT;
+import IR.*;
+import TEMP.*;
+import TYPES.*;
 
 public class AST_NEWEXP_NEW extends AST_NEWEXP {
     AST_TYPE t;
@@ -80,5 +81,19 @@ public class AST_NEWEXP_NEW extends AST_NEWEXP {
         }
         return type;
     }
+    public TEMP IRme()
+    {
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();;
+        if (exp != null)
+        {
+            TEMP exp_temp = exp.IRme();
+            IR.getInstance().Add_IRcommand(new IRcommand_New_Array(dst, exp_temp));
+        }
+        else{
+            IR.getInstance().Add_IRcommand(new IRcommand_New_Class(dst,t.typeName));
+        }
 
+        //IR.getInstance().Add_IRcommand(new IRcommand_PrintInt(t));
+        return dst;
+    }
 }

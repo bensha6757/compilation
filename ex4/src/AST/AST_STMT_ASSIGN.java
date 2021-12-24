@@ -1,5 +1,7 @@
 package AST;
 
+import IR.*;
+import TEMP.*;
 import TYPES.TYPE;
 
 public class AST_STMT_ASSIGN extends AST_STMT
@@ -75,6 +77,20 @@ public class AST_STMT_ASSIGN extends AST_STMT
 			this.error();
         }
 
+        return null;
+    }
+
+    public TEMP IRme() {
+        TEMP t2 = null;
+        if (exp != null) t2 = exp.IRme();
+
+        if (var instanceof AST_VAR_SIMPLE){
+            IR.getInstance().Add_IRcommand(new IRcommand_Assign(var.IRme(), t2));
+        } else if (var instanceof AST_VAR_FIELD varField) {
+            IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(varField.var.IRme(), varField.fieldName, t2));
+        } else if (var instanceof AST_VAR_SUBSCRIPT varSubscript) {
+            IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(varSubscript.var.IRme(), varSubscript.subscript.IRme(), t2));
+        }
         return null;
     }
 

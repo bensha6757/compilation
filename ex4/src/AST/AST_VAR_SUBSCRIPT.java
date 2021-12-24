@@ -2,6 +2,8 @@ package AST;
 
 import TYPES.TYPE;
 import TYPES.TYPE_ARRAY;
+import TEMP.*;
+import IR.*;
 
 public class AST_VAR_SUBSCRIPT extends AST_VAR
 {
@@ -88,5 +90,14 @@ public class AST_VAR_SUBSCRIPT extends AST_VAR
 		/* [4] Return value is irrelevant for class declarations */
 		/*********************************************************/
 		return ((TYPE_ARRAY)varType).type;
+	}
+
+	public TEMP IRme()
+	{
+		TEMP t1 = var.IRme();
+		TEMP t2 = subscript.IRme();
+		TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_Array_Access(dst, t1, t2));
+		return dst;
 	}
 }

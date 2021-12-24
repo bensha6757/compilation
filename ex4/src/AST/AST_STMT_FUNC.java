@@ -1,7 +1,9 @@
 package AST;
 
+import IR.*;
 import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.*;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
 import TYPES.TYPE_FUNCTION;
@@ -117,4 +119,23 @@ public class AST_STMT_FUNC extends AST_STMT {
         /*******************/
         return ((TYPE_FUNCTION)t).returnType;
     }
+
+    public TEMP IRme()
+    {
+        TEMP t1 = null;
+        TEMP_LIST paramsTemp = null;
+        if (var != null) t1 = var.IRme();
+        if (exps != null){
+            paramsTemp = exps.IRme();
+        }
+
+        if (var == null){
+            IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_STMT(name, paramsTemp));
+        } else {
+            IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(t1, name, paramsTemp));
+        }
+
+        return null;
+    }
+
 }

@@ -2,6 +2,8 @@ package AST;
 
 import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.*;
+import IR.*;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
 
@@ -114,4 +116,13 @@ public class AST_VAR_FIELD extends AST_VAR
         }
 		return t2;
 	}
+
+	public TEMP IRme()
+	{
+		TEMP t1 = var.IRme();
+		TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+		IR.getInstance().Add_IRcommand(new IRcommand_Field_Access(dst, t1, fieldName));
+		return dst;
+	}
+
 }

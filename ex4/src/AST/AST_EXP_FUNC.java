@@ -6,6 +6,8 @@ import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
 import TYPES.TYPE_FUNCTION;
 import TYPES.TYPE_LIST;
+import TEMP.*;
+import IR.*;
 
 public class AST_EXP_FUNC extends AST_EXP {
     public String name;
@@ -116,5 +118,24 @@ public class AST_EXP_FUNC extends AST_EXP {
         /* [6] Return value is irrelevant for class declarations */
         /*********************************************************/
         return ((TYPE_FUNCTION)t).returnType;
+    }
+    public TEMP IRme()
+    {
+        TEMP t1 = null;
+        TEMP_LIST paramsTemp = null;
+        if (var != null) t1 = var.IRme();
+        if (exps != null){
+            paramsTemp = exps.IRme();
+        }
+
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+
+        if (var == null){
+            IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_EXP(dst, name, paramsTemp));
+        } else {
+            IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_EXP(dst, t1, name, paramsTemp));
+        }
+
+        return dst;
     }
 }

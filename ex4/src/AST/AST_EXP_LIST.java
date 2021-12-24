@@ -1,6 +1,7 @@
 package AST;
 
-import TYPES.TYPE_LIST;
+import TEMP.*;
+import TYPES.*;
 
 public class AST_EXP_LIST extends AST_Node {
     /****************/
@@ -84,5 +85,23 @@ public class AST_EXP_LIST extends AST_Node {
                     "",
                     tail.SemantMe());
         }
+    }
+
+    public TEMP_LIST IRme()
+    {
+        TEMP t = null;
+        TEMP_LIST paramsTemp = new TEMP_LIST();
+        if(head != null){
+            t = head.IRme();
+            paramsTemp.addAtEnd(t);
+        }
+        AST_EXP_LIST it = tail;
+        while (it != null)
+        {
+            it = it.tail;
+            t = it.head.IRme();
+            paramsTemp.addAtEnd(t);
+        }
+        return paramsTemp;
     }
 }
