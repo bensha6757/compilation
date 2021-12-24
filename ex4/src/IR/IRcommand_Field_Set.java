@@ -3,15 +3,16 @@ package IR;
 import MIPS.MIPSGenerator;
 import TEMP.TEMP;
 
-public class IRcommand_Binop_Sub_Integers extends IRcommand{
+public class IRcommand_Field_Set extends IRcommand
+{
     public TEMP t1;
+    public String fieldName;
     public TEMP t2;
-    public TEMP dst;
 
-    public IRcommand_Binop_Sub_Integers(TEMP dst,TEMP t1,TEMP t2)
+    public IRcommand_Field_Set(TEMP t1, String fieldName, TEMP t2)
     {
-        this.dst = dst;
         this.t1 = t1;
+        this.fieldName = fieldName;
         this.t2 = t2;
     }
     /***************/
@@ -19,7 +20,6 @@ public class IRcommand_Binop_Sub_Integers extends IRcommand{
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().add(dst,t1,t2);
+        MIPSGenerator.getInstance().field_set(t1,fieldName,t2);
     }
-
 }
