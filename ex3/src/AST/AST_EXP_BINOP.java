@@ -101,7 +101,7 @@ public class AST_EXP_BINOP extends AST_EXP
         if (left  != null) t1 = left.SemantMe();
         if (right != null) t2 = right.SemantMe();
         if (OP == 3 && t2 != null && t2.isInt()) {
-            if (((AST_EXP_INT) right).value == 0) {
+            if (right instanceof AST_EXP_INT && ((AST_EXP_INT) right).value == 0) {
                 System.out.format(">> ERROR [%d:%d] illegal division with 0 \n",2,2);
                 this.error();
 

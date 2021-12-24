@@ -67,9 +67,13 @@ public class AST_TYPE_SIMPLE extends AST_TYPE {
             /**************************/
             System.out.format(">> ERROR [%d:%d] type does not exist\n",4,4);
             this.error();
-            //System.exit(0);
-            return null;
         }
+
+        if (!t.isClass() && !t.isArray()){
+            System.out.format(">> ERROR [%d:%d] %s doesn't define a type\n",4,4, typeName);
+            this.error();
+        }
+
         /****************************/
         /* return (existing) type t */
         /****************************/

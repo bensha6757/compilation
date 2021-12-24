@@ -76,18 +76,26 @@ public class AST_TYPE_BINOP extends AST_TYPE {
 
     @Override
     public TYPE SemantMe() {
-        switch (OP) {
-            case 0: {
-                return TYPE_INT.getInstance();
-            }
-            case 1: {
-                return TYPE_STRING.getInstance();
-            }
-            case 2: {
-                return TYPE_VOID.getInstance();
-            }
+        TYPE t = null;
+        try{
+            t = SYMBOL_TABLE.getInstance().find(typeName);
         }
-        return null;
+        catch (FindException e){
+            System.out.format(">> ERROR [%d:%d] type does not exist\n",4,4);
+            this.error();
+        }
+        if (t == null)
+        {
+            /**************************/
+            /* ERROR: undeclared type */
+            /**************************/
+            System.out.format(">> ERROR [%d:%d] type does not exist\n",4,4);
+            this.error();
+        }
+        /****************************/
+        /* return (existing) type t */
+        /****************************/
+        return t;
     }
 
 }
