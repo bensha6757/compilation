@@ -83,7 +83,7 @@ public class AST_NEWEXP_NEW extends AST_NEWEXP {
     }
     public TEMP IRme()
     {
-        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();;
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
         if (exp != null)
         {
             TEMP exp_temp = exp.IRme();

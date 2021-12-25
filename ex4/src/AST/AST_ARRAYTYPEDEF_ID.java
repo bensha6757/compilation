@@ -1,6 +1,8 @@
 package AST;
 
+import IR.*;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.*;
 import TYPES.TYPE;
 import TYPES.TYPE_ARRAY;
 
@@ -93,6 +95,16 @@ public class AST_ARRAYTYPEDEF_ID extends AST_ARRAYTYPEDEF {
         /* [5] Return value is irrelevant for class declarations */
         /*********************************************************/
         return null;
+
+    }
+
+    @Override
+    public TEMP IRme() {
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+        IR.getInstance().Add_IRcommand(new IRcommand_Array_Dec(dst,t.typeName));
+
+        //IR.getInstance().Add_IRcommand(new IRcommand_PrintInt(t));
+        return dst;
 
     }
 }

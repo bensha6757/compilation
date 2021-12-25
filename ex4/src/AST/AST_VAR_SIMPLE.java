@@ -2,6 +2,8 @@ package AST;
 
 import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.*;
+import IR.*;
 import TYPES.TYPE;
 
 public class AST_VAR_SIMPLE extends AST_VAR
@@ -65,5 +67,12 @@ public class AST_VAR_SIMPLE extends AST_VAR
         }
 		return t;
 	}
+
+    @Override
+    public TEMP IRme() {
+        TEMP id_temp = TEMP_FACTORY.getInstance().getFreshTEMP();
+        IR.getInstance().Add_IRcommand(new IRcommand_Load_Variable(id_temp, name));
+        return id_temp;
+    }
 
 }

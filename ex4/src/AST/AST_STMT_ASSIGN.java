@@ -86,9 +86,11 @@ public class AST_STMT_ASSIGN extends AST_STMT
 
         if (var instanceof AST_VAR_SIMPLE){
             IR.getInstance().Add_IRcommand(new IRcommand_Assign(var.IRme(), t2));
-        } else if (var instanceof AST_VAR_FIELD varField) {
+        } else if (var instanceof AST_VAR_FIELD) {
+            AST_VAR_FIELD varField = (AST_VAR_FIELD) var;
             IR.getInstance().Add_IRcommand(new IRcommand_Field_Set(varField.var.IRme(), varField.fieldName, t2));
-        } else if (var instanceof AST_VAR_SUBSCRIPT varSubscript) {
+        } else if (var instanceof AST_VAR_SUBSCRIPT) {
+            AST_VAR_SUBSCRIPT varSubscript = (AST_VAR_SUBSCRIPT) var;
             IR.getInstance().Add_IRcommand(new IRcommand_Array_Set(varSubscript.var.IRme(), varSubscript.subscript.IRme(), t2));
         }
         return null;
