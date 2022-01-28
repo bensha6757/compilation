@@ -17,48 +17,36 @@ import java.util.Map;
 
 public class IR
 {
+	// 1/22
+	//  maybe we need current function field
 	private IRcommand head=null;
 	private IRcommandList tail=null;
 
-    private Map<String, Map<String, Integer>> localVariableToOffset = new HashMap<>();
+    private Map<String, Integer> localVariableToOffset = new HashMap<>();
     private int localVarPointer = 0;
 
-    private Map<String, Map<String, Integer>> argumentsToOffset = new HashMap<>();
-    private int argsPointer = -4;
+    private Map<String, Integer> argumentsToOffset = new HashMap<>();
+    private int argsPointer = -8;
 
 	/******************/
 	/* Add IR command */
 	/******************/
 
     public void enterLocalVarToStack(String id) {
-        enterLocalVarToStack(id, id);
+        localVariableToOffset.putIfAbsent(id, localVarPointer);
+		localVarPointer += 4;
     }
 
     public void enterArgToStack(String id) {
-        enterArgToStack(id, id);
-    }
-
-    public int getVariableOffset(String id) {
-        return getVariableOffset(id, id);
-    }
-
-    public void enterLocalVarToStack(String id, String field) {
-        localVariableToOffset.putIfAbsent(id, new HashMap<>());
-        localVariableToOffset.get(id).put(field, localVarPointer);
-        localVarPointer += 4;
-    }
-
-    public void enterArgToStack(String id, String field) {
-        argumentsToOffset.putIfAbsent(id, new HashMap<>());
-        argumentsToOffset.get(id).put(field, argsPointer);
+        argumentsToOffset.putIfAbsent(id, argsPointer);
         argsPointer -= 4;
     }
 
-    public int getVariableOffset(String id, String field) {
+    public int getVariableOffset(String id) {
         if (localVariableToOffset.containsKey(id)) {
-            return localVariableToOffset.get(id).get(field);
+            return localVariableToOffset.get(id);
         }
-        return argumentsToOffset.get(id).get(field);
+        return argumentsToOffset.get(id);
     }
 
 
@@ -89,6 +77,10 @@ public class IR
 			it.tail = new IRcommandList(cmd,null);
 		}
 	}
+
+
+
+
 	
 	/***************/
 	/* MIPS me !!! */

@@ -225,6 +225,20 @@ public class SYMBOL_TABLE
         return curTop.type.name.equals("class");
     }
 
+    public TYPE_CLASS getLowestClass(){
+        SYMBOL_TABLE_ENTRY curTop = top;
+        while (curTop != null &&
+            (!curTop.name.equals("SCOPE-BOUNDARY") || (!curTop.type.name.equals("class"))))
+        {
+            curTop = curTop.prevtop;
+        }
+        if (curTop == null)
+            return null;
+        curTop = curTop.prevtop;
+        return (TYPE_CLASS)(curTop.type);
+    }
+
+
     public TYPE_FUNCTION getMyFunc(){
         SYMBOL_TABLE_ENTRY curTop = top;
         while (!(curTop.name.equals("SCOPE-BOUNDARY")) || !curTop.type.name.equals("function"))
@@ -234,6 +248,21 @@ public class SYMBOL_TABLE
         curTop = curTop.prevtop;
         return (TYPE_FUNCTION)(curTop.type);
     }
+
+    public TYPE_FUNCTION getLowestFunc(){
+        SYMBOL_TABLE_ENTRY curTop = top;
+        while (curTop != null &&
+            (!curTop.name.equals("SCOPE-BOUNDARY") ||
+                (!curTop.type.name.equals("class") && !curTop.type.name.equals("function"))))
+        {
+            curTop = curTop.prevtop;
+        }
+        if (curTop == null || curTop.type.name.equals("class"))
+            return null;
+        curTop = curTop.prevtop;
+        return (TYPE_FUNCTION)(curTop.type);
+    }
+
 
 
     public boolean checkVariableShadowing(String varName, TYPE varType) throws FindException {

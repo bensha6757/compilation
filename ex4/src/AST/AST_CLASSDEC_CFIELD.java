@@ -4,6 +4,8 @@ import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
+import TEMP.*;
+import IR.*;
 
 public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
     String className;
@@ -122,6 +124,48 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
         /*********************************************************/
         /* [5] Return value is irrelevant for class declarations */
         /*********************************************************/
+        return null;
+    }
+
+    public TEMP IRme() throws FindException {
+        TYPE_CLASS cls = (TYPE_CLASS)SYMBOL_TABLE.getInstance().find(this.className);
+
+        TEMP obj_size = TEMP_FACTORY.getInstance().getFreshTEMP();
+        TEMP obj_addr = TEMP_FACTORY.getInstance().getFreshTEMP();
+
+        SYMBOL_TABLE.getInstance().beginScope("class");
+        this.cFieldList.IRme(cls);
+        SYMBOL_TABLE.getInstance().endScope();
+        SYMBOL_TABLE.getInstance().curFather = null;
+
+
+        String vt = "vt_"+this.className;
+
+        // creating label for virtual tabel for the class
+        IR.getInstance().Add_IRcommand(new IRcommand_Label(vt));
+        ArrayList<Pair<String, String>> functions = cls.get_functions_for_vtable();
+        IR.getInstance().Add_IRcommand(new IRcommand_AllocateForVtable(functions));
+
+
+        IR.getInstance().Add_IRcommand(new IRcommand_Label("func_allocate_object_"+this.id));
+        IR.getInstance().Add_IRcommand(new IRcommand_SaveRegisters());
+
+        IR.getInstance().Add_IRcommand(new IRcommandConstInt(obj_size, cls_info.get_object_size()));
+        IR.getInstance().Add_IRcommand(new IRcommand_CallFunctionParam(obj_size));
+        IR.getInstance().Add_IRcommand(new IRcommand_CallFunction(obj_addr, "Malloc"));
+
+        TEMP vtable_addr = TEMP_FACTORY.getInstance().getFreshTEMP();
+        IR.getInstance().Add_IRcommand(new IRcommand_GetLabelAddr(vtable_addr, vtable_label));
+        IR.getInstance().Add_IRcommand(new IRcommand_StoreToAddressOffset(obj_addr, 0, vtable_addr));
+
+        SYMBOL_TABLE.getInstance().beginClassScope();
+        this.cfields.IRme(cls_info, obj_addr);
+        SYMBOL_TABLE.getInstance().endScope();
+
+        IR.getInstance().Add_IRcommand(new IRcommand_SetReturnValue(obj_addr));
+        IR.getInstance().Add_IRcommand(new IRcommand_RestoreRegisters());
+        IR.getInstance().Add_IRcommand(new IRcommand_Return());
+
         return null;
     }
 

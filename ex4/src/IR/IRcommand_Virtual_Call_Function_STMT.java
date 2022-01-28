@@ -6,13 +6,13 @@ import TEMP.*;
 public class IRcommand_Virtual_Call_Function_STMT extends IRcommand
 {
     TEMP varTemp;
-    String funcName;
+    int funcOffset;
     TEMP_LIST paramTemps;
 
-    public IRcommand_Virtual_Call_Function_STMT(TEMP varTemp, String funcName, TEMP_LIST paramTemps)
+    public IRcommand_Virtual_Call_Function_STMT(TEMP varTemp, int funcOffset, TEMP_LIST paramTemps)
     {
         this.varTemp = varTemp;
-        this.funcName = funcName;
+        this.funcOffset = funcOffset;
         this.paramTemps = paramTemps;
     }
 
@@ -21,6 +21,6 @@ public class IRcommand_Virtual_Call_Function_STMT extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().beqz(t,label_name);
+        MIPSGenerator.getInstance().virtualCall(varTemp, funcOffset, paramTemps);
     }
 }

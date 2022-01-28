@@ -1,6 +1,8 @@
 package AST;
 
+import SYMBOL_TABLE.SYMBOL_TABLE;
 import TYPES.TYPE;
+import TYPES.TYPE_FUNCTION;
 
 public class AST_STMT_VARDEC extends AST_STMT {
 
@@ -53,6 +55,10 @@ public class AST_STMT_VARDEC extends AST_STMT {
 
     public TYPE SemantMe()
     {
+        TYPE_FUNCTION func = SYMBOL_TABLE.getInstance().getLowestFunc();
+        if (func != null) {
+            func.numOfLocalVars++;
+        }
         return vd.SemantMe();
     }
 }

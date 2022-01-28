@@ -2,10 +2,12 @@ package AST;
 
 import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.*;
 import TYPES.*;
+import IR.*;
 
 public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
-
+    private int numOfLocalVariables = 0;
 
     /******/
     /* CONSTRUCTOR(S) */
@@ -168,7 +170,7 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         /*****************/
         SYMBOL_TABLE.getInstance().endScope();
 
-
+        this.numOfLocalVariables = funcType.numOfLocalVars;
         /*********************************************************/
         /* [6] Return value is irrelevant for class declarations */
         /*********************************************************/
@@ -183,4 +185,26 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         }
     }
 
+    public TEMP IRme() throws FindException {
+        IR.getInstance().Add_IRcommand(new IRcommand_Label("func_" + this.funcName));
+        // Prologue - backup registers of the caller
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue(numOfLocalVariables));
+        if (this.typeIds != null) {
+            // we want to fill the symbol table again
+            this.typeIds.IRme();
+        }
+        this.stmts.IRme();
+
+        // Epilogue - restores registers of the caller
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
+
+        // the callee returns to the caller (jump to return address), the return value is in the stack
+        IR.getInstance().Add_IRcommand(new IRcommand_Return());
+
+        // restore the stack as it was before jump to the callee, clear the frame
+        IR.getInstance().clearStack();
+
+        SYMBOL_TABLE.getInstance().endScope();
+        return null;
+    }
 }

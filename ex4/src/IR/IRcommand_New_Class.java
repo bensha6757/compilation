@@ -21,7 +21,7 @@ public class IRcommand_New_Class extends IRcommand
     public IRcommand_New_Class(TEMP var_type, String type_name)
     {
         this.var_type = var_type;
-        this.type_name = type_name
+        this.type_name = type_name;
     }
 
     /***************/

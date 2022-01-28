@@ -1,5 +1,7 @@
 package AST;
 
+import IR.IR;
+import TEMP.TEMP;
 import TYPES.TYPE_LIST;
 
 public class AST_TYPEID_LIST extends AST_Node {
@@ -95,4 +97,15 @@ public class AST_TYPEID_LIST extends AST_Node {
         }
     }
 
+    public TEMP IRme()
+    {
+        this.head.IRme();
+        IR.getInstance().enterArgToStack(this.head.typeName);
+
+
+        if (this.tail != null) {
+            this.tail.IRme();
+        }
+        return null;
+    }
 }

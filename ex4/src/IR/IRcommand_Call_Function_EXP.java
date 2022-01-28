@@ -6,13 +6,13 @@ import TEMP.*;
 public class IRcommand_Call_Function_EXP extends IRcommand
 {
     TEMP dst;
-    String funcName;
+    int funcOffset;
     TEMP_LIST paramTemps;
 
-    public IRcommand_Call_Function_EXP(TEMP dst, String funcName, TEMP_LIST paramTemps)
+    public IRcommand_Call_Function_EXP(TEMP dst, int funcOffset, TEMP_LIST paramTemps)
     {
         this.dst = dst;
-        this.funcName = funcName;
+        this.funcOffset = funcOffset;
         this.paramTemps = paramTemps;
     }
 

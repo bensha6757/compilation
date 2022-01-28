@@ -2,6 +2,7 @@ package AST;
 
 import TYPES.TYPE_CLASS;
 import TYPES.TYPE_LIST;
+import TEMP.*;
 
 public class AST_CFIELD_LIST extends AST_Node {
     /****************/
@@ -75,5 +76,19 @@ public class AST_CFIELD_LIST extends AST_Node {
         SemantMe(null);
         return null;
     }
+
+    // at the data section there are the functions of the class
+    public TEMP IRme(TYPE_CLASS cls) {
+        TYPE_LIST tail_list = null;
+        if ((this.head instanceof AST_CFIELD_FUNCDEC)) {
+            this.head.IRme(cls);
+        }
+        if (this.tail != null) {
+            this.tail.IRme(cls);
+        }
+        return null;
+    }
+
+
 
 }

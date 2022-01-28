@@ -13,6 +13,8 @@ public class TYPE_FUNCTION extends TYPE
 	/* types of input params */
 	/*************************/
 	public TYPE_LIST params;
+
+    public int numOfLocalVars = 0;
 	
 	/****************/
 	/* CTROR(S) ... */

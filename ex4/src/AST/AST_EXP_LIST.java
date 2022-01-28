@@ -91,16 +91,16 @@ public class AST_EXP_LIST extends AST_Node {
     {
         TEMP t = null;
         TEMP_LIST paramsTemp = new TEMP_LIST();
-        if(head != null){
+        if (head != null){
             t = head.IRme();
-            paramsTemp.addAtEnd(t);
+            paramsTemp.addAtFirst(t);
         }
         AST_EXP_LIST it = tail;
         while (it != null)
         {
             it = it.tail;
             t = it.head.IRme();
-            paramsTemp.addAtEnd(t);
+            paramsTemp.addAtFirst(t);
         }
         return paramsTemp;
     }

@@ -8,14 +8,14 @@ public class IRcommand_Virtual_Call_Function_EXP extends IRcommand
 {
     TEMP dst;
     TEMP varTemp;
-    String funcName;
+    int funcOffset;
     TEMP_LIST paramTemps;
 
-    public IRcommand_Virtual_Call_Function_EXP(TEMP dst, TEMP varTemp, String funcName, TEMP_LIST paramTemps)
+    public IRcommand_Virtual_Call_Function_EXP(TEMP dst, TEMP varTemp, int funcOffset, TEMP_LIST paramTemps)
     {
         this.dst = dst;
         this.varTemp = varTemp;
-        this.funcName = funcName;
+        this.funcOffset = funcOffset;
         this.paramTemps = paramTemps;
     }
 

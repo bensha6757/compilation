@@ -5,12 +5,12 @@ import TEMP.*;
 
 public class IRcommand_Call_Function_STMT extends IRcommand
 {
-    String funcName;
+    int funcOffset;
     TEMP_LIST paramTemps;
 
-    public IRcommand_Call_Function_STMT(String funcName, TEMP_LIST paramTemps)
+    public IRcommand_Call_Function_STMT(int funcOffset, TEMP_LIST paramTemps)
     {
-        this.funcName = funcName;
+        this.funcOffset = funcOffset;
         this.paramTemps = paramTemps;
     }
 

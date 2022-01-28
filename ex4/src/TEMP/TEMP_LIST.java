@@ -14,6 +14,13 @@ public class TEMP_LIST{
     {
     }
 
+    public void addAtFirst(TEMP temp) {
+        if (head != null) {
+            tail = new TEMP_LIST(head, tail);
+        }
+        head = temp;
+    }
+
     public void addAtEnd(TEMP tmp){
         if ((head == null) && (tail == null))
         {

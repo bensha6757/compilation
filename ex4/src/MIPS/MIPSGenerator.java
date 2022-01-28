@@ -47,7 +47,7 @@ public class MIPSGenerator
 	//	int idx = t.getSerialNumber();
 	//
 	//	fileWriter.format("\taddi Temp_%d,$fp,%d\n",idx,-serialLocalVarNum*WORD_SIZE);
-	//	
+	//
 	//	return t;
 	//}
 	public void allocate(String var_name)
@@ -63,7 +63,7 @@ public class MIPSGenerator
 	public void store(String var_name,TEMP src)
 	{
 		int idxsrc=src.getSerialNumber();
-		fileWriter.format("\tsw Temp_%d,global_%s\n",idxsrc,var_name);		
+		fileWriter.format("\tsw Temp_%d,global_%s\n",idxsrc,var_name);
 	}
 	public void li(TEMP t,int value)
 	{
@@ -97,46 +97,124 @@ public class MIPSGenerator
 		{
 			fileWriter.format("%s:\n",inlabel);
 		}
-	}	
+	}
 	public void jump(String inlabel)
 	{
 		fileWriter.format("\tj %s\n",inlabel);
-	}	
+	}
 	public void blt(TEMP oprnd1,TEMP oprnd2,String label)
 	{
 		int i1 =oprnd1.getSerialNumber();
 		int i2 =oprnd2.getSerialNumber();
-		
-		fileWriter.format("\tblt Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+
+		fileWriter.format("\tblt Temp_%d,Temp_%d,%s\n",i1,i2,label);
 	}
 	public void bge(TEMP oprnd1,TEMP oprnd2,String label)
 	{
 		int i1 =oprnd1.getSerialNumber();
 		int i2 =oprnd2.getSerialNumber();
-		
-		fileWriter.format("\tbge Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+
+		fileWriter.format("\tbge Temp_%d,Temp_%d,%s\n",i1,i2,label);
 	}
 	public void bne(TEMP oprnd1,TEMP oprnd2,String label)
 	{
 		int i1 =oprnd1.getSerialNumber();
 		int i2 =oprnd2.getSerialNumber();
-		
-		fileWriter.format("\tbne Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+
+		fileWriter.format("\tbne Temp_%d,Temp_%d,%s\n",i1,i2,label);
 	}
 	public void beq(TEMP oprnd1,TEMP oprnd2,String label)
 	{
 		int i1 =oprnd1.getSerialNumber();
 		int i2 =oprnd2.getSerialNumber();
-		
-		fileWriter.format("\tbeq Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+
+		fileWriter.format("\tbeq Temp_%d,Temp_%d,%s\n",i1,i2,label);
 	}
 	public void beqz(TEMP oprnd1,String label)
 	{
 		int i1 =oprnd1.getSerialNumber();
-				
-		fileWriter.format("\tbeq Temp_%d,$zero,%s\n",i1,label);				
+
+		fileWriter.format("\tbeq Temp_%d,$zero,%s\n",i1,label);
 	}
-	
+
+    public void virtualCall(TEMP varTemp, int funcOffset, TEMP_LIST paramTemps) {
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        int i;
+        for (TEMP_LIST tmp = paramTemps ; tmp != null ; tmp = tmp.tail) {
+            i =tmp.head.getSerialNumber();
+            fileWriter.format("\tsw Temp_%d, 0($sp)", i);
+
+        }
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+
+        "subu $sp, $sp, 4\n" +
+            "sw $t1, 0($sp)\n" +
+            "subu $sp, $sp, 4\n" +
+            "sw $t0, 0($sp)\n" +
+            "lw $s0, 0($t0)\n" +
+            "lw $s1, off($s0)\n" +
+            "jalr $s1\n" +
+            "addu $sp, $sp, 8\n" +
+            "move $t2, $v0\n"
+    }
+
+    public void funcDecPrologue(int numOfLocalVars) {
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $ra 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $fp 0($sp)\n");
+        fileWriter.format("\tmove $fp, $sp\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t0, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t1, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t2, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t3, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t4, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t5, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t6, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t7, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t8, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t9, 0($sp)\n");
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsubu $sp, $sp, " + numOfLocalVars + "\n");
+        fileWriter.flush();
+    }
+
+
+    public void funcDecEpilogue() {
+
+
+        fileWriter.format("\tmove $sp, $fp\n");
+        fileWriter.format("\tlw $fp, 0($sp)\n");
+        fileWriter.format("\tlw $ra, 4($sp)\n");
+
+        fileWriter.format("\tlw $t0, -4($sp)\n");
+        fileWriter.format("\tlw $t1, -8($sp)\n");
+        fileWriter.format("\tlw $t2, -12($sp)\n");
+        fileWriter.format("\tlw $t3, -16($sp)\n");
+        fileWriter.format("\tlw $t4, -20($sp)\n");
+        fileWriter.format("\tlw $t5, -24($sp)\n");
+        fileWriter.format("\tlw $t6, -28($sp)\n");
+        fileWriter.format("\tlw $t7, -32($sp)\n");
+        fileWriter.format("\tlw $t8, -36($sp)\n");
+        fileWriter.format("\tlw $t9, -40($sp)\n");
+
+        fileWriter.format("\taddu $sp, $sp, 8\n");
+        fileWriter.flush();
+
+
+            "jr $ra"
+    }
+
 	/**************************************/
 	/* USUAL SINGLETON IMPLEMENTATION ... */
 	/**************************************/
@@ -186,5 +264,11 @@ public class MIPSGenerator
 			instance.fileWriter.print("string_invalid_ptr_dref: .asciiz \"Invalid Pointer Dereference\"\n");
 		}
 		return instance;
+	}
+	// the callee returns to the caller (jump to return address)
+	public void returnFunc()
+	{
+		fileWriter.format("\tjr $ra\n");
+		fileWriter.flush();
 	}
 }

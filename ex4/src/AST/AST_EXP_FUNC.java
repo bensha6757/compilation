@@ -14,6 +14,7 @@ public class AST_EXP_FUNC extends AST_EXP {
     public AST_VAR var;
     public AST_EXP_LIST exps;
 
+    private TYPE_CLASS cls;
     /**/
     /* CONSTRUCTOR(S) */
     /**/
@@ -88,6 +89,7 @@ public class AST_EXP_FUNC extends AST_EXP {
                 System.out.format(">> ERROR [%d:%d] non existing var type %s\n", 6, 6, varType);
                 this.error();
             }
+            cls = (TYPE_CLASS) varType;
         }
         if (exps != null){
             params = exps.SemantMe();
@@ -113,27 +115,31 @@ public class AST_EXP_FUNC extends AST_EXP {
             this.error();
         }
 
+        if (var == null)
+            cls = SYMBOL_TABLE.getInstance().getLowestClass();
+
 
         /*********************************************************/
         /* [6] Return value is irrelevant for class declarations */
         /*********************************************************/
         return ((TYPE_FUNCTION)t).returnType;
     }
+
     public TEMP IRme()
     {
-        TEMP t1 = null;
-        TEMP_LIST paramsTemp = null;
-        if (var != null) t1 = var.IRme();
+        TEMP t0 = null;
+        TEMP_LIST paramsTemps = null;
+        if (var != null) t0 = var.IRme();
         if (exps != null){
-            paramsTemp = exps.IRme();
+            paramsTemps = exps.IRme();
         }
 
         TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
 
         if (var == null){
-            IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_EXP(dst, name, paramsTemp));
+            IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_EXP(dst, cls.getVtableOffset(name), paramsTemps));
         } else {
-            IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_EXP(dst, t1, name, paramsTemp));
+            IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_EXP(dst, t0, cls.getVtableOffset(name), paramsTemps));
         }
 
         return dst;

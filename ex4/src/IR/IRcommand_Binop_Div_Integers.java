@@ -3,6 +3,8 @@ package IR;
 import MIPS.MIPSGenerator;
 import TEMP.TEMP;
 
+import java.util.Arrays;
+
 public class IRcommand_Binop_Div_Integers extends IRcommand
 {
     public TEMP t1;
@@ -14,6 +16,9 @@ public class IRcommand_Binop_Div_Integers extends IRcommand
         this.dst = dst;
         this.t1 = t1;
         this.t2 = t2;
+        Register_Allocation.getInstance().addCommandToCFG(
+            new IR_Node(Arrays.asList(t1.getSerialNumber(), t2.getSerialNumber()),
+                dst.getSerialNumber()));
     }
     /***************/
     /* MIPS me !!! */

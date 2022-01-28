@@ -61,6 +61,8 @@ public class Main
 			/* [8] IR the AST ... */
 			/**********************/
 			AST.IRme();
+
+            Register_Allocation.register_allocation_algorithm();
 			
 			/***********************/
 			/* [9] MIPS the IR ... */

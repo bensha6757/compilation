@@ -11,6 +11,7 @@ public class IRcommand_Assign extends IRcommand {
     public IRcommand_Assign(TEMP t1, TEMP t2) {
         this.t1 = t1;
         this.t2 = t2;
+
     }
 
     /***************/

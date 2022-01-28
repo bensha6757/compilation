@@ -1,5 +1,6 @@
 package AST;
 
+import SYMBOL_TABLE.FindException;
 import TEMP.TEMP;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
@@ -12,5 +13,5 @@ public abstract class AST_FUNCDEC extends AST_Node {
 
     public abstract TYPE SemantMe();
     public abstract void SemantMe(TYPE_CLASS cls);
-    public abstract TEMP IRme();
+    public abstract TEMP IRme() throws FindException;
 }
