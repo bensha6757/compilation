@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.TYPE;
 
 public class AST_DEC_ARRAYTYPEDEF extends AST_DEC {
@@ -57,5 +58,10 @@ public class AST_DEC_ARRAYTYPEDEF extends AST_DEC {
     @Override
     public TYPE SemantMe() {
         return atd.SemantMe();
+    }
+
+    @Override
+    public TEMP IRme() {
+        return atd.IRme();
     }
 }

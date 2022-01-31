@@ -13,6 +13,9 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class IRcommand_Jump_Label extends IRcommand
 {
 	String label_name;
@@ -20,7 +23,10 @@ public class IRcommand_Jump_Label extends IRcommand
 	public IRcommand_Jump_Label(String label_name)
 	{
 		this.label_name = label_name;
-	}
+
+        Register_Allocation.getInstance().addCommandToCFG(new IR_Node(
+            Collections.emptyList(), -1, true, false, false, label_name));
+    }
 	
 	/***************/
 	/* MIPS me !!! */

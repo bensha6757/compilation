@@ -10,8 +10,10 @@ public class AST_EXP_BINOP extends AST_EXP
 	int OP;
 	public AST_EXP left;
 	public AST_EXP right;
-	
-	/******************/
+    TYPE leftType;
+    TYPE rightType;
+
+    /******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
 	public AST_EXP_BINOP(AST_EXP left, AST_EXP right, int OP)
@@ -96,27 +98,23 @@ public class AST_EXP_BINOP extends AST_EXP
 
     public TYPE SemantMe()
     {
-        TYPE t1 = null;
-        TYPE t2 = null;
-
-
-        if (left  != null) t1 = left.SemantMe();
-        if (right != null) t2 = right.SemantMe();
-        if (OP == 3 && t2 != null && t2.isInt()) {
+        if (left  != null) leftType = left.SemantMe();
+        if (right != null) rightType = right.SemantMe();
+        if (OP == 3 && rightType != null && rightType.isInt()) {
             if (right instanceof AST_EXP_INT && ((AST_EXP_INT) right).value == 0) {
                 System.out.format(">> ERROR [%d:%d] illegal division with 0 \n",2,2);
                 this.error();
 
             }
         }
-        if (t1 != null && t2 != null){
-            if (t1.isInt() && t2.isInt()) {
+        if (leftType != null && rightType != null){
+            if (leftType.isInt() && rightType.isInt()) {
                 return TYPE_INT.getInstance();
-            } else if (OP == 0 && t1.isString() && t2.isString()) {
+            } else if (OP == 0 && leftType.isString() && rightType.isString()) {
                 return TYPE_STRING.getInstance();
             }
             if (OP == 6){
-                if ((!t1.isInt() && !t1.isString() && t2.isNil()) || (!t2.isInt() && !t2.isString() && t1.isNil()) || SYMBOL_TABLE.getInstance().isFather(t1, t2) || SYMBOL_TABLE.getInstance().isFather(t2, t1) || t1 == t2){
+                if ((!leftType.isInt() && !leftType.isString() && rightType.isNil()) || (!rightType.isInt() && !rightType.isString() && leftType.isNil()) || SYMBOL_TABLE.getInstance().isFather(leftType, rightType) || SYMBOL_TABLE.getInstance().isFather(rightType, leftType) || leftType == rightType){
                     return TYPE_INT.getInstance();
                 }
             }
@@ -137,9 +135,14 @@ public class AST_EXP_BINOP extends AST_EXP
 
         switch (OP) {
             case 0:
-                IR.
-                    getInstance().
-                    Add_IRcommand(new IRcommand_Binop_Add_Integers(dst,t1,t2));
+                if (leftType.isString() && rightType.isString()) {
+                    IR.getInstance().Add_IRcommand(new IRcommand_Binop_EQ_Strings(dst,t1,t2));
+                }
+                else {
+                    IR.
+                        getInstance().
+                        Add_IRcommand(new IRcommand_Binop_Add_Integers(dst, t1, t2));
+                }
                 break;
             case 1:
                 IR.
@@ -167,9 +170,14 @@ public class AST_EXP_BINOP extends AST_EXP
                     Add_IRcommand(new IRcommand_Binop_GT_Integers(dst,t1,t2));
                 break;
             case 6:
-                IR.
-                    getInstance().
-                    Add_IRcommand(new IRcommand_Binop_EQ_Integers(dst,t1,t2));
+                if (leftType.isString() && rightType.isString()) {
+                    IR.getInstance().Add_IRcommand(new IRcommand_Binop_EQ_Strings(dst,t1,t2));
+                }
+                else {
+                    IR.
+                        getInstance().
+                        Add_IRcommand(new IRcommand_Binop_EQ_Integers(dst,t1,t2));
+                }
                 break;
         }
         return dst;

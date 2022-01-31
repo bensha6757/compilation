@@ -128,19 +128,35 @@ public class AST_STMT_FUNC extends AST_STMT {
 
     public TEMP IRme()
     {
-        TEMP t0 = null;
+        TEMP t0 = null, t;
         TEMP_LIST paramsTemps = null;
         if (var != null) t0 = var.IRme();
         if (exps != null){
-            paramsTemps = exps.IRme();
+            paramsTemps = new TEMP_LIST();
+            if (exps.head != null){
+                t = exps.head.IRme();
+                paramsTemps.addAtFirst(t);
+            }
+            AST_EXP_LIST it = exps.tail;
+            while (it != null)
+            {
+                it = it.tail;
+                t = it.head.IRme();
+                paramsTemps.addAtFirst(t);
+            }
         }
 
+        TEMP thisInstance = TEMP_FACTORY.getInstance().getFreshTEMP();
         if (var == null){
-            IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_STMT(cls.getVtableOffset(name), paramsTemps));
+            if (cls != null && cls.getVtableOffset(name) != -1) { // a class-function was called
+                IR.getInstance().Add_IRcommand(new IRcommand_Load_This_Instance(thisInstance));
+                IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(thisInstance, cls.getVtableOffset(name), paramsTemps));
+            } else { // global
+                IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_STMT("func_g_" + name, paramsTemps));
+            }
         } else {
             IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(t0, cls.getVtableOffset(name), paramsTemps));
         }
-
         return null;
     }
 

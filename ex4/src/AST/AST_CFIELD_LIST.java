@@ -77,18 +77,26 @@ public class AST_CFIELD_LIST extends AST_Node {
         return null;
     }
 
-    // at the data section there are the functions of the class
-    public TEMP IRme(TYPE_CLASS cls) {
-        TYPE_LIST tail_list = null;
-        if ((this.head instanceof AST_CFIELD_FUNCDEC)) {
-            this.head.IRme(cls);
+    public TEMP IRme() {
+        if (this.head != null) {
+            if (this.head instanceof AST_CFIELD_FUNCDEC)
+                this.head.IRme();
         }
         if (this.tail != null) {
-            this.tail.IRme(cls);
+            this.tail.IRme();
         }
         return null;
     }
 
-
+    public TEMP IRme(TEMP thisInstance) {
+        if (this.head != null) {
+            if (!(this.head instanceof AST_CFIELD_FUNCDEC))
+                this.head.IRme(thisInstance);
+        }
+        if (this.tail != null) {
+            this.tail.IRme(thisInstance);
+        }
+        return null;
+    }
 
 }

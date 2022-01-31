@@ -2,6 +2,7 @@ package AST;
 
 import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.TEMP;
 import TYPES.TYPE;
 
 public class AST_TYPE_SIMPLE extends AST_TYPE {
@@ -78,5 +79,10 @@ public class AST_TYPE_SIMPLE extends AST_TYPE {
         /* return (existing) type t */
         /****************************/
         return t;
+    }
+
+    @Override
+    public TEMP IRme() {
+        return null;
     }
 }

@@ -13,17 +13,22 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
+import java.util.Collections;
+
 public class IRcommand_Field_Access extends IRcommand
 {
     TEMP dst;
     TEMP var_temp;
-    String fieldName;
+    int fieldOffset;
 
-    public IRcommand_Field_Access(TEMP dst, TEMP var_temp,String fieldName)
+    public IRcommand_Field_Access(TEMP dst, TEMP var_temp, int fieldOffset)
     {
         this.dst = dst;
         this.var_temp = var_temp;
-        this.fieldName = fieldName;
+        this.fieldOffset = fieldOffset;
+
+        Register_Allocation.getInstance().addCommandToCFG(new IR_Node(
+            Collections.singletonList(this.var_temp.getSerialNumber()), this.dst.getSerialNumber()));
     }
 
     /***************/
@@ -31,6 +36,6 @@ public class IRcommand_Field_Access extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().field_access(dst, var_temp, fieldName);
+        MIPSGenerator.getInstance().field_access(dst, var_temp, fieldOffset);
     }
 }

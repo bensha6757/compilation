@@ -2,15 +2,16 @@ package AST;
 
 import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.TEMP;
 import TYPES.TYPE;
 
-public class AST_TYPE_BINOP extends AST_TYPE {
-    int OP;
+public class AST_TYPE_PRIMITIVE extends AST_TYPE {
+    int typeID;
 
     /******************/
     /* CONSTRUCTOR(S) */
     /******************/
-    public AST_TYPE_BINOP(int OP)
+    public AST_TYPE_PRIMITIVE(int typeID)
     {
         /******************************/
         /* SET A UNIQUE SERIAL NUMBER */
@@ -20,15 +21,15 @@ public class AST_TYPE_BINOP extends AST_TYPE {
         /***************************************/
         /* PRINT CORRESPONDING DERIVATION RULE */
         /***************************************/
-        if(OP == 0){
+        if(typeID == 0){
             System.out.print("---TYPE_INT---\n");
             typeName = "int";
         }
-        if(OP == 1){
+        if(typeID == 1){
             System.out.print("====================== type -> TYPE_STRING\n");
             typeName = "string";
         }
-        if(OP == 2){
+        if(typeID == 2){
             System.out.print("====================== type -> TYPE_VOID\n");
             typeName = "void";
         }
@@ -36,7 +37,7 @@ public class AST_TYPE_BINOP extends AST_TYPE {
         /*******************************/
         /* COPY INPUT DATA NENBERS ... */
         /*******************************/
-        this.OP = OP;
+        this.typeID = typeID;
     }
 
     /*************************************************/
@@ -44,18 +45,18 @@ public class AST_TYPE_BINOP extends AST_TYPE {
     /*************************************************/
     public void PrintMe()
     {
-        String sOP = "";
-        switch (OP) {
+        String type = "";
+        switch (typeID) {
             case 0:{
-                sOP = "INT";
+                type = "INT";
                 break;
             }
             case 1:{
-                sOP = "STRING";
+                type = "STRING";
                 break;
             }
             case 2:{
-                sOP = "VOID";
+                type = "VOID";
                 break;
             }
             /*********************************/
@@ -73,7 +74,7 @@ public class AST_TYPE_BINOP extends AST_TYPE {
         /***************************************/
         AST_GRAPHVIZ.getInstance().logNode(
                 SerialNumber,
-                String.format("TYPE_%s",sOP));
+                String.format("TYPE_%s",type));
     }
 
     @Override
@@ -98,6 +99,11 @@ public class AST_TYPE_BINOP extends AST_TYPE {
         /* return (existing) type t */
         /****************************/
         return t;
+    }
+
+    @Override
+    public TEMP IRme() {
+        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.TYPE;
 
 public class AST_DEC_CLASSDEC extends AST_DEC {
@@ -58,5 +59,10 @@ public class AST_DEC_CLASSDEC extends AST_DEC {
     @Override
     public TYPE SemantMe() {
         return cd.SemantMe();
+    }
+
+    @Override
+    public TEMP IRme() {
+        return cd.IRme();
     }
 }

@@ -1,7 +1,9 @@
 package AST;
 
+import IR.*;
 import SYMBOL_TABLE.FindException;
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.TEMP;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
 
@@ -9,6 +11,9 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
     /************************/
     /* simple variable name */
     /************************/
+    TYPE_CLASS cls;
+    TYPE varType;
+    boolean isGlobal = false;
 
     /******************/
     /* CONSTRUCTOR(S) */
@@ -112,6 +117,8 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
         /* [3] Enter the Function Type to the Symbol Table */
         /***************************************************/
         SYMBOL_TABLE.getInstance().enter(varName,t1);
+        varType = t1;
+        isGlobal = SYMBOL_TABLE.getInstance().checkIfGlobal();
 
         if (exp != null){
             t2 = exp.SemantMe();
@@ -137,10 +144,60 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
     }
 
     @Override
-    public void SemantMe(final TYPE_CLASS cls) {
+    public void SemantMe(TYPE_CLASS cls) {
         TYPE var_type = this.SemantMe();
         if (cls != null){
             cls.addMember(var_type, varName);
         }
+        this.cls = cls;
+        this.varType = var_type;
+        this.isGlobal = false;
     }
+
+    private void getExpDefaultValue() {
+        if (exp == null){
+            if (varType.isInt()) {
+                // 0
+                this.exp = new AST_EXP_INT(0);
+            } else if (varType.isString()){
+                // ""
+                this.exp = new AST_EXP_STRING("");
+            } else {
+                // NIL
+                this.exp = new AST_EXP_NIL();
+            }
+        }
+    }
+
+    @Override
+    public TEMP IRme() { // not a field
+        if (isGlobal) {
+            IR.getInstance().addGlobal(varName, varType.isString());
+            if (exp == null) {
+                getExpDefaultValue();
+            }
+            TEMP value = exp.IRme();
+            IR.getInstance().Add_IRcommand(new IRcommand_Store_Global(this.varName, value));
+        } else {
+            IR.getInstance().enterLocalVarToStack(this.varName);
+            if (this.exp != null) {
+                IR.getInstance().Add_IRcommand(new IRcommand_Store_Local(this.varName, this.exp.IRme()));
+            }
+        }
+        return null;
+    }
+
+
+    @Override
+    public TEMP IRme(TEMP thisInstance) { // for fields
+        if (exp == null)
+            getExpDefaultValue();
+        TEMP value = exp.IRme();
+        if (cls != null) {
+            int offset = cls.getFieldOffset(varName);
+            IR.getInstance().Add_IRcommand(new IRcommand_Store_Field_For_Instance(offset, value, thisInstance));
+        }
+        return null;
+    }
+
 }

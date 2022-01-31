@@ -22,6 +22,8 @@ public class TYPE_CLASS extends TYPE
     private TYPE_LIST data_members_end;
 
     private List<List<String>> vtable;
+    private List<String> fields;
+    private int fieldsCounter = 0;
 
 	/****************/
 	/* CTROR(S) ... */
@@ -38,6 +40,7 @@ public class TYPE_CLASS extends TYPE
             }
         }
         vtable = new ArrayList<>();
+        fields = new ArrayList<>();
 	}
 
     public void addMember(TYPE member, String name){
@@ -51,6 +54,27 @@ public class TYPE_CLASS extends TYPE
         }
     }
 
+    public int getClassSize() {
+        return (fields.size() + 1) * 4;
+    }
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public List<List<String>> getVtable() {
+        return vtable;
+    }
+
+    public int getFieldOffset(String fieldName){
+        for (int i = 0 ; i < fields.size() ; i++) {
+            String field = fields.get(i);
+            if (fieldName.equals(field))
+                return 4 + 4 * i;
+        }
+        return -1;
+    }
+
     public int getVtableOffset(String funcName){
         for (int i = 0 ; i < vtable.size() ; i++) {
             List<String> function = vtable.get(i);
@@ -58,6 +82,27 @@ public class TYPE_CLASS extends TYPE
                 return 4 * i;
         }
         return -1;
+    }
+
+    public String getFunctionFullName(String funcName){
+        for (List<String> function : vtable) {
+            if (funcName.equals(function.get(0)))
+                return function.get(0) + "_" + function.get(1) + "_" + function.get(2);
+        }
+        return "";
+    }
+
+
+    public void createFieldList() {
+        if (father != null) {
+            fields.addAll(father.fields);
+        }
+
+        for (TYPE_LIST member = data_members ; member != null ; member = member.tail) {
+            if (!member.head.isFunction()) {
+                fields.add(member.head.name);
+            }
+        }
     }
 
 

@@ -8,6 +8,7 @@ import IR.*;
 
 public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
     private int numOfLocalVariables = 0;
+    private TYPE_CLASS cls;
 
     /******/
     /* CONSTRUCTOR(S) */
@@ -183,12 +184,22 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         if (cls != null){
             cls.addMember(funcType, funcName);
         }
+        this.cls = cls;
     }
 
-    public TEMP IRme() throws FindException {
-        IR.getInstance().Add_IRcommand(new IRcommand_Label("func_" + this.funcName));
+    public TEMP IRme() {
+        String funcFullName;
+        if (cls != null) {
+            funcFullName = cls.getFunctionFullName(this.funcName);
+        } else {
+            funcFullName = "g_" + this.funcName;
+        }
+        IR.getInstance().setCurrentFunction(funcFullName);
+        IR.getInstance().Add_IRcommand(new IRcommand_Label("func_" + funcFullName));
         // Prologue - backup registers of the caller
         IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue(numOfLocalVariables));
+
+        IR.getInstance().enterArgToStack("this.");
         if (this.typeIds != null) {
             // we want to fill the symbol table again
             this.typeIds.IRme();
@@ -196,15 +207,14 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         this.stmts.IRme();
 
         // Epilogue - restores registers of the caller
-        IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
+        IR.getInstance().Add_IRcommand(new IRcommand_Label("func_" + funcFullName + "_epilogue"));
 
-        // the callee returns to the caller (jump to return address), the return value is in the stack
-        IR.getInstance().Add_IRcommand(new IRcommand_Return());
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
 
         // restore the stack as it was before jump to the callee, clear the frame
         IR.getInstance().clearStack();
 
-        SYMBOL_TABLE.getInstance().endScope();
+        IR.getInstance().setCurrentFunction(null);
         return null;
     }
 }

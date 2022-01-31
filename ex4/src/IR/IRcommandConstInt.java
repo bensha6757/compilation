@@ -13,6 +13,10 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 public class IRcommandConstInt extends IRcommand
 {
 	TEMP t;
@@ -22,6 +26,8 @@ public class IRcommandConstInt extends IRcommand
 	{
 		this.t = t;
 		this.value = value;
+		Register_Allocation.getInstance().addCommandToCFG(
+				new IR_Node(Collections.emptyList(), t.getSerialNumber()));
 	}
 	
 	/***************/

@@ -3,6 +3,9 @@ package IR;
 import MIPS.MIPSGenerator;
 import TEMP.TEMP;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class IRcommand_Field_Set extends IRcommand
 {
     public TEMP t1;
@@ -14,6 +17,9 @@ public class IRcommand_Field_Set extends IRcommand
         this.t1 = t1;
         this.fieldName = fieldName;
         this.t2 = t2;
+
+        Register_Allocation.getInstance().addCommandToCFG(new IR_Node(
+            Collections.singletonList(t2.getSerialNumber()), t1.getSerialNumber()));
     }
     /***************/
     /* MIPS me !!! */

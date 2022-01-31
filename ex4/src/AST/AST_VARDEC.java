@@ -10,4 +10,5 @@ public abstract class AST_VARDEC extends AST_Node {
 
     public abstract void SemantMe(TYPE_CLASS cls);
     public abstract TEMP IRme();
+    public abstract TEMP IRme(TEMP thisInstance);
 }

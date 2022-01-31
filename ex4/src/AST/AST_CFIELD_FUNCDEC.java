@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
 
@@ -62,10 +63,19 @@ public class AST_CFIELD_FUNCDEC extends AST_CFIELD {
         fd.SemantMe(cls);
     }
 
-
     public TYPE SemantMe()
     {
         this.SemantMe(null);
+        return null;
+    }
+
+    @Override
+    public TEMP IRme() {
+        return fd.IRme();
+    }
+
+    @Override
+    public TEMP IRme(TEMP thisInstance) {
         return null;
     }
 }

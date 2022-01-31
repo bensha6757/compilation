@@ -100,7 +100,7 @@ public class AST_TYPEID_LIST extends AST_Node {
     public TEMP IRme()
     {
         this.head.IRme();
-        IR.getInstance().enterArgToStack(this.head.typeName);
+        IR.getInstance().enterArgToStack(this.name);
 
 
         if (this.tail != null) {

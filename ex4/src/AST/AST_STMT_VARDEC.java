@@ -1,6 +1,7 @@
 package AST;
 
 import SYMBOL_TABLE.SYMBOL_TABLE;
+import TEMP.TEMP;
 import TYPES.TYPE;
 import TYPES.TYPE_FUNCTION;
 
@@ -60,5 +61,10 @@ public class AST_STMT_VARDEC extends AST_STMT {
             func.numOfLocalVars++;
         }
         return vd.SemantMe();
+    }
+
+    @Override
+    public TEMP IRme() {
+        return vd.IRme();
     }
 }

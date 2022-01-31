@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.TYPE;
 
 public class AST_EXP_VAR extends AST_EXP
@@ -60,5 +61,10 @@ public class AST_EXP_VAR extends AST_EXP
 	{
 		return var.SemantMe();
 	}
+
+    @Override
+    public TEMP IRme() {
+        return var.IRme();
+    }
 
 }

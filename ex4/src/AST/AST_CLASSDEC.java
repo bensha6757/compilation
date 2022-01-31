@@ -6,5 +6,5 @@ import TYPES.TYPE;
 
 public abstract class AST_CLASSDEC extends AST_Node {
     public abstract TYPE SemantMe();
-    public abstract TEMP IRme() throws FindException;
+    public abstract TEMP IRme();
 }

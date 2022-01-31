@@ -3,23 +3,29 @@ package IR;
 import MIPS.MIPSGenerator;
 import TEMP.TEMP;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class IRcommand_Array_Set extends IRcommand
 {
-    public TEMP t1;
-    public TEMP t2;
-    public TEMP t3;
+    public TEMP dst;
+    public TEMP t;
 
-    public IRcommand_Array_Set(TEMP t1, TEMP t2, TEMP t3)
+    public IRcommand_Array_Set(TEMP dst, TEMP t)
     {
-        this.t1 = t1;
-        this.t2 = t2;
-        this.t3 = t3;
+        // dst (t1[t2]) = t3
+        this.dst = dst;
+        this.t = t;
+
+        Register_Allocation.getInstance().addCommandToCFG(
+                new IR_Node(Collections.singletonList(t.getSerialNumber()),
+                        dst.getSerialNumber()));
     }
     /***************/
     /* MIPS me !!! */
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().field_set(t1,t2, t3);
+        MIPSGenerator.getInstance().field_set(dst, t);
     }
 }

@@ -1,5 +1,7 @@
 package AST;
 
+import IR.*;
+import TEMP.*;
 import TYPES.TYPE;
 import TYPES.TYPE_INT;
 
@@ -50,6 +52,13 @@ public class AST_EXP_INT extends AST_EXP
     public TYPE SemantMe()
     {
         return TYPE_INT.getInstance();
+    }
+
+    @Override
+    public TEMP IRme() {
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+        IR.getInstance().Add_IRcommand(new IRcommand_Integer_Expression(dst, value));
+        return dst;
     }
 
 }

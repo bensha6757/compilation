@@ -5,12 +5,14 @@ import SYMBOL_TABLE.SYMBOL_TABLE;
 import TEMP.*;
 import IR.*;
 import TYPES.TYPE;
+import TYPES.TYPE_CLASS;
 
 public class AST_VAR_SIMPLE extends AST_VAR
 {
 	/************************/
 	/* simple variable name */
 	/************************/
+    TYPE_CLASS cls = null;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -28,7 +30,7 @@ public class AST_VAR_SIMPLE extends AST_VAR
 		System.out.format("====================== var -> ID( %s )\n",name);
 
 		/*******************************/
-		/* COPY INPUT DATA NENBERS ... */
+		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
 		this.name = name;
 	}
@@ -63,16 +65,24 @@ public class AST_VAR_SIMPLE extends AST_VAR
         if (t == null){
             System.out.format(">> ERROR [%d:%d] ID %s does not exist\n",6,6,this.name);
 			this.error();
-            //System.exit(0);
+        } else {
+            if (t.isClass())
+                cls = (TYPE_CLASS) t;
         }
 		return t;
 	}
 
     @Override
     public TEMP IRme() {
-        TEMP id_temp = TEMP_FACTORY.getInstance().getFreshTEMP();
-        IR.getInstance().Add_IRcommand(new IRcommand_Load_Variable(id_temp, name));
-        return id_temp;
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+        if (IR.getInstance().isLocalVarExists(name)) {
+            IR.getInstance().Add_IRcommand(new IRcommand_Load_Variable(dst, name));
+        } else if (cls != null && cls.getFieldOffset(name) != -1) {
+            IR.getInstance().Add_IRcommand(new IRcommand_Load_This_Instance(dst, cls.getFieldOffset(name)));
+        } else {
+            IR.getInstance().Add_IRcommand(new IRcommand_Load_Global_Variable(dst, name));
+        }
+        return dst;
     }
 
 }

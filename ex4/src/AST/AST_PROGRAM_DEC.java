@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.TYPE;
 
 public class AST_PROGRAM_DEC extends AST_PROGRAM {
@@ -59,6 +60,11 @@ public class AST_PROGRAM_DEC extends AST_PROGRAM {
     @Override
     public TYPE SemantMe() {
         return l.SemantMe();
+    }
+
+    @Override
+    public TEMP IRme() {
+        return l.IRme();
     }
 }
 

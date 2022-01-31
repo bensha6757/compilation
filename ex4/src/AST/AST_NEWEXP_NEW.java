@@ -71,29 +71,26 @@ public class AST_NEWEXP_NEW extends AST_NEWEXP {
             if (expType.isInt() && (exp instanceof AST_EXP_INT) && (((AST_EXP_INT)exp).value <= 0)) {
                 System.out.format(">> ERROR [%d:%d] expression is non positive constant %s\n",2,2,expType.name);
                 this.error();
-                //System.exit(0);
             } else if (!expType.isInt()) {
                 System.out.format(">> ERROR [%d:%d] expression is not an integer type %s\n",2,2,expType.name);
                 this.error();
-                //System.exit(0);
             }
             return new TYPE_ARRAY_RIGHT(type);
         }
         return type;
     }
+
     public TEMP IRme()
     {
         TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
-        if (exp != null)
-        {
+        if (exp != null) {
             TEMP exp_temp = exp.IRme();
             IR.getInstance().Add_IRcommand(new IRcommand_New_Array(dst, exp_temp));
         }
-        else{
-            IR.getInstance().Add_IRcommand(new IRcommand_New_Class(dst,t.typeName));
+        else {
+            IR.getInstance().Add_IRcommand(new IRcommand_New_Class(dst, t.typeName));
         }
 
-        //IR.getInstance().Add_IRcommand(new IRcommand_PrintInt(t));
         return dst;
     }
 }

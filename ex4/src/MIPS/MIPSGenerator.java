@@ -7,10 +7,12 @@ package MIPS;
 /* GENERAL IMPORTS */
 /*******************/
 import java.io.PrintWriter;
+import java.util.List;
 
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+import IR.Register_Allocation;
 import TEMP.*;
 
 public class MIPSGenerator
@@ -137,25 +139,101 @@ public class MIPSGenerator
 		fileWriter.format("\tbeq Temp_%d,$zero,%s\n",i1,label);
 	}
 
-    public void virtualCall(TEMP varTemp, int funcOffset, TEMP_LIST paramTemps) {
-        fileWriter.format("\tsubu $sp, $sp, 4\n");
-        int i;
-        for (TEMP_LIST tmp = paramTemps ; tmp != null ; tmp = tmp.tail) {
-            i =tmp.head.getSerialNumber();
-            fileWriter.format("\tsw Temp_%d, 0($sp)", i);
+    public void addStrings(TEMP dst, TEMP t1, TEMP t2)
+    {
+        int dstIdx = dst.getSerialNumber();
 
+        pushFunctionParamToStack(t2);
+        pushFunctionParamToStack(t1);
+        fileWriter.format("\tjal concat\n");
+        fileWriter.format("\tmove $t%s, $v0\n", dstIdx);
+        fileWriter.flush();
+    }
+
+    public void eqStrings(TEMP dst, TEMP t1, TEMP t2)
+    {
+        int dstIdx = dst.getSerialNumber();
+        fileWriter.format("\tmove $a0, $t%s\n", t1.getSerialNumber());
+        fileWriter.format("\tmove $a1, $t%s\n", t2.getSerialNumber());
+        fileWriter.format("\tjal strcmp\n");
+        fileWriter.format("\tmove $t%s, $v0\n", dstIdx);
+    }
+
+    public void createVtable(List<List<String>> vtable, String className) {
+        fileWriter.format("\t.data\n");
+        fileWriter.format("\tvt_" + className + "\n");
+        for (List<String> func : vtable) {
+            fileWriter.format("\tfunc_" + func.get(0) + "_" + func.get(1) + "_" + func.get(2) + "\n");
+        }
+        fileWriter.flush();
+    }
+
+    public void loadThisInstance(TEMP thisInstance, int offset) {
+        int thisInstance_idx = thisInstance.getSerialNumber();
+        fileWriter.format("\tlw $t%s, 8($fp)\n", thisInstance_idx);
+        fileWriter.format("\taddi $t%s, $t%s, %d\n", thisInstance_idx, thisInstance_idx, offset);
+        fileWriter.flush();
+    }
+
+    public void loadGlobalVar(TEMP dst, String name)
+    {
+        fileWriter.format("\tla $t%s, g_%s\n", dst.getSerialNumber(), name);
+        fileWriter.flush();
+    }
+
+    public void storeGlobal(String globalName, TEMP value)
+    {
+        int valueIdx = value.getSerialNumber();
+        fileWriter.format("\tsw $t%s, g_%s\n", valueIdx, globalName);
+        fileWriter.flush();
+    }
+
+    public void storeFieldForInstance(int offset, TEMP instance, TEMP value)
+    {
+        int instanceIdx = instance.getSerialNumber();
+        int valueIdx = value.getSerialNumber();
+        fileWriter.format("\tbeq $t%d, $zero, invalid_pointer_dereference\n", instanceIdx);
+        fileWriter.format("\tsw $t%s, %d($t%s)\n", valueIdx, offset, instanceIdx);
+        fileWriter.flush();
+    }
+
+    public void allocateNewInstance(int classSize, TEMP newInstance, String vtLabel) {
+        int instanceIdx = newInstance.getSerialNumber();
+        fileWriter.format("\tli $v0, 9\n");
+        fileWriter.format("\tli $a0, %d\n", classSize);
+        fileWriter.format("\tsyscall\n");
+        fileWriter.format("\tmove $t%d, $v0\n", instanceIdx);
+        fileWriter.format("\tla $s0, %s\n", vtLabel);
+        fileWriter.format("\tsw $s0, 0($t%d)\n", instanceIdx);
+        fileWriter.flush();
+    }
+
+    public void pushFunctionParamToStack(TEMP paramTemp) {
+        int paramIdx = paramTemp.getSerialNumber();
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t%d, 0($sp)\n", paramIdx);
+        fileWriter.flush();
+    }
+
+    public void virtualCall(TEMP dst, TEMP varTemp, int funcOffset, TEMP_LIST paramTemps) {
+        int tmpIdx;
+        int varTempIdx = varTemp.getSerialNumber();
+        for (TEMP_LIST tmp = paramTemps ; tmp != null ; tmp = tmp.tail) {
+            tmpIdx = tmp.head.getSerialNumber();
+            fileWriter.format("\tsubu $sp, $sp, 4\n");
+            fileWriter.format("\tsw $t%d, 0($sp)\n", tmpIdx);
         }
         fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $t%d, 0($sp)\n", varTempIdx);
+        fileWriter.format("\tlw $s0, 0($t%d)\n", varTempIdx);
+        fileWriter.format("\tlw $s1, %d($s0)\n", funcOffset);
+        fileWriter.format("\tjalr $s1\n");
+        fileWriter.format("\taddu $sp, $sp, 8\n");
 
-        "subu $sp, $sp, 4\n" +
-            "sw $t1, 0($sp)\n" +
-            "subu $sp, $sp, 4\n" +
-            "sw $t0, 0($sp)\n" +
-            "lw $s0, 0($t0)\n" +
-            "lw $s1, off($s0)\n" +
-            "jalr $s1\n" +
-            "addu $sp, $sp, 8\n" +
-            "move $t2, $v0\n"
+        if (dst != null)
+            fileWriter.format("\tmove $t%d, $v0\n", dst.getSerialNumber());
+
+        fileWriter.flush();
     }
 
     public void funcDecPrologue(int numOfLocalVars) {
@@ -192,7 +270,6 @@ public class MIPSGenerator
 
     public void funcDecEpilogue() {
 
-
         fileWriter.format("\tmove $sp, $fp\n");
         fileWriter.format("\tlw $fp, 0($sp)\n");
         fileWriter.format("\tlw $ra, 4($sp)\n");
@@ -209,13 +286,19 @@ public class MIPSGenerator
         fileWriter.format("\tlw $t9, -40($sp)\n");
 
         fileWriter.format("\taddu $sp, $sp, 8\n");
+
+        fileWriter.format("\tjr $ra\n");
         fileWriter.flush();
-
-
-            "jr $ra"
     }
 
-	/**************************************/
+    public void returnFunc(TEMP returnValue)
+    {
+        fileWriter.format("\tmove $v0,$t%d\n", Register_Allocation.getIrRegisterToPhysical().get(returnValue.getSerialNumber()));
+        fileWriter.flush();
+    }
+
+
+    /**************************************/
 	/* USUAL SINGLETON IMPLEMENTATION ... */
 	/**************************************/
 	private static MIPSGenerator instance = null;
@@ -264,11 +347,5 @@ public class MIPSGenerator
 			instance.fileWriter.print("string_invalid_ptr_dref: .asciiz \"Invalid Pointer Dereference\"\n");
 		}
 		return instance;
-	}
-	// the callee returns to the caller (jump to return address)
-	public void returnFunc()
-	{
-		fileWriter.format("\tjr $ra\n");
-		fileWriter.flush();
 	}
 }

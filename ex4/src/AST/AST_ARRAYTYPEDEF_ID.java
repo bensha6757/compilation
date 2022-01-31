@@ -101,10 +101,7 @@ public class AST_ARRAYTYPEDEF_ID extends AST_ARRAYTYPEDEF {
     @Override
     public TEMP IRme() {
         TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
-        IR.getInstance().Add_IRcommand(new IRcommand_Array_Dec(dst,t.typeName));
-
-        //IR.getInstance().Add_IRcommand(new IRcommand_PrintInt(t));
+        IR.getInstance().Add_IRcommand(new IRcommand_Array_Dec(dst, t.typeName));
         return dst;
-
     }
 }

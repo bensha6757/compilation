@@ -10,23 +10,28 @@ package IR;
 /*******************/
 /* PROJECT IMPORTS */
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*******************/
 
 public class IR
 {
-	// 1/22
-	//  maybe we need current function field
-	private IRcommand head=null;
-	private IRcommandList tail=null;
+	private IRcommand head = null;
+	private IRcommandList tail = null;
 
     private Map<String, Integer> localVariableToOffset = new HashMap<>();
-    private int localVarPointer = 0;
+    private int localVarPointer = -44;
 
     private Map<String, Integer> argumentsToOffset = new HashMap<>();
-    private int argsPointer = -8;
+    private int argsPointer = 8;
+
+    private String currFuncName = null;
+
+    // true == global string
+    private Map<String, Boolean> globalsToIsString;
 
 	/******************/
 	/* Add IR command */
@@ -34,12 +39,17 @@ public class IR
 
     public void enterLocalVarToStack(String id) {
         localVariableToOffset.putIfAbsent(id, localVarPointer);
-		localVarPointer += 4;
+		localVarPointer -= 4;
     }
+
+    public boolean isLocalVarExists(String id) {
+        return localVariableToOffset.containsKey(id) || argumentsToOffset.containsKey(id);
+    }
+
 
     public void enterArgToStack(String id) {
         argumentsToOffset.putIfAbsent(id, argsPointer);
-        argsPointer -= 4;
+        argsPointer += 4;
     }
 
     public int getVariableOffset(String id) {
@@ -49,13 +59,32 @@ public class IR
         return argumentsToOffset.get(id);
     }
 
-
     public void clearStack() {
         localVariableToOffset.clear();
         argumentsToOffset.clear();
-        localVarPointer = 0;
-        argsPointer = -4;
+        localVarPointer = -44;
+        argsPointer = 8;
     }
+
+    public Map<String, Boolean> getGlobals() {
+        return globalsToIsString;
+    }
+
+    public void addGlobal(String s, boolean isString)
+    {
+        globalsToIsString.put(s, isString);
+    }
+
+
+
+    public void setCurrentFunction(String funcName){
+        this.currFuncName = funcName;
+    }
+
+    public String getCurrentFunction(){
+        return this.currFuncName;
+    }
+
 
     public void Add_IRcommand(IRcommand cmd)
 	{

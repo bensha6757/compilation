@@ -3,6 +3,91 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/a.dummy">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_CFIELD_NODE.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_CFIELD_VARDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_CLASS_DEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_FUNC_DEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_VAR_DEC_NEW_EXP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_VAR_SIMPLE.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/IR/IR.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/IR/IRcommand_AllocateForVtable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/IR/IRcommand_CallRuntimeFunction.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/IR/IRcommand_GetFieldAddressInSelf.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/IR/IRcommand_StoreLocal.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/MIPS/MIPSGenerator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../benTest/src/IR_Node.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../benTest/src/Interference_Node.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../benTest/src/Register_Allocation.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex3/src/AST/AST_CFIELD.java">
           <value>
             <set />
@@ -49,6 +134,476 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/ex3/src/TYPES/TYPE_CLASS.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_ARRAYTYPEDEF_ID.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_CFIELD.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_CFIELD_FUNCDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_CFIELD_LIST.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_CFIELD_VARDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_CLASSDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_CLASSDEC_CFIELD.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_DEC_ARRAYTYPEDEF.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_DEC_CLASSDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_DEC_FUNCDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_DEC_LIST.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_DEC_VARDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_BINOP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_C.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_FUNC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_INT.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_LIST.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_NIL.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_STRING.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_EXP_VAR.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_FUNCDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_FUNCDEC_STMT.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_NEWEXP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_NEWEXP_NEW.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_Node.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_PROGRAM_DEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_STMT_ASSIGN.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_STMT_FUNC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_STMT_LIST.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_STMT_RETURN.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_STMT_VARDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_TYPEID_LIST.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_TYPE_BINOP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_TYPE_PRIMITIVE.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_TYPE_SIMPLE.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_VARDEC.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_VARDEC_TYPEEXP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_VAR_FIELD.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_VAR_SIMPLE.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST_Skel2/AST_STMT_CALL.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IR.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IR_Node.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Add_Function_Param_To_Stack.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Allocate_New_Instance.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Allocate_Vtable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Array_Access.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Array_Dec.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Array_Set.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Assign.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Binop_Add_Strings.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Binop_Div_Integers.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Binop_EQ_Strings.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Call_Function_EXP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Call_Function_STMT.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Field_Access.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Field_Set.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Finish_Func.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Function_Epilogue.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Function_Prologue.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Integer_Expression.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Jump_If_Eq_To_Zero.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Jump_Label.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Label.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Load_Global_Variable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Load_This_Instance.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Load_Variable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_NIL.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_New_Array.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_New_Class.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Push_Function_Param_To_Stack.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Return.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Store_Field_For_Instance.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Store_Global.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Store_Local.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_String_Expression.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Virtual_Call_Function_EXP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Virtual_Call_Function_STMT.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/Interferce_Node.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/Interference_Node.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/Register_Allocation.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/MIPS/MIPSGenerator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/SYMBOL_TABLE/SYMBOL_TABLE.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/TEMP/TEMP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/TEMP/TEMP_LIST.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/TYPES/TYPE_CLASS.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/TYPES/TYPE_FUNCTION.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ms-bflow_A32.0/BflowController/src/main/java/com/algosec/bflow/controller/rest/controllers/EndPointRestController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ms-bflow_A32.0/BflowController/src/main/java/com/algosec/bflow/controller/rest/objects/network_object/RestNetworkObjectStatistics.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ms-bflow_A32.0/BflowController/src/main/java/com/algosec/bflow/controller/rest/service/EndPointRestService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ms-bflow_A32.0/BflowFrontEnd/src/ng2/app/endpoint/endpoint.tree.component.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ms-bflow_A32.0/BflowFrontEnd/src/ng2/app/endpoint/endpoint.tree.component.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ms-bflow_A32.0/BflowFrontEnd/src/ng2/app/endpoint/endpoint.tree.node.component.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ms-bflow_A32.0/BflowFrontEnd/src/ng2/app/endpoint/endpoint.tree.node.component.ts">
           <value>
             <set />
           </value>

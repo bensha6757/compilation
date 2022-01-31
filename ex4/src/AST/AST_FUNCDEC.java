@@ -13,5 +13,5 @@ public abstract class AST_FUNCDEC extends AST_Node {
 
     public abstract TYPE SemantMe();
     public abstract void SemantMe(TYPE_CLASS cls);
-    public abstract TEMP IRme() throws FindException;
+    public abstract TEMP IRme();
 }

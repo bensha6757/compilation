@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
 
@@ -62,6 +63,15 @@ public class AST_CFIELD_VARDEC extends AST_CFIELD {
         vd.SemantMe(cls);
     }
 
+    @Override
+    public TEMP IRme() {
+        return vd.IRme();
+    }
+
+    @Override
+    public TEMP IRme(TEMP thisInstance) {
+        return vd.IRme(thisInstance);
+    }
 
     public TYPE SemantMe()
     {

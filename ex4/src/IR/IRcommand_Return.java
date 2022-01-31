@@ -13,24 +13,22 @@ package IR;
 import TEMP.*;
 import MIPS.*;
 
+import java.util.Collections;
+
 public class IRcommand_Return extends IRcommand
 {
-    TEMP exp_temp;
-    public IRcommand_Return()
+    TEMP exp;
+    public IRcommand_Return(TEMP exp)
     {
+        this.exp = exp;
+        Register_Allocation.getInstance().addCommandToCFG(new IR_Node(Collections.singletonList(exp.getSerialNumber()), -1));
+    }
 
-    }
-    /*
-    public IRcommand_Return(TEMP exp_temp)
-    {
-        this.exp_temp = exp_temp;
-    }
-    */
     /***************/
     /* MIPS me !!! */
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().returnFunc();
+        MIPSGenerator.getInstance().returnFunc(exp);
     }
 }

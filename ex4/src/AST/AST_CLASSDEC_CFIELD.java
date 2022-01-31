@@ -7,10 +7,13 @@ import TYPES.TYPE_CLASS;
 import TEMP.*;
 import IR.*;
 
+import java.util.List;
+
 public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
     String className;
     String parentClassName;
     AST_CFIELD_LIST cFieldList;
+    TYPE_CLASS cls;
 
     /******/
     /* CONSTRUCTOR(S) */
@@ -98,6 +101,7 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
             SYMBOL_TABLE.getInstance().curFather = father;
             t = new TYPE_CLASS(father, className,null);
             SYMBOL_TABLE.getInstance().enter(className,t);
+            cls = t;
 
             /*************************/
             /* [1] Begin Class Scope */
@@ -127,44 +131,45 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
         return null;
     }
 
-    public TEMP IRme() throws FindException {
-        TYPE_CLASS cls = (TYPE_CLASS)SYMBOL_TABLE.getInstance().find(this.className);
+    public TEMP IRme() {
+        String vtLabel = "vt_" + className;
+        IR.getInstance().Add_IRcommand(new IRcommand_Label(vtLabel));
+        cls.crateVtable();
+        cls.createFieldList();
 
-        TEMP obj_size = TEMP_FACTORY.getInstance().getFreshTEMP();
-        TEMP obj_addr = TEMP_FACTORY.getInstance().getFreshTEMP();
+        List<List<String>> vtable = cls.getVtable();
+        IR.getInstance().Add_IRcommand(new IRcommand_Allocate_Vtable(vtable, className));
 
-        SYMBOL_TABLE.getInstance().beginScope("class");
-        this.cFieldList.IRme(cls);
-        SYMBOL_TABLE.getInstance().endScope();
-        SYMBOL_TABLE.getInstance().curFather = null;
+        cFieldList.IRme();
 
+        // function for auto constructor
+        TEMP thisInstance = TEMP_FACTORY.getInstance().getFreshTEMP();
+        IR.getInstance().Add_IRcommand(new IRcommand_Label("constructor_" + className));
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue(0));
 
-        String vt = "vt_"+this.className;
+        IR.getInstance().Add_IRcommand(new IRcommand_Load_This_Instance(thisInstance));
+        cFieldList.IRme(thisInstance);
 
-        // creating label for virtual tabel for the class
-        IR.getInstance().Add_IRcommand(new IRcommand_Label(vt));
-        ArrayList<Pair<String, String>> functions = cls.get_functions_for_vtable();
-        IR.getInstance().Add_IRcommand(new IRcommand_AllocateForVtable(functions));
+        IR.getInstance().Add_IRcommand(new IRcommand_Return(thisInstance));
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
 
+        // function for allocating new instance
+        TEMP newInstance = TEMP_FACTORY.getInstance().getFreshTEMP();
+        IR.getInstance().Add_IRcommand(new IRcommand_Label("allocate_new_instance_for_class_"+this.className));
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue(0));
 
-        IR.getInstance().Add_IRcommand(new IRcommand_Label("func_allocate_object_"+this.id));
-        IR.getInstance().Add_IRcommand(new IRcommand_SaveRegisters());
+        IR.getInstance().Add_IRcommand(new IRcommand_Allocate_New_Instance(newInstance, cls.getClassSize(), vtLabel));
+        IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_EXP(newInstance, "constructor_" + className, new TEMP_LIST(newInstance, null)));
 
-        IR.getInstance().Add_IRcommand(new IRcommandConstInt(obj_size, cls_info.get_object_size()));
-        IR.getInstance().Add_IRcommand(new IRcommand_CallFunctionParam(obj_size));
-        IR.getInstance().Add_IRcommand(new IRcommand_CallFunction(obj_addr, "Malloc"));
+        TYPE_CLASS fatherCls = cls.father;
+        while (fatherCls != null) {
+            IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_EXP(newInstance, "constructor_" + fatherCls.name, new TEMP_LIST(newInstance, null)));
+            fatherCls = fatherCls.father;
+        }
 
-        TEMP vtable_addr = TEMP_FACTORY.getInstance().getFreshTEMP();
-        IR.getInstance().Add_IRcommand(new IRcommand_GetLabelAddr(vtable_addr, vtable_label));
-        IR.getInstance().Add_IRcommand(new IRcommand_StoreToAddressOffset(obj_addr, 0, vtable_addr));
+        IR.getInstance().Add_IRcommand(new IRcommand_Return(thisInstance));
+        IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
 
-        SYMBOL_TABLE.getInstance().beginClassScope();
-        this.cfields.IRme(cls_info, obj_addr);
-        SYMBOL_TABLE.getInstance().endScope();
-
-        IR.getInstance().Add_IRcommand(new IRcommand_SetReturnValue(obj_addr));
-        IR.getInstance().Add_IRcommand(new IRcommand_RestoreRegisters());
-        IR.getInstance().Add_IRcommand(new IRcommand_Return());
 
         return null;
     }

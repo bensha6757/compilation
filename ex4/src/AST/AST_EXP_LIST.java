@@ -87,7 +87,7 @@ public class AST_EXP_LIST extends AST_Node {
         }
     }
 
-    public TEMP_LIST IRme()
+    public TEMP IRme()
     {
         TEMP t = null;
         TEMP_LIST paramsTemp = new TEMP_LIST();
@@ -102,6 +102,7 @@ public class AST_EXP_LIST extends AST_Node {
             t = it.head.IRme();
             paramsTemp.addAtFirst(t);
         }
-        return paramsTemp;
+
+        return null;
     }
 }

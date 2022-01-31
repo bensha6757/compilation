@@ -11,6 +11,7 @@ public class AST_VAR_FIELD extends AST_VAR
 {
 	public AST_VAR var;
 	public String fieldName;
+    public TYPE_CLASS cls;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -90,11 +91,11 @@ public class AST_VAR_FIELD extends AST_VAR
 		{
 			System.out.format(">> ERROR [%d:%d] access %s field of a non-class variable\n",6,6,this.fieldName);
 			this.error();
-			//System.exit(0);
 		}
 		else
 		{
 			tc = (TYPE_CLASS) t;
+            cls = tc;
 		}
 
 		/************************************/
@@ -112,7 +113,6 @@ public class AST_VAR_FIELD extends AST_VAR
             /*********************************************/
             System.out.format(">> ERROR [%d:%d] field %s is not a known field of var %s\n",6,6,this.fieldName, this.var.name);
 			this.error();
-            //System.exit(0);
         }
 		return t2;
 	}
@@ -121,7 +121,8 @@ public class AST_VAR_FIELD extends AST_VAR
 	{
 		TEMP t1 = var.IRme();
 		TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
-		IR.getInstance().Add_IRcommand(new IRcommand_Field_Access(dst, t1, fieldName));
+
+		IR.getInstance().Add_IRcommand(new IRcommand_Field_Access(dst, t1, cls.getFieldOffset(fieldName)));
 		return dst;
 	}
 

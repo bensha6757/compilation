@@ -1,5 +1,6 @@
 package AST;
 
+import TEMP.TEMP;
 import TYPES.TYPE;
 
 public class AST_EXP_C extends AST_EXP {
@@ -52,5 +53,10 @@ public class AST_EXP_C extends AST_EXP {
     @Override
     public TYPE SemantMe() {
         return e.SemantMe();
+    }
+
+    @Override
+    public TEMP IRme() {
+        return e.IRme();
     }
 }
