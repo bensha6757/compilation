@@ -98,6 +98,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex3/external_jars/java-cup-11b.jar!/java_cup/runtime/Symbol.class">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex3/src/AST/AST_CFIELD.java">
           <value>
             <set />
@@ -144,6 +149,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/ex3/src/TYPES/TYPE_CLASS.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/Makefile">
           <value>
             <set />
           </value>

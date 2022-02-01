@@ -5,13 +5,13 @@ import SYMBOL_TABLE.SYMBOL_TABLE;
 import TEMP.TEMP;
 import TYPES.TYPE;
 
-public class AST_TYPE_PRIMITIVE extends AST_TYPE {
+public class AST_TYPE_BINOP extends AST_TYPE {
     int typeID;
 
     /******************/
     /* CONSTRUCTOR(S) */
     /******************/
-    public AST_TYPE_PRIMITIVE(int typeID)
+    public AST_TYPE_BINOP(int typeID)
     {
         /******************************/
         /* SET A UNIQUE SERIAL NUMBER */

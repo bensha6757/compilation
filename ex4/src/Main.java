@@ -16,7 +16,7 @@ public class Main
 		Lexer l;
 		Parser p;
 		Symbol s;
-		AST_DEC_LIST AST;
+        AST_PROGRAM AST;
 		FileReader file_reader;
 		PrintWriter file_writer;
 		String inputFilename = argv[0];
@@ -43,12 +43,12 @@ public class Main
 			/* [4] Initialize a new parser */
 			/*******************************/
 			p = new Parser(l);
-
+            System.out.println("before parse");
 			/***********************************/
 			/* [5] 3 ... 2 ... 1 ... Parse !!! */
 			/***********************************/
 			AST = (AST_PROGRAM) p.parse().value;
-			
+            System.out.println("after parse");
 			/*************************/
 			/* [6] Print the AST ... */
 			/*************************/

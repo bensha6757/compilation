@@ -55,7 +55,7 @@ CUP_FLAGS =                                \
 # DEFINITIONS :: PARSER #
 #########################
 INPUT    = ${INPUT_DIR}/Input.txt
-OUTPUT   = ${OUTPUT_DIR}/SemanticStatus.txt
+OUTPUT   = ${OUTPUT_DIR}/MIPS.txt
 
 ##########
 # TARGET #
@@ -118,7 +118,7 @@ compile:
 	@echo "*                                                         *"
 	@echo "***********************************************************"
 	jar cfm COMPILER ${MANIFEST_FILE} -C ${BIN_DIR} .
-	
+
 everything:
 	clear
 	@echo "******************************"
