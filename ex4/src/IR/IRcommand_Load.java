@@ -20,15 +20,15 @@ import java.util.Collections;
 public class IRcommand_Load extends IRcommand
 {
 	TEMP dst;
-	String var_name;
+	TEMP var;
 	
-	public IRcommand_Load(TEMP dst,String var_name)
+	public IRcommand_Load(TEMP dst,TEMP var)
 	{
 		//dst = string
 		this.dst      = dst;
-		this.var_name = var_name;
+		this.var = var;
 		Register_Allocation.getInstance().addCommandToCFG(
-				new IR_Node(Collections.emptyList(),
+				new IR_Node(Collections.singletonList(var.getSerialNumber()),
 						dst.getSerialNumber()));
 	}
 	
@@ -37,6 +37,6 @@ public class IRcommand_Load extends IRcommand
 	/***************/
 	public void MIPSme()
 	{
-		MIPSGenerator.getInstance().load(dst,var_name);
+		MIPSGenerator.getInstance().load(dst, var);
 	}
 }

@@ -17,7 +17,7 @@ public class IRcommand_Assign extends IRcommand {
         this.t2 = t2;
 
         Register_Allocation.getInstance().addCommandToCFG(
-                new IR_Node(Collections.singletonList(t2.getSerialNumber()),
+                new IR_Node(Arrays.asList(t1.getSerialNumber(), t2.getSerialNumber()),
                         t1.getSerialNumber()));
     }
 

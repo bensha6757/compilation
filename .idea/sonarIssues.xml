@@ -498,6 +498,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Load.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Load_Global_Variable.java">
           <value>
             <set />

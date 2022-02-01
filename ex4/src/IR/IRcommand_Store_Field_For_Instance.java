@@ -3,6 +3,7 @@ package IR;
 import MIPS.MIPSGenerator;
 import TEMP.TEMP;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 public class IRcommand_Store_Field_For_Instance extends IRcommand{
@@ -16,7 +17,7 @@ public class IRcommand_Store_Field_For_Instance extends IRcommand{
         this.offset = offset;
 
         // offset(instance) = value
-        Register_Allocation.getInstance().addCommandToCFG(new IR_Node(Collections.singletonList(value.getSerialNumber()), instance.getSerialNumber()));
+        Register_Allocation.getInstance().addCommandToCFG(new IR_Node(Arrays.asList(value.getSerialNumber(), instance.getSerialNumber()), instance.getSerialNumber()));
     }
 
     @Override

@@ -101,6 +101,7 @@ public class MIPSGenerator
         String invalid_pointer_dereference = IRcommand.getFreshLabel("invalid_pointer_dereference");
         labels.put("invalid_pointer_dereference", invalid_pointer_dereference);
         fileWriter.format("%s:\n", invalid_pointer_dereference);
+
         fileWriter.print("\tla $t0, string_invalid_ptr_dref\n");
 
         printErrorMessage();
@@ -125,10 +126,13 @@ public class MIPSGenerator
 		fileWriter.format(".data\n");
 		fileWriter.format("\tg_%s: .word 721\n",var_name);
 	}
-	public void load(TEMP dst,String var_name)
+	public void load(TEMP dst, TEMP varTmp)
 	{
-		int idxdst=dst.getRealSerialNumber();
-		fileWriter.format("\tlw $t%d,g_%s\n",idxdst,var_name);
+        int dstIdx = dst.getRealSerialNumber();
+        int varIdx = varTmp.getRealSerialNumber();
+        fileWriter.format("\tbeq $t%d, $zero, %s\n", varIdx, labels.get("invalid_pointer_dereference"));
+        fileWriter.format("\tlw $t%d, 0($t%s)\n",dstIdx, varIdx);
+        fileWriter.flush();
 	}
 	public void store(String var_name,TEMP src)
 	{
@@ -145,18 +149,25 @@ public class MIPSGenerator
         String overflowLabel = IRcommand.getFreshLabel("overflow");
         String endLabel = IRcommand.getFreshLabel("end");
 
-        fileWriter.format("\tli $s0, 32767\n");
-        bgt(dst, overflowLabel, 0);
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $s2, 0($sp)\n");
 
-        fileWriter.format("\tli $s0, -32768\n");
-        blt(dst, overflowLabel, 0);
+        fileWriter.format("\tli $s2, 32767\n");
+        bgt(dst, overflowLabel, 2);
+
+        fileWriter.format("\tli $s2, -32768\n");
+        blt(dst, overflowLabel, 2);
 
         fileWriter.format("\tj %s\n", endLabel);
 
         fileWriter.format("%s:\n", overflowLabel);
-        fileWriter.format("\tmove $t%d, $s0\n", dstIdx);
+        fileWriter.format("\tmove $t%d, $s2\n", dstIdx);
 
         fileWriter.format("%s:\n", endLabel);
+
+        fileWriter.format("\tlw $s2, 0($sp)\n");
+        fileWriter.format("\taddi $sp, $sp, 4\n");
+
         fileWriter.flush();
     }
 	public void add(TEMP dst,TEMP oprnd1,TEMP oprnd2)
@@ -432,13 +443,17 @@ public class MIPSGenerator
 
     public void loadVariable(TEMP dst, Integer offset){
         int dstIdx = dst.getRealSerialNumber();
-        fileWriter.format("\tlw $t%d, %d($fp)\n", dstIdx, offset);
+        fileWriter.format("\taddi $t%s, $fp, %d\n", dstIdx, offset);
         fileWriter.flush();
     }
 
     public void fieldAccess(TEMP dst, TEMP var_temp, int fieldOffset){
         int dstIdx = dst.getRealSerialNumber();
-        fileWriter.format("\tlw $t%d, %d($%s)\n", dstIdx, fieldOffset, var_temp);
+        int var_tempIdx = var_temp.getRealSerialNumber();
+        fileWriter.format("\tbeq $t%d, $zero, %s\n", var_tempIdx, labels.get("invalid_pointer_dereference"));
+        fileWriter.format("\tlw $t%d, 0($t%s)\n",dstIdx, var_tempIdx);
+        fileWriter.format("\tbeq $t%d, $zero, %s\n", dstIdx, labels.get("invalid_pointer_dereference"));
+        fileWriter.format("\taddi $t%s, $t%s, %d\n", dstIdx, dstIdx, fieldOffset);
         fileWriter.flush();
     }
 
@@ -797,7 +812,7 @@ public class MIPSGenerator
 
             List<String> globals = IR.getInstance().getGlobals();
             for (String global : globals) {
-                instance.fileWriter.print(String.format("g_%s: .word 0xcafe\n", global));
+                instance.fileWriter.print(String.format("g_%s: .word 0xdeadbeef\n", global));
             }
             instance.fileWriter.print(".text\n");
 

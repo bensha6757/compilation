@@ -1,6 +1,7 @@
 package AST;
 
-import TEMP.TEMP;
+import IR.*;
+import TEMP.*;
 import TYPES.TYPE;
 
 public class AST_EXP_VAR extends AST_EXP
@@ -64,7 +65,10 @@ public class AST_EXP_VAR extends AST_EXP
 
     @Override
     public TEMP IRme() {
-        return var.IRme();
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+        TEMP varTmp = this.var.IRme();
+        IR.getInstance().Add_IRcommand(new IRcommand_Load(dst, varTmp));
+        return dst;
     }
 
 }
