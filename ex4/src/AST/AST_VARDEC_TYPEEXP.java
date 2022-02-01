@@ -96,9 +96,11 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
         /**************************************/
         /* [2] Check That Name does NOT exist */
         /**************************************/
+        System.out.println(SYMBOL_TABLE.getInstance().checkIfVarExistsInCurrentScope(varName));
         if (SYMBOL_TABLE.getInstance().checkIfVarExistsInCurrentScope(varName))
         {
             System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n",2,2,varName);
+            System.out.println("g");
             this.error();
         }
 

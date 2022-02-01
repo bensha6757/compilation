@@ -110,10 +110,13 @@ public class AST_STMT_WHILE extends AST_STMT
             getInstance().
             Add_IRcommand(new IRcommand_Jump_If_Eq_To_Zero(cond_temp,label_end));
 
+
         /*******************/
         /* [5] body.IRme() */
         /*******************/
+        IR.getInstance().Add_IRcommand(new IRcommand_Save_Sp_To_S0());
         body.IRme();
+        IR.getInstance().Add_IRcommand(new IRcommand_Restore_Sp_From_S0());
 
         /******************************/
         /* [6] Jump to the loop entry */

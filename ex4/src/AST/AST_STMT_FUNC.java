@@ -131,16 +131,14 @@ public class AST_STMT_FUNC extends AST_STMT {
         TEMP t0 = null, t;
         TEMP_LIST paramsTemps = null;
         if (var != null) t0 = var.IRme();
+        System.out.println(name);
         if (exps != null){
             paramsTemps = new TEMP_LIST();
             if (exps.head != null){
                 t = exps.head.IRme();
                 paramsTemps.addAtFirst(t);
             }
-            AST_EXP_LIST it = exps.tail;
-            while (it != null)
-            {
-                it = it.tail;
+            for (AST_EXP_LIST it = exps.tail ; it != null ; it = it.tail) {
                 t = it.head.IRme();
                 paramsTemps.addAtFirst(t);
             }

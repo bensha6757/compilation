@@ -77,8 +77,8 @@ public class AST_DEC_LIST extends AST_Node {
 
     @Override
     public TEMP IRme() {
-        if (head != null) head.SemantMe();
-        if (tail != null) tail.SemantMe();
+        if (head != null) head.IRme();
+        if (tail != null) tail.IRme();
 
         return null;
     }

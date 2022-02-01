@@ -1,5 +1,6 @@
 package IR;
 
+import MIPS.MIPSGenerator;
 import TEMP.TEMP;
 
 import java.util.Collections;
@@ -15,7 +16,8 @@ public class IRcommand_Integer_Expression extends IRcommand{
         Register_Allocation.getInstance().addCommandToCFG(new IR_Node(Collections.emptyList(), dst.getSerialNumber()));
     }
     @Override
-    public void MIPSme() {
-
+    public void MIPSme()
+    {
+        MIPSGenerator.getInstance().li(dst,value);
     }
 }

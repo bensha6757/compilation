@@ -41,12 +41,10 @@ public class MIPSGenerator
         funcDecPrologue(0);
         fileWriter.print("\tjal func_g_main\n");
         funcDecEpilogue();
-        fileWriter.print("\tjr $ra\n");
-
 
         fileWriter.print("main:\n");
         fileWriter.format("\tjal %s\n", user_main);
-        fileWriter.print("\tla $t0, string_new_line\n");
+        fileWriter.print("\tla $t0, new_line\n");
         printErrorMessage();
         fileWriter.print("\tli $v0,10\n");
         fileWriter.print("\tsyscall\n");
@@ -69,14 +67,14 @@ public class MIPSGenerator
         fileWriter.format("\tmove $a0, $t%d\n", strTmp.getRealSerialNumber());
         fileWriter.print("\tli $v0, 4\n");
         fileWriter.print("\tsyscall\n");
-        fileWriter.print("\tjr $ra\n");
+        // fileWriter.print("\tjr $ra\n");
     }
 
     public void printErrorMessage() {
         fileWriter.format("\tmove $a0, $t0\n");
         fileWriter.print("\tli $v0, 4\n");
         fileWriter.print("\tsyscall\n");
-        fileWriter.print("\tjr $ra\n");
+        // fileWriter.print("\tjr $ra\n");
     }
 
 
@@ -114,7 +112,7 @@ public class MIPSGenerator
         String division_by_zero = IRcommand.getFreshLabel("division_by_zero");
         labels.put("division_by_zero", division_by_zero);
         fileWriter.format("%s:\n", division_by_zero);
-        fileWriter.print("\tla $t0, string_division_by_zero\n");
+        fileWriter.print("\tla $t0, string_illegal_div_by_0\n");
 
         printErrorMessage();
 
@@ -125,17 +123,17 @@ public class MIPSGenerator
     public void allocate(String var_name)
 	{
 		fileWriter.format(".data\n");
-		fileWriter.format("\tglobal_%s: .word 721\n",var_name);
+		fileWriter.format("\tg_%s: .word 721\n",var_name);
 	}
 	public void load(TEMP dst,String var_name)
 	{
 		int idxdst=dst.getRealSerialNumber();
-		fileWriter.format("\tlw $t%d,global_%s\n",idxdst,var_name);
+		fileWriter.format("\tlw $t%d,g_%s\n",idxdst,var_name);
 	}
 	public void store(String var_name,TEMP src)
 	{
 		int idxsrc=src.getRealSerialNumber();
-		fileWriter.format("\tsw $t%d,global_%s\n",idxsrc,var_name);
+		fileWriter.format("\tsw $t%d,g_%s\n",idxsrc,var_name);
 	}
 	public void li(TEMP t,int value)
 	{
@@ -220,7 +218,8 @@ public class MIPSGenerator
 		int i2 =oprnd2.getRealSerialNumber();
 
 		fileWriter.format("\tblt $t%d,$t%d,%s\n",i1,i2,label);
-	}
+        fileWriter.flush();
+    }
     public void blt(TEMP oprnd1, String label, int sIdx)
     {
         int i1 =oprnd1.getRealSerialNumber();
@@ -264,14 +263,16 @@ public class MIPSGenerator
 		int i2 =oprnd2.getRealSerialNumber();
 
 		fileWriter.format("\tbne $t%d,$t%d,%s\n",i1,i2,label);
-	}
+        fileWriter.flush();
+    }
 	public void beq(TEMP oprnd1,TEMP oprnd2,String label)
 	{
 		int i1 =oprnd1.getRealSerialNumber();
 		int i2 =oprnd2.getRealSerialNumber();
 
 		fileWriter.format("\tbeq $t%d,$t%d,%s\n",i1,i2,label);
-	}
+        fileWriter.flush();
+    }
 	public void beqz(TEMP oprnd1,String label)
 	{
 		int i1 =oprnd1.getRealSerialNumber();
@@ -325,6 +326,20 @@ public class MIPSGenerator
     {
         int valueIdx = value.getRealSerialNumber();
         fileWriter.format("\tsw $t%d, g_%s\n", valueIdx, globalName);
+        fileWriter.flush();
+    }
+    public void saveSpToS0()
+    {
+        fileWriter.format("\tsubu $sp, $sp, 4\n");
+        fileWriter.format("\tsw $s0, 0($sp)\n");
+        fileWriter.format("\tmove $s0, $sp\n");
+        fileWriter.flush();
+    }
+    public void restoreSpFromS0()
+    {
+        fileWriter.format("\tmove $sp, $s0\n");
+        fileWriter.format("\tlw $s0, 0($sp)\n");
+        fileWriter.format("\taddi $sp, $sp, 4\n");
         fileWriter.flush();
     }
 
@@ -404,8 +419,8 @@ public class MIPSGenerator
     {
         int dstIdx = dst.getRealSerialNumber();
         fileWriter.format(".data\n");
-        fileWriter.format("\tstr_const_%s: .asciiz \"%s\"\n", str, str);
-        fileWriter.format("\tla $t%d, str_const_%s\n", dstIdx, str);
+        fileWriter.format("\tconst_string_%s: .asciiz \"%s\"\n", str, str);
+        fileWriter.format("\tla $t%d, const_string_%s\n", dstIdx, str);
         fileWriter.flush();
     }
 
@@ -448,9 +463,11 @@ public class MIPSGenerator
         int dstIdx = dst.getRealSerialNumber();
 
         fileWriter.format("\tbeq $t%d, $zero, %s\n", varIdx, labels.get("invalid_pointer_dereference"));
-        fileWriter.format("\tbltz $t%d, out_of_bounds\n", offsetIdx);
+        String out_of_bounds = IRcommand.getFreshLabel("out_of_bounds");
+
+        fileWriter.format("\tbltz $t%d, %s\n", offsetIdx, out_of_bounds);
         fileWriter.format("\tlw $s0, 0($t%d)\n", varIdx); // s0 = array.length
-        fileWriter.format("\tbge $t%d, $s0, out_of_bounds\n", offsetIdx); // check out of bounds
+        fileWriter.format("\tbge $t%d, $s0, %s\n", offsetIdx, out_of_bounds); // check out of bounds
         fileWriter.format("\tmove $s0, $t%d\n", offsetIdx);
         fileWriter.format("\tadd $s0, $s0, 1\n");
         fileWriter.format("\tmul $s0, $s0, 4\n");
@@ -459,7 +476,7 @@ public class MIPSGenerator
         String end = IRcommand.getFreshLabel("end");
         fileWriter.format("\tj %s\n", end);
 
-        fileWriter.print("out_of_bounds:\n");
+        fileWriter.format("%s:\n", out_of_bounds);
         fileWriter.print("\tla $t0, string_access_violation\n");
         printErrorMessage();
         fileWriter.format("\tjal %s\n", labels.get("Exit")); // exit
@@ -518,7 +535,6 @@ public class MIPSGenerator
         fileWriter.format("\tsubu $sp, $sp, " + numOfLocalVars + "\n");
         fileWriter.flush();
     }
-
 
     public void funcDecEpilogue() {
         fileWriter.format("\tmove $sp, $fp\n");
@@ -652,8 +668,8 @@ public class MIPSGenerator
         fileWriter.format("\tj %s\n", loop);
 
         fileWriter.format("%s:\n", endLoop);
-        fileWriter.print("or $v0, $t1, $zero\n"); // v0 = t1
-        fileWriter.print("jr $ra:\n");
+        fileWriter.print("\tor $v0, $t1, $zero\n"); // v0 = t1
+        fileWriter.print("\tjr $ra\n");
         return strCopier;
     }
 
@@ -783,11 +799,11 @@ public class MIPSGenerator
             for (String global : globals) {
                 instance.fileWriter.print(String.format("g_%s: .word 0xcafe\n", global));
             }
+            instance.fileWriter.print(".text\n");
 
             instance.strConcatFunc();
             instance.strcmpFunc();
 
-            instance.fileWriter.print(".text\n");
             instance.Exit();
             instance.Malloc();
             instance.invalid_pointer_dereference();

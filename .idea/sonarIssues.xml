@@ -83,6 +83,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ids.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../benTest/src/IR_Node.java">
           <value>
             <set />
@@ -313,6 +318,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_STMT_WHILE.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex4/src/AST/AST_TYPEID_LIST.java">
           <value>
             <set />
@@ -518,6 +528,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_PrintInt.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Print_String.java">
           <value>
             <set />
@@ -528,7 +543,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Restore_Sp_From_S0.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Return.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Save_Sp_To_S0.java">
           <value>
             <set />
           </value>
