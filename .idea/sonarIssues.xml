@@ -363,6 +363,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/AST/AST_VAR_SUBSCRIPT.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex4/src/AST_Skel2/AST_STMT_CALL.java">
           <value>
             <set />

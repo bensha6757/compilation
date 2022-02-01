@@ -114,9 +114,9 @@ public class AST_STMT_WHILE extends AST_STMT
         /*******************/
         /* [5] body.IRme() */
         /*******************/
-        IR.getInstance().Add_IRcommand(new IRcommand_Save_Sp_To_S0());
+//        IR.getInstance().Add_IRcommand(new IRcommand_Save_Sp_To_S0());
         body.IRme();
-        IR.getInstance().Add_IRcommand(new IRcommand_Restore_Sp_From_S0());
+  //      IR.getInstance().Add_IRcommand(new IRcommand_Restore_Sp_From_S0());
 
         /******************************/
         /* [6] Jump to the loop entry */

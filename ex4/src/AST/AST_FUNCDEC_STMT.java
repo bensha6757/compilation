@@ -198,8 +198,8 @@ public class AST_FUNCDEC_STMT extends AST_FUNCDEC {
         IR.getInstance().Add_IRcommand(new IRcommand_Label("func_" + funcFullName));
         // Prologue - backup registers of the caller
         IR.getInstance().Add_IRcommand(new IRcommand_Function_Prologue(numOfLocalVariables));
-
-        IR.getInstance().enterArgToStack("this.");
+        if (cls != null)
+            IR.getInstance().enterArgToStack("this.");
         if (this.typeIds != null) {
             // we want to fill the symbol table again
             this.typeIds.IRme();

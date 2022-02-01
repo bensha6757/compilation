@@ -19,7 +19,7 @@ public class IRcommand_Call_Function_EXP extends IRcommand
         this.paramTemps = paramTemps;
 
         List<Integer> willLive = new ArrayList<>();
-        for (TEMP_LIST tmp = paramTemps ; paramTemps != null ; paramTemps = paramTemps.tail) {
+        for (TEMP_LIST tmp = paramTemps ; tmp != null ; tmp = tmp.tail) {
             willLive.add(tmp.head.getSerialNumber());
         }
         Register_Allocation.getInstance().addCommandToCFG(new IR_Node(willLive, dst.getSerialNumber()));

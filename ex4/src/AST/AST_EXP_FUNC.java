@@ -132,14 +132,7 @@ public class AST_EXP_FUNC extends AST_EXP {
         if (var != null) t0 = var.IRme();
         if (exps != null){
             paramsTemps = new TEMP_LIST();
-            if (exps.head != null){
-                t = exps.head.IRme();
-                paramsTemps.addAtFirst(t);
-            }
-            AST_EXP_LIST it = exps.tail;
-            while (it != null)
-            {
-                it = it.tail;
+            for (AST_EXP_LIST it = exps ; it != null ; it = it.tail) {
                 t = it.head.IRme();
                 paramsTemps.addAtFirst(t);
             }

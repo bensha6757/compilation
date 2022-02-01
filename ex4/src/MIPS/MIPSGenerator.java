@@ -131,7 +131,7 @@ public class MIPSGenerator
         int dstIdx = dst.getRealSerialNumber();
         int varIdx = varTmp.getRealSerialNumber();
         fileWriter.format("\tbeq $t%d, $zero, %s\n", varIdx, labels.get("invalid_pointer_dereference"));
-        fileWriter.format("\tlw $t%d, 0($t%s)\n",dstIdx, varIdx);
+        fileWriter.format("\tlw $t%d, 0($t%d)\n",dstIdx, varIdx);
         fileWriter.flush();
 	}
 	public void store(String var_name,TEMP src)
@@ -149,9 +149,6 @@ public class MIPSGenerator
         String overflowLabel = IRcommand.getFreshLabel("overflow");
         String endLabel = IRcommand.getFreshLabel("end");
 
-        fileWriter.format("\tsubu $sp, $sp, 4\n");
-        fileWriter.format("\tsw $s2, 0($sp)\n");
-
         fileWriter.format("\tli $s2, 32767\n");
         bgt(dst, overflowLabel, 2);
 
@@ -165,9 +162,6 @@ public class MIPSGenerator
 
         fileWriter.format("%s:\n", endLabel);
 
-        fileWriter.format("\tlw $s2, 0($sp)\n");
-        fileWriter.format("\taddi $sp, $sp, 4\n");
-
         fileWriter.flush();
     }
 	public void add(TEMP dst,TEMP oprnd1,TEMP oprnd2)
@@ -176,7 +170,7 @@ public class MIPSGenerator
 		int i2 =oprnd2.getRealSerialNumber();
 		int dstidx=dst.getRealSerialNumber();
 
-		fileWriter.format("\tadd $t%d,$t%d,$t%d\n",dstidx, i1, i2);
+		fileWriter.format("\taddu $t%d,$t%d,$t%d\n",dstidx, i1, i2);
         checkOverFlow(dst);
 	}
     public void sub(TEMP dst,TEMP oprnd1,TEMP oprnd2)
@@ -394,7 +388,7 @@ public class MIPSGenerator
         fileWriter.format("\tlw $s0, 0($t%d)\n", varTempIdx);
         fileWriter.format("\tlw $s1, %d($s0)\n", funcOffset);
         fileWriter.format("\tjalr $s1\n");
-        fileWriter.format("\taddu $sp, $sp, 8\n");
+     //   fileWriter.format("\taddu $sp, $sp, 8\n");
 
         if (dst != null)
             fileWriter.format("\tmove $t%d, $v0\n", dst.getRealSerialNumber());
@@ -410,7 +404,7 @@ public class MIPSGenerator
             fileWriter.format("\tsw $t%d, 0($sp)\n", tmpIdx);
         }
         fileWriter.format("\tjal %s\n", funcName);
-        fileWriter.format("\taddu $sp, $sp, 8\n");
+     //   fileWriter.format("\taddu $sp, $sp, 8\n");
 
         if (dst != null)
             fileWriter.format("\tmove $t%d, $v0\n", dst.getRealSerialNumber());
@@ -422,7 +416,7 @@ public class MIPSGenerator
         int dstIdx = dst.getRealSerialNumber();
         int t1Idx = t1.getRealSerialNumber();
         fileWriter.format("\tbeq $t%d, $zero, %s\n", dstIdx, labels.get("invalid_pointer_dereference"));
-        fileWriter.format("\tsw $t%s, 0($t%s)\n", t1Idx, dstIdx);
+        fileWriter.format("\tsw $t%d, 0($t%d)\n", t1Idx, dstIdx);
         fileWriter.flush();
     }
 
@@ -443,7 +437,7 @@ public class MIPSGenerator
 
     public void loadVariable(TEMP dst, Integer offset){
         int dstIdx = dst.getRealSerialNumber();
-        fileWriter.format("\taddi $t%s, $fp, %d\n", dstIdx, offset);
+        fileWriter.format("\taddi $t%d, $fp, %d\n", dstIdx, offset);
         fileWriter.flush();
     }
 
@@ -451,9 +445,9 @@ public class MIPSGenerator
         int dstIdx = dst.getRealSerialNumber();
         int var_tempIdx = var_temp.getRealSerialNumber();
         fileWriter.format("\tbeq $t%d, $zero, %s\n", var_tempIdx, labels.get("invalid_pointer_dereference"));
-        fileWriter.format("\tlw $t%d, 0($t%s)\n",dstIdx, var_tempIdx);
+        fileWriter.format("\tlw $t%d, 0($t%d)\n",dstIdx, var_tempIdx);
         fileWriter.format("\tbeq $t%d, $zero, %s\n", dstIdx, labels.get("invalid_pointer_dereference"));
-        fileWriter.format("\taddi $t%s, $t%s, %d\n", dstIdx, dstIdx, fieldOffset);
+        fileWriter.format("\taddi $t%d, $t%d, %d\n", dstIdx, dstIdx, fieldOffset);
         fileWriter.flush();
     }
 
@@ -469,7 +463,6 @@ public class MIPSGenerator
 
         fileWriter.flush();
     }
-
 
 
     public void arrayAccess(TEMP dst, TEMP var, TEMP subscript){
@@ -509,14 +502,14 @@ public class MIPSGenerator
 
     public void storeAssignSTMT(TEMP dst, TEMP src) {
         fileWriter.format("\tbeq $t%d, $zero, %s\n", dst.getRealSerialNumber(), labels.get("invalid_pointer_dereference"));
-        fileWriter.format("\tsw $t%s, 0($t%s)\n", src.getRealSerialNumber(), dst.getRealSerialNumber());
+        fileWriter.format("\tsw $t%d, 0($t%d)\n", src.getRealSerialNumber(), dst.getRealSerialNumber());
         fileWriter.flush();
     }
 
     public void allocateNewClass(TEMP dst, String allocationClassName)
     {
         fileWriter.format("\tjal %s\n", allocationClassName);
-        fileWriter.format("\tmove $t%s, $v0\n", dst.getRealSerialNumber());
+        fileWriter.format("\tmove $t%d, $v0\n", dst.getRealSerialNumber());
         fileWriter.flush();
     }
 
@@ -547,15 +540,12 @@ public class MIPSGenerator
         fileWriter.format("\tsubu $sp, $sp, 4\n");
         fileWriter.format("\tsw $t9, 0($sp)\n");
         fileWriter.format("\tsubu $sp, $sp, 4\n");
-        fileWriter.format("\tsubu $sp, $sp, " + numOfLocalVars + "\n");
+        fileWriter.format("\tsubu $sp, $sp, " + (numOfLocalVars * 4) + "\n");
         fileWriter.flush();
     }
 
     public void funcDecEpilogue() {
         fileWriter.format("\tmove $sp, $fp\n");
-        fileWriter.format("\tlw $fp, 0($sp)\n");
-        fileWriter.format("\tlw $ra, 4($sp)\n");
-
         fileWriter.format("\tlw $t0, -4($sp)\n");
         fileWriter.format("\tlw $t1, -8($sp)\n");
         fileWriter.format("\tlw $t2, -12($sp)\n");
@@ -566,7 +556,8 @@ public class MIPSGenerator
         fileWriter.format("\tlw $t7, -32($sp)\n");
         fileWriter.format("\tlw $t8, -36($sp)\n");
         fileWriter.format("\tlw $t9, -40($sp)\n");
-
+        fileWriter.format("\tlw $fp, 0($sp)\n");
+        fileWriter.format("\tlw $ra, 4($sp)\n");
         fileWriter.format("\taddu $sp, $sp, 8\n");
 
         fileWriter.format("\tjr $ra\n");
