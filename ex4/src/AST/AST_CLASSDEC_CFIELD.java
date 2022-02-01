@@ -132,7 +132,7 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
     }
 
     public TEMP IRme() {
-        String vtLabel = "vt_" + className;
+        String vtLabel = "vt_112233_" + className;
         IR.getInstance().Add_IRcommand(new IRcommand_Label(vtLabel));
         cls.crateVtable();
         cls.createFieldList();
@@ -169,7 +169,6 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
 
         IR.getInstance().Add_IRcommand(new IRcommand_Return(thisInstance));
         IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
-
 
         return null;
     }

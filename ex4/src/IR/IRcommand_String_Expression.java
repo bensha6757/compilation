@@ -1,5 +1,6 @@
 package IR;
 
+import MIPS.MIPSGenerator;
 import TEMP.TEMP;
 
 import java.util.Collections;
@@ -16,6 +17,6 @@ public class IRcommand_String_Expression extends IRcommand{
     }
     @Override
     public void MIPSme() {
-
+        MIPSGenerator.getInstance().stringExpression(dst, str);
     }
 }

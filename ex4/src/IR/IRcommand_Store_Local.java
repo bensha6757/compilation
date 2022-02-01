@@ -5,12 +5,12 @@ import TEMP.TEMP;
 
 public class IRcommand_Store_Local extends IRcommand{
     Integer offset;
-    TEMP src;
+    TEMP dst;
 
-    public IRcommand_Store_Local(String var_name, TEMP src)
+    public IRcommand_Store_Local(String var_name, TEMP dst)
     {
         this.offset = IR.getInstance().getVariableOffset(var_name);
-        this.src = src;
+        this.dst = dst;
     }
 
     /***************/
@@ -18,6 +18,6 @@ public class IRcommand_Store_Local extends IRcommand{
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().store_local(offset, this.src);
+        MIPSGenerator.getInstance().storeLocal(offset, this.dst);
     }
 }

@@ -226,6 +226,12 @@ public class Register_Allocation {
         return instance.irRegisterToPhysical;
     }
 
+    public static int getPhysicalRegisterSerialNumber(int serial)
+    {
+        return instance.irRegisterToPhysical.get(serial);
+    }
+
+
 
 /*
     public static void main(String [] args) {

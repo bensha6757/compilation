@@ -172,7 +172,7 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
     @Override
     public TEMP IRme() { // not a field
         if (isGlobal) {
-            IR.getInstance().addGlobal(varName, varType.isString());
+            IR.getInstance().addGlobal(varName);
             if (exp == null) {
                 getExpDefaultValue();
             }

@@ -36,6 +36,6 @@ public class IRcommand_Field_Access extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().field_access(dst, var_temp, fieldOffset);
+        MIPSGenerator.getInstance().fieldAccess(dst, var_temp, fieldOffset);
     }
 }

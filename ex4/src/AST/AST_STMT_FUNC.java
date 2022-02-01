@@ -146,16 +146,22 @@ public class AST_STMT_FUNC extends AST_STMT {
             }
         }
 
-        TEMP thisInstance = TEMP_FACTORY.getInstance().getFreshTEMP();
-        if (var == null){
-            if (cls != null && cls.getVtableOffset(name) != -1) { // a class-function was called
-                IR.getInstance().Add_IRcommand(new IRcommand_Load_This_Instance(thisInstance));
-                IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(thisInstance, cls.getVtableOffset(name), paramsTemps));
-            } else { // global
-                IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_STMT("func_g_" + name, paramsTemps));
-            }
+        if (name.equals("PrintInt")) {
+            IR.getInstance().Add_IRcommand(new IRcommand_PrintInt(paramsTemps.head));
+        } else if (name.equals("PrintString")) {
+            IR.getInstance().Add_IRcommand(new IRcommand_Print_String(paramsTemps.head));
         } else {
-            IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(t0, cls.getVtableOffset(name), paramsTemps));
+            TEMP thisInstance = TEMP_FACTORY.getInstance().getFreshTEMP();
+            if (var == null){
+                if (cls != null && cls.getVtableOffset(name) != -1) { // a class-function was called
+                    IR.getInstance().Add_IRcommand(new IRcommand_Load_This_Instance(thisInstance));
+                    IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(thisInstance, cls.getVtableOffset(name), paramsTemps));
+                } else { // global
+                    IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_STMT("func_g_" + name, paramsTemps));
+                }
+            } else {
+                IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(t0, cls.getVtableOffset(name), paramsTemps));
+            }
         }
         return null;
     }

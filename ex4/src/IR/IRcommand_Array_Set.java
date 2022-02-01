@@ -26,6 +26,6 @@ public class IRcommand_Array_Set extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().field_set(dst, t);
+        MIPSGenerator.getInstance().setArrayVal(dst, t);
     }
 }

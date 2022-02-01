@@ -24,6 +24,6 @@ public class IRcommand_Load_Variable extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().load_address(this.dst, this.offset);
+        MIPSGenerator.getInstance().loadVariable(this.dst, this.offset);
     }
 }

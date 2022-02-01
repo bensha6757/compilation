@@ -33,6 +33,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_NEW_EXP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_VAR_DEC_NEW_EXP.java">
           <value>
             <set />
@@ -59,6 +64,11 @@
           </value>
         </entry>
         <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/IR/IRcommand_GetFieldAddressInSelf.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/IR/IRcommand_Print_String.java">
           <value>
             <set />
           </value>
@@ -353,6 +363,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Allocate.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Allocate_New_Instance.java">
           <value>
             <set />
@@ -394,6 +409,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Binop_EQ_Strings.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Binop_GT_Integers.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Binop_Sub_Integers.java">
           <value>
             <set />
           </value>
@@ -479,6 +504,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_New_Class.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Print_String.java">
           <value>
             <set />
           </value>

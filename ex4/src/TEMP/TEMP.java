@@ -9,6 +9,9 @@ package TEMP;
 
 /*******************/
 /* PROJECT IMPORTS */
+
+import IR.Register_Allocation;
+
 /*******************/
 
 public class TEMP
@@ -24,4 +27,9 @@ public class TEMP
 	{
 		return serial;
 	}
+
+    public int getRealSerialNumber() {
+        return Register_Allocation.getPhysicalRegisterSerialNumber(this.getSerialNumber());
+    }
+
 }

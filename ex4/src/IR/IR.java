@@ -30,10 +30,11 @@ public class IR
 
     private String currFuncName = null;
 
-    // true == global string
-    private Map<String, Boolean> globalsToIsString;
+    private List<String> globals = new ArrayList<>();
+    private List<String> strings = new ArrayList<>();
 
-	/******************/
+
+    /******************/
 	/* Add IR command */
 	/******************/
 
@@ -66,15 +67,23 @@ public class IR
         argsPointer = 8;
     }
 
-    public Map<String, Boolean> getGlobals() {
-        return globalsToIsString;
+    public List<String> getGlobals() {
+        return globals;
     }
 
-    public void addGlobal(String s, boolean isString)
+    public void addGlobal(String s)
     {
-        globalsToIsString.put(s, isString);
+        globals.add(s);
     }
 
+    public List<String> getStrings() {
+        return strings;
+    }
+
+    public void addString(String s)
+    {
+        strings.add(s);
+    }
 
 
     public void setCurrentFunction(String funcName){

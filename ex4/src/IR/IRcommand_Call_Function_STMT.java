@@ -29,6 +29,6 @@ public class IRcommand_Call_Function_STMT extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().beqz(t,label_name);
+        MIPSGenerator.getInstance().funcGlobalCall(null, funcName, paramTemps);
     }
 }

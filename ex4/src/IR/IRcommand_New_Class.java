@@ -37,6 +37,6 @@ public class IRcommand_New_Class extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().new_class(var_type, type_name);
+        MIPSGenerator.getInstance().allocateNewClass(var_type, "allocate_new_instance_for_class_" + this.type_name);
     }
 }

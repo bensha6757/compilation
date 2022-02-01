@@ -30,6 +30,6 @@ public class IRcommand_Call_Function_EXP extends IRcommand
     /***************/
     public void MIPSme()
     {
-        MIPSGenerator.getInstance().beqz(t,label_name);
+        MIPSGenerator.getInstance().funcGlobalCall(dst, funcName, paramTemps);
     }
 }

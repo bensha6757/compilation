@@ -27,6 +27,6 @@ public class IRcommand_New_Array extends IRcommand
     /***************/
     public void MIPSme()
     {
-
+        MIPSGenerator.getInstance().arrayAllocate(dst, exp_temp);
     }
 }

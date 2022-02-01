@@ -12,7 +12,7 @@ public class IRcommand_Assign extends IRcommand {
     public TEMP t2;
 
     public IRcommand_Assign(TEMP t1, TEMP t2) {
-        //t1=t2
+        //t1 = t2
         this.t1 = t1;
         this.t2 = t2;
 
@@ -26,6 +26,6 @@ public class IRcommand_Assign extends IRcommand {
 
     /***************/
     public void MIPSme() {
-        MIPSGenerator.getInstance().allocate(var_name);
+        MIPSGenerator.getInstance().storeAssignSTMT(t1, t2);
     }
 }

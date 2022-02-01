@@ -136,7 +136,7 @@ public class AST_EXP_BINOP extends AST_EXP
         switch (OP) {
             case 0:
                 if (leftType.isString() && rightType.isString()) {
-                    IR.getInstance().Add_IRcommand(new IRcommand_Binop_EQ_Strings(dst,t1,t2));
+                    IR.getInstance().Add_IRcommand(new IRcommand_Binop_Add_Strings(dst,t1,t2));
                 }
                 else {
                     IR.
@@ -172,8 +172,7 @@ public class AST_EXP_BINOP extends AST_EXP
             case 6:
                 if (leftType.isString() && rightType.isString()) {
                     IR.getInstance().Add_IRcommand(new IRcommand_Binop_EQ_Strings(dst,t1,t2));
-                }
-                else {
+                } else {
                     IR.
                         getInstance().
                         Add_IRcommand(new IRcommand_Binop_EQ_Integers(dst,t1,t2));
