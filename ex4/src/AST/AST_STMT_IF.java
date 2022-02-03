@@ -104,8 +104,9 @@ public class AST_STMT_IF extends AST_STMT
         /*******************/
         /* [5] body.IRme() */
         /*******************/
+        IR.getInstance().beginScope();
         body.IRme();
-
+        IR.getInstance().endScope();
         /**********************/
         /* [7] Loop end label */
         /**********************/

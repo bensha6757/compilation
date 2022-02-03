@@ -8,6 +8,7 @@ public class AST_EXP_VAR extends AST_EXP
 {
 	public AST_VAR var;
 
+    public TYPE varType;
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
@@ -60,15 +61,21 @@ public class AST_EXP_VAR extends AST_EXP
 	
 	public TYPE SemantMe()
 	{
-		return var.SemantMe();
+        varType = var.SemantMe();
+		return varType;
 	}
 
     @Override
     public TEMP IRme() {
-        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
         TEMP varTmp = this.var.IRme();
-        IR.getInstance().Add_IRcommand(new IRcommand_Load(dst, varTmp));
-        return dst;
+        if (!varType.isArray() && !varType.isClass()){
+            TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+            IR.getInstance().Add_IRcommand(new IRcommand_Load(dst, varTmp));
+            return dst;
+        } else {
+            IR.getInstance().Add_IRcommand(new IRcommand_Pointer_DeRef_Check(varTmp));
+            return varTmp;
+        }
     }
 
 }

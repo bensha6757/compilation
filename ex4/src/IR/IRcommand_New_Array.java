@@ -11,14 +11,14 @@ public class IRcommand_New_Array extends IRcommand
     public TEMP exp_temp;
     public TEMP dst;
 
-    public IRcommand_New_Array(TEMP exp_temp, TEMP dst)
+    public IRcommand_New_Array(TEMP dst, TEMP exp_temp)
     {
         //dst = NEW type [exp_temp]
         this.exp_temp = exp_temp;
         this. dst = dst;
 
         Register_Allocation.getInstance().addCommandToCFG(
-                new IR_Node(Collections.singletonList(exp_temp.getSerialNumber()),
+                new IR_Node(Arrays.asList(exp_temp.getSerialNumber(), dst.getSerialNumber()),
                         dst.getSerialNumber()));
 
     }

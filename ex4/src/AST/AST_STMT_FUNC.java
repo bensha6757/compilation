@@ -133,10 +133,8 @@ public class AST_STMT_FUNC extends AST_STMT {
         if (var != null) t0 = var.IRme();
         if (exps != null){
             paramsTemps = new TEMP_LIST();
-            System.out.println("serials:");
             for (AST_EXP_LIST it = exps ; it != null ; it = it.tail) {
                 t = it.head.IRme();
-                System.out.println(t.getSerialNumber());
                 paramsTemps.addAtFirst(t);
             }
         }

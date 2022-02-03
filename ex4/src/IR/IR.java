@@ -10,23 +10,30 @@ package IR;
 /*******************/
 /* PROJECT IMPORTS */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*******************/
+class Tuple {
+    public String id;
+    public Integer offset;
+    public Tuple(String id, Integer offset) {
+        this.id = id;
+        this.offset = offset;
+    }
+}
 
 public class IR
 {
 	private IRcommand head = null;
 	private IRcommandList tail = null;
 
-    private Map<String, Integer> localVariableToOffset = new HashMap<>();
+    private List<Tuple> localVariableToOffset = new ArrayList<>();
     private int localVarPointer = -44;
 
     private Map<String, Integer> argumentsToOffset = new HashMap<>();
     private int argsPointer = 8;
+
+    private Stack<Integer> previousLocalsSize = new Stack<>();
 
     private String currFuncName = null;
 
@@ -38,13 +45,27 @@ public class IR
 	/* Add IR command */
 	/******************/
 
+    public void beginScope()
+    {
+        previousLocalsSize.push(localVariableToOffset.size());
+    }
+    public void endScope()
+    {
+        int prevSize = previousLocalsSize.pop();
+        for (int i = 0 ; i < prevSize ; i ++) {
+            localVariableToOffset.remove(localVariableToOffset.size() -1);
+        }
+        localVarPointer -= (4 * prevSize);
+    }
+
+
     public void enterLocalVarToStack(String id) {
-        localVariableToOffset.putIfAbsent(id, localVarPointer);
+        localVariableToOffset.add(new Tuple(id, localVarPointer));
 		localVarPointer -= 4;
     }
 
     public boolean isLocalVarExists(String id) {
-        return localVariableToOffset.containsKey(id) || argumentsToOffset.containsKey(id);
+        return getVarOffset(id) != -1 || argumentsToOffset.containsKey(id);
     }
 
 
@@ -53,15 +74,22 @@ public class IR
         argsPointer += 4;
     }
 
-    public int getVariableOffset(String id) {
-        if (localVariableToOffset.containsKey(id)) {
-            return localVariableToOffset.get(id);
+    public int getVarOffset(String id) {
+        for (int i = localVariableToOffset.size() - 1 ; i >= 0 ; i--) {
+            if (localVariableToOffset.get(i).id.equals(id))
+                return localVariableToOffset.get(i).offset;
         }
+        return -1;
+    }
+    public int getVariableOffset(String id) {
+        int varOffset = getVarOffset(id);
+        if (varOffset != -1)
+            return varOffset;
         return argumentsToOffset.get(id);
     }
 
     public void clearStack() {
-        localVariableToOffset.clear();
+        localVariableToOffset = new ArrayList<>();
         argumentsToOffset.clear();
         localVarPointer = -44;
         argsPointer = 8;

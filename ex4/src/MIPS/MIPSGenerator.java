@@ -126,6 +126,11 @@ public class MIPSGenerator
 		fileWriter.format(".data\n");
 		fileWriter.format("\tg_%s: .word 721\n",var_name);
 	}
+    public void pointerDereferenceCheck(TEMP varTmp){
+        int varIdx = varTmp.getRealSerialNumber();
+        fileWriter.format("\tbeq $t%d, $zero, %s\n", varIdx, labels.get("invalid_pointer_dereference"));
+        fileWriter.flush();
+    }
 	public void load(TEMP dst, TEMP varTmp)
 	{
         int dstIdx = dst.getRealSerialNumber();
@@ -480,7 +485,7 @@ public class MIPSGenerator
         fileWriter.format("\tadd $s0, $s0, 1\n");
         fileWriter.format("\tmul $s0, $s0, 4\n");
         fileWriter.format("\taddu $s0, $t%d, $s0\n", varIdx);
-        fileWriter.format("\tlw $t%d, 0($s0)\n", dstIdx);
+        fileWriter.format("\tmove $t%d, $s0\n", dstIdx);
         String end = IRcommand.getFreshLabel("end");
         fileWriter.format("\tj %s\n", end);
 
