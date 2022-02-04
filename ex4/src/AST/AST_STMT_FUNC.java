@@ -14,7 +14,7 @@ public class AST_STMT_FUNC extends AST_STMT {
     public AST_VAR var;
     public AST_EXP_LIST exps;
 
-    private TYPE_CLASS cls;
+    private TYPE_CLASS cls = null;
 
     /******/
     /* CONSTRUCTOR(S) */
@@ -80,17 +80,24 @@ public class AST_STMT_FUNC extends AST_STMT {
         /* [0] return type */
         /*******/
         if (var != null){
+            varType = var.SemantMe();
+/*
             try{
                 varType = SYMBOL_TABLE.getInstance().find(var.name);
             }
             catch (FindException e){
                 this.error();
             }
+
+ */
             if (varType == null) {
                 System.out.format(">> ERROR [%d:%d] non existing var type %s\n", 6, 6, varType);
                 this.error();
+            } else {
+                if (varType.isClass()){
+                    cls = (TYPE_CLASS) varType;
+                }
             }
-            cls = (TYPE_CLASS) varType;
         }
         if (exps != null){
             params = exps.SemantMe();
@@ -153,6 +160,7 @@ public class AST_STMT_FUNC extends AST_STMT {
                     IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_STMT("func_g_" + name, paramsTemps));
                 }
             } else {
+                IR.getInstance().Add_IRcommand(new IRcommand_Load(t0, t0));
                 IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_STMT(t0, cls.getVtableOffset(name), paramsTemps));
             }
         }

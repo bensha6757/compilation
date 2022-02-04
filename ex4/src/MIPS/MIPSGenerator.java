@@ -15,9 +15,7 @@ import java.util.Map;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
-import IR.IR;
-import IR.IRcommand;
-import IR.Register_Allocation;
+import IR.*;
 import TEMP.*;
 
 public class MIPSGenerator
@@ -39,6 +37,9 @@ public class MIPSGenerator
 
         fileWriter.format("%s:\n", user_main);
         funcDecPrologue(0);
+        for (IRcommand globalToInitialize : IR.getInstance().getGlobalToInitializeCommands()) {
+            globalToInitialize.MIPSme();
+        }
         fileWriter.print("\tjal func_g_main\n");
         funcDecEpilogue();
 
@@ -311,7 +312,7 @@ public class MIPSGenerator
     }
 
     public void createVtable(List<List<String>> vtable, String className) {
-        //fileWriter.format(".data\n");
+        // fileWriter.format(".data\n");
        // fileWriter.format("vt_112233_" + className + ":\n");
         for (List<String> func : vtable) {
             String funcName = "func_" + func.get(0) + "_" + func.get(1) + "_" + func.get(2);
@@ -337,20 +338,6 @@ public class MIPSGenerator
     {
         int valueIdx = value.getRealSerialNumber();
         fileWriter.format("\tsw $t%d, g_%s\n", valueIdx, globalName);
-        fileWriter.flush();
-    }
-    public void saveSpToS0()
-    {
-        fileWriter.format("\tsubu $sp, $sp, 4\n");
-        fileWriter.format("\tsw $s0, 0($sp)\n");
-        fileWriter.format("\tmove $s0, $sp\n");
-        fileWriter.flush();
-    }
-    public void restoreSpFromS0()
-    {
-        fileWriter.format("\tmove $sp, $s0\n");
-        fileWriter.format("\tlw $s0, 0($sp)\n");
-        fileWriter.format("\taddi $sp, $sp, 4\n");
         fileWriter.flush();
     }
 
@@ -391,10 +378,18 @@ public class MIPSGenerator
         }
         fileWriter.format("\tsubu $sp, $sp, 4\n");
         fileWriter.format("\tsw $t%d, 0($sp)\n", varTempIdx);
-        fileWriter.format("\tlw $s0, 0($t%d)\n", varTempIdx);
-        fileWriter.format("\tlw $s1, %d($s0)\n", funcOffset);
-        fileWriter.format("\tjalr $s1\n");
-     //   fileWriter.format("\taddu $sp, $sp, 8\n");
+
+/*
+        fileWriter.format("\tla $s0, vt_112233_Person\n");
+        fileWriter.format("\taddi $s0, $s0, 4\n");
+
+        //fileWriter.format("\tlw $s0, 0($s0)\n");
+        fileWriter.format("\tjalr $s0\n");
+*/
+
+        fileWriter.format("\tlw $t%d, 0($t%d)\n", varTempIdx, varTempIdx); // s0 = vt
+        fileWriter.format("\tlw $t%d, %d($t%d)\n", varTempIdx, funcOffset, varTempIdx); // s0 = vt + offset
+        fileWriter.format("\tjalr $t%d\n", varTempIdx);
 
         if (dst != null)
             fileWriter.format("\tmove $t%d, $v0\n", dst.getRealSerialNumber());
@@ -747,6 +742,11 @@ public class MIPSGenerator
         fileWriter.print("\tlw $ra 0($sp)\n");
         fileWriter.print("\taddi $sp, $sp, 4\n");
         fileWriter.print("\tjr $ra\n");
+    }
+
+    public void popStack(int numOfParams) {
+        fileWriter.format("\taddi $sp, $sp, %d\n", numOfParams);
+        fileWriter.flush();
     }
 
 

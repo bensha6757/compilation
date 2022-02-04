@@ -6,6 +6,7 @@ import SYMBOL_TABLE.SYMBOL_TABLE;
 import TEMP.TEMP;
 import TYPES.TYPE;
 import TYPES.TYPE_CLASS;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
     /************************/
@@ -178,7 +179,7 @@ public class AST_VARDEC_TYPEEXP extends AST_VARDEC {
                 getExpDefaultValue();
             }
             TEMP value = exp.IRme();
-            IR.getInstance().Add_IRcommand(new IRcommand_Store_Global(this.varName, value));
+            IR.getInstance().Add_Global_Command(new IRcommand_Store_Global(this.varName, value));
         } else {
             IR.getInstance().enterLocalVarToStack(this.varName);
             if (this.exp != null) {

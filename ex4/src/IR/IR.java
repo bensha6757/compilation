@@ -40,6 +40,8 @@ public class IR
     private List<String> globals = new ArrayList<>();
     private List<String> strings = new ArrayList<>();
 
+    private List<IRcommand> globalToInitializeCommands = new ArrayList<>();
+
 
     /******************/
 	/* Add IR command */
@@ -123,6 +125,14 @@ public class IR
         return this.currFuncName;
     }
 
+
+    public void Add_Global_Command(IRcommand cmd) {
+        globalToInitializeCommands.add(cmd);
+    }
+
+    public List<IRcommand> getGlobalToInitializeCommands() {
+        return globalToInitializeCommands;
+    }
 
     public void Add_IRcommand(IRcommand cmd)
 	{

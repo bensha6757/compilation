@@ -132,15 +132,16 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
     }
 
     public TEMP IRme() {
-        String vtLabel = "vt_112233_" + className;
-        IR.getInstance().Add_IRcommand(new IRcommand_Label(vtLabel));
         cls.crateVtable();
         cls.createFieldList();
+        cFieldList.IRme();
+
+        String vtLabel = "vt_112233_" + className;
+        IR.getInstance().Add_IRcommand(new IRcommand_Label(vtLabel));
 
         List<List<String>> vtable = cls.getVtable();
         IR.getInstance().Add_IRcommand(new IRcommand_Allocate_Vtable(vtable, className));
 
-        cFieldList.IRme();
 
         // function for auto constructor
         TEMP thisInstance = TEMP_FACTORY.getInstance().getFreshTEMP();

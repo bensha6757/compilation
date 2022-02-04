@@ -83,8 +83,11 @@ public class AST_STMT_RETURN extends AST_STMT {
 
     public TEMP IRme()
     {
-        TEMP t1 = exp.IRme();
-        IR.getInstance().Add_IRcommand(new IRcommand_Return(t1));
+        TEMP t1;
+        if (exp != null) {
+            t1 = exp.IRme();
+            IR.getInstance().Add_IRcommand(new IRcommand_Return(t1));
+        }
 
         String current_func_name = IR.getInstance().getCurrentFunction();
         IR.getInstance().Add_IRcommand(new IRcommand_Jump_Label("func_"+current_func_name+"_epilogue"));

@@ -79,17 +79,25 @@ public class AST_EXP_FUNC extends AST_EXP {
         /* [0] return type */
         /*******************/
         if (var != null){
+            varType = var.SemantMe();
+/*
             try{
                 varType = SYMBOL_TABLE.getInstance().find(var.name);
             }
             catch (FindException e){
                 this.error();
             }
+
+ */
             if (varType == null) {
                 System.out.format(">> ERROR [%d:%d] non existing var type %s\n", 6, 6, varType);
                 this.error();
             }
-            cls = (TYPE_CLASS) varType;
+            else {
+                if (varType.isClass()){
+                    cls = (TYPE_CLASS) varType;
+                }
+            }
         }
         if (exps != null){
             params = exps.SemantMe();
@@ -127,29 +135,35 @@ public class AST_EXP_FUNC extends AST_EXP {
 
     public TEMP IRme()
     {
-        TEMP t0 = null, t;
+        TEMP thisInstance = null, t;
         TEMP_LIST paramsTemps = null;
-        if (var != null) t0 = var.IRme();
+        int numOfParams = 0;
+        if (var != null) thisInstance = var.IRme();
         if (exps != null){
             paramsTemps = new TEMP_LIST();
             for (AST_EXP_LIST it = exps ; it != null ; it = it.tail) {
                 t = it.head.IRme();
                 paramsTemps.addAtFirst(t);
+                numOfParams += 4;
             }
         }
 
         TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
         if (var == null){
             if (cls != null && cls.getVtableOffset(name) != -1) { // a class-function was called
+                numOfParams += 4;
                 IR.getInstance().Add_IRcommand(new IRcommand_Load_This_Instance(dst));
                 IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_EXP(dst, dst, cls.getVtableOffset(name), paramsTemps));
             } else { // global
                 IR.getInstance().Add_IRcommand(new IRcommand_Call_Function_EXP(dst, "func_g_" + name, paramsTemps));
             }
         } else {
-            IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_EXP(dst, t0, cls.getVtableOffset(name), paramsTemps));
+            numOfParams += 4;
+            IR.getInstance().Add_IRcommand(new IRcommand_Load(dst, thisInstance));
+            IR.getInstance().Add_IRcommand(new IRcommand_Virtual_Call_Function_EXP(dst, dst, cls.getVtableOffset(name), paramsTemps));
         }
 
+        IR.getInstance().Add_IRcommand(new IRcommand_Pop_Sp(numOfParams));
         return dst;
     }
 }

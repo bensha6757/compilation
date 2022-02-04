@@ -1,6 +1,7 @@
 package AST;
 
 import IR.*;
+import SYMBOL_TABLE.SYMBOL_TABLE;
 import TEMP.*;
 import TYPES.TYPE;
 import TYPES.TYPE_STRING;
@@ -8,6 +9,7 @@ import TYPES.TYPE_STRING;
 public class AST_EXP_STRING extends AST_EXP {
     public String str;
 
+    private boolean isGlobal = false;
     /******/
     /* CONSTRUCTOR(S) */
     /******/
@@ -50,6 +52,7 @@ public class AST_EXP_STRING extends AST_EXP {
 
     public TYPE SemantMe()
     {
+        isGlobal = SYMBOL_TABLE.getInstance().checkIfGlobal();
         return TYPE_STRING.getInstance();
     }
 
@@ -57,7 +60,11 @@ public class AST_EXP_STRING extends AST_EXP {
     public TEMP IRme() {
         TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
         int stringID = IR.getInstance().addString(str);
-        IR.getInstance().Add_IRcommand(new IRcommand_String_Expression(stringID, dst));
+        if (isGlobal) {
+            IR.getInstance().Add_Global_Command(new IRcommand_String_Expression(stringID, dst));
+        } else {
+            IR.getInstance().Add_IRcommand(new IRcommand_String_Expression(stringID, dst));
+        }
 
         return dst;
     }

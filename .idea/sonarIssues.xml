@@ -28,6 +28,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_EXP_FUNCTION_CALL.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_EXP_VAR.java">
           <value>
             <set />
@@ -39,6 +44,11 @@
           </value>
         </entry>
         <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_NEW_EXP.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/OneDrive - Algosec Systems Ltd/Desktop/University/Compilation/shoval/ex4/src/AST/AST_STMT_CALL.java">
           <value>
             <set />
           </value>
@@ -554,6 +564,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Pointer_DeRef_Check.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Pop_Sp.java">
           <value>
             <set />
           </value>
