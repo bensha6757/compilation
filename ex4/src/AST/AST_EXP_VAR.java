@@ -68,14 +68,9 @@ public class AST_EXP_VAR extends AST_EXP
     @Override
     public TEMP IRme() {
         TEMP varTmp = this.var.IRme();
-        if (!varType.isArray() && !varType.isClass()){
-            TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
-            IR.getInstance().Add_IRcommand(new IRcommand_Load(dst, varTmp));
-            return dst;
-        } else {
-            IR.getInstance().Add_IRcommand(new IRcommand_Pointer_DeRef_Check(varTmp));
-            return varTmp;
-        }
+        TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
+        IR.getInstance().Add_IRcommand(new IRcommand_Load(dst, varTmp));
+        return dst;
     }
 
 }

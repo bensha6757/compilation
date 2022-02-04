@@ -518,6 +518,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Load_Arg_From_Stack.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ex4/src/IR/IRcommand_Load_Global_Variable.java">
           <value>
             <set />
@@ -649,6 +654,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/ex4/src/TEMP/TEMP_LIST.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ex4/src/TYPES/TYPE.java">
           <value>
             <set />
           </value>

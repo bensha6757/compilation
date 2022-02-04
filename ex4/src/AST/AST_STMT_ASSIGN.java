@@ -73,7 +73,7 @@ public class AST_STMT_ASSIGN extends AST_STMT
         if (exp != null) t2 = exp.SemantMe();
 
         if (t1 == null || !t1.isLegalAssignment(t2)){
-            System.out.format(">> ERROR [%d:%d] illegal assignment \n",2,2);
+            System.out.format(">> ERROR [%d:%d] illegal assignment\n",2,2);
 			this.error();
         }
 

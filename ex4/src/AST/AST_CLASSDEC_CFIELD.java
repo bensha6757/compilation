@@ -167,7 +167,7 @@ public class AST_CLASSDEC_CFIELD extends AST_CLASSDEC {
             fatherCls = fatherCls.father;
         }
 
-        IR.getInstance().Add_IRcommand(new IRcommand_Return(thisInstance));
+        IR.getInstance().Add_IRcommand(new IRcommand_Return(newInstance));
         IR.getInstance().Add_IRcommand(new IRcommand_Function_Epilogue());
 
         return null;

@@ -311,8 +311,8 @@ public class MIPSGenerator
     }
 
     public void createVtable(List<List<String>> vtable, String className) {
-        fileWriter.format("\t.data\n");
-        fileWriter.format("\tvt_112233_" + className + "\n");
+        //fileWriter.format(".data\n");
+       // fileWriter.format("vt_112233_" + className + ":\n");
         for (List<String> func : vtable) {
             fileWriter.format("\tfunc_" + func.get(0) + "_" + func.get(1) + "_" + func.get(2) + "\n");
         }
@@ -479,8 +479,8 @@ public class MIPSGenerator
         String out_of_bounds = IRcommand.getFreshLabel("out_of_bounds");
 
         fileWriter.format("\tbltz $t%d, %s\n", offsetIdx, out_of_bounds);
-        fileWriter.format("\tlw $s0, 0($t%d)\n", varIdx); // s0 = array.length
-        fileWriter.format("\tbge $t%d, $s0, %s\n", offsetIdx, out_of_bounds); // check out of bounds
+        fileWriter.format("\tlw $s1, 0($t%d)\n", varIdx); // s1 = array.length
+        fileWriter.format("\tbge $t%d, $s1, %s\n", offsetIdx, out_of_bounds); // check out of bounds
         fileWriter.format("\tmove $s0, $t%d\n", offsetIdx);
         fileWriter.format("\tadd $s0, $s0, 1\n");
         fileWriter.format("\tmul $s0, $s0, 4\n");
@@ -524,6 +524,7 @@ public class MIPSGenerator
         fileWriter.format("\tsubu $sp, $sp, 4\n");
         fileWriter.format("\tsw $fp 0($sp)\n");
         fileWriter.format("\tmove $fp, $sp\n");
+
         fileWriter.format("\tsubu $sp, $sp, 4\n");
         fileWriter.format("\tsw $t0, 0($sp)\n");
         fileWriter.format("\tsubu $sp, $sp, 4\n");
@@ -545,6 +546,7 @@ public class MIPSGenerator
         fileWriter.format("\tsubu $sp, $sp, 4\n");
         fileWriter.format("\tsw $t9, 0($sp)\n");
         fileWriter.format("\tsubu $sp, $sp, 4\n");
+
         fileWriter.format("\tsubu $sp, $sp, " + (numOfLocalVars * 4) + "\n");
         fileWriter.flush();
     }
@@ -571,7 +573,7 @@ public class MIPSGenerator
 
     public void returnFunc(TEMP returnValue)
     {
-        fileWriter.format("\tmove $v0,$t%d\n", Register_Allocation.getIrRegisterToPhysical().get(returnValue.getRealSerialNumber()));
+        fileWriter.format("\tmove $v0,$t%d\n", returnValue.getRealSerialNumber());
         fileWriter.flush();
     }
 

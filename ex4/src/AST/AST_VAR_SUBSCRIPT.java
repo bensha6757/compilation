@@ -95,7 +95,8 @@ public class AST_VAR_SUBSCRIPT extends AST_VAR
 	public TEMP IRme()
 	{
 		TEMP dst = var.IRme();
-		TEMP subs = subscript.IRme();
+        IR.getInstance().Add_IRcommand(new IRcommand_Load(dst, dst));
+        TEMP subs = subscript.IRme();
 		IR.getInstance().Add_IRcommand(new IRcommand_Array_Access(dst, dst, subs));
 		return dst;
 	}

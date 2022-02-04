@@ -49,15 +49,15 @@ public class IR
     {
         previousLocalsSize.push(localVariableToOffset.size());
     }
+
     public void endScope()
     {
         int prevSize = previousLocalsSize.pop();
-        for (int i = 0 ; i < prevSize ; i ++) {
-            localVariableToOffset.remove(localVariableToOffset.size() -1);
+        while (localVariableToOffset.size() > prevSize) {
+            this.localVariableToOffset.remove(this.localVariableToOffset.size() - 1);
+            this.localVarPointer += 4;
         }
-        localVarPointer -= (4 * prevSize);
     }
-
 
     public void enterLocalVarToStack(String id) {
         localVariableToOffset.add(new Tuple(id, localVarPointer));

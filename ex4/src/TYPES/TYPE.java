@@ -38,7 +38,6 @@ public abstract class TYPE
             }
             return false;
         }
-
         if ((this.isClass() || this.isArray()) && t2.isNil()){
             return true;
         }
@@ -47,6 +46,6 @@ public abstract class TYPE
             return ((TYPE_ARRAY) this).type == ((TYPE_ARRAY_RIGHT) t2).type;
         }
 
-        return (!this.isArray() || !t2.isArray()) && this == t2;
+        return this == t2;
     }
 }

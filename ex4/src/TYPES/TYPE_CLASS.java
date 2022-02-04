@@ -98,7 +98,7 @@ public class TYPE_CLASS extends TYPE
 
         for (TYPE_LIST member = data_members ; member != null ; member = member.tail) {
             if (!member.head.isFunction()) {
-                fields.add(member.head.name);
+                fields.add(member.name);
             }
         }
     }
