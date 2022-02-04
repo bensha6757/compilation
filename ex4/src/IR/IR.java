@@ -108,9 +108,10 @@ public class IR
         return strings;
     }
 
-    public void addString(String s)
+    public int addString(String s)
     {
         strings.add(s);
+        return strings.size() - 1;
     }
 
 

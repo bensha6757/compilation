@@ -314,7 +314,8 @@ public class MIPSGenerator
         //fileWriter.format(".data\n");
        // fileWriter.format("vt_112233_" + className + ":\n");
         for (List<String> func : vtable) {
-            fileWriter.format("\tfunc_" + func.get(0) + "_" + func.get(1) + "_" + func.get(2) + "\n");
+            String funcName = "func_" + func.get(0) + "_" + func.get(1) + "_" + func.get(2);
+            fileWriter.format("\t.word %s\n", funcName);
         }
         fileWriter.flush();
     }
@@ -425,12 +426,10 @@ public class MIPSGenerator
         fileWriter.flush();
     }
 
-    public void stringExpression(TEMP dst, String str)
+    public void stringExpression(TEMP dst, Integer str)
     {
-        int dstIdx = dst.getRealSerialNumber();
-        fileWriter.format(".data\n");
-        fileWriter.format("\tconst_string_%s: .asciiz \"%s\"\n", str, str);
-        fileWriter.format("\tla $t%d, const_string_%s\n", dstIdx, str);
+        int dst_idx = dst.getRealSerialNumber();
+        fileWriter.format("\tla $t%s, const_string_%d\n", dst_idx, str);
         fileWriter.flush();
     }
 
@@ -805,7 +804,7 @@ public class MIPSGenerator
             List<String> strings = IR.getInstance().getStrings();
             for (int i = 0; i < strings.size(); i++) {
                 String str = strings.get(i);
-                instance.fileWriter.print(String.format("const_string_%d: .asciiz %s\n", i, str));
+                instance.fileWriter.print(String.format("const_string_%d: .asciiz \"%s\"\n", i, str));
             }
 
             List<String> globals = IR.getInstance().getGlobals();

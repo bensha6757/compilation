@@ -141,17 +141,24 @@ public class Register_Allocation {
     }
 
     public int getMaxColorAvailable(Set<Interference_Node> nodes) {
-        int maxColor = -1;
+        boolean[] takenColors = new boolean[10];
+        Arrays.fill(takenColors, Boolean.FALSE);
         for (Interference_Node node : nodes) {
-            maxColor = Math.max(maxColor, node.color);
+            if (node.color != -1)
+                takenColors[node.color] = true;
         }
-        return maxColor + 1;
+        for (int i = 0; i < takenColors.length; i++){
+            if (!takenColors[i]){
+                return i;
+            }
+        }
+        return 10; // error
     }
 
     public void coloringAlgorithm() {
         while (stack.size() != allRegisters.size()) {
             for (Interference_Node node : interferenceGraph.keySet()) {
-                if (sizeOfNeighborsNotInStack(node) < 10) {
+                if (!node.inStack && sizeOfNeighborsNotInStack(node) < 10) {
                     node.inStack = true;
                     stack.push(node);
                 }

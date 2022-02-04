@@ -79,7 +79,6 @@ public class AST_ARRAYTYPEDEF_ID extends AST_ARRAYTYPEDEF {
         /* [2] Semant Data Members */
         /***************************/
         TYPE type = t.SemantMe();
-        System.out.println(type.name);
         if (type == null){
             System.out.format(">> ERROR [%d:%d] void type is illegal %s\n",2,2,t.typeName);
             this.error();

@@ -58,18 +58,21 @@ public class Main
 			/* [7] Semant the AST ... */
 			/**************************/
 			AST.SemantMe();
-            System.out.println("s");
+            System.out.println("SemantMe Passed!!");
 			/**********************/
 			/* [8] IR the AST ... */
 			/**********************/
 			AST.IRme();
+            System.out.println("IRme Passed!!");
 
             Register_Allocation.register_allocation_algorithm();
-			
-			/***********************/
+            System.out.println("register_allocation_algorithm Passed!!");
+
+            /***********************/
 			/* [9] MIPS the IR ... */
 			/***********************/
 			IR.getInstance().MIPSme();
+            System.out.println("MIPSme Passed!!");
 
 			/**************************************/
 			/* [10] Finalize AST GRAPHIZ DOT file */

@@ -56,8 +56,9 @@ public class AST_EXP_STRING extends AST_EXP {
     @Override
     public TEMP IRme() {
         TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
-        IR.getInstance().Add_IRcommand(new IRcommand_String_Expression(str, dst));
-        IR.getInstance().addString(str);
+        int stringID = IR.getInstance().addString(str);
+        IR.getInstance().Add_IRcommand(new IRcommand_String_Expression(stringID, dst));
+
         return dst;
     }
 }
