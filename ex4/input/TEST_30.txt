@@ -1,0 +1,19 @@
+class A {
+    int a := 9;
+}
+
+A a := new A;
+
+void main()
+{
+    PrintString("check");
+    A b := a;
+    A c := new A;
+    if (a = b) {
+        PrintString("Same");
+    }
+    if ((a = c) = 0) {
+        PrintString("Different");
+    }
+    PrintInt(b.a);
+}

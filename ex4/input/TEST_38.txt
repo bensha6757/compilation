@@ -1,0 +1,21 @@
+int a := 2;
+
+class A {
+    void foo() {
+        PrintInt(a);
+        int a := 1;
+        PrintInt(a);
+    }
+    int a := 3;
+    void bar() {
+        PrintInt(a);
+    }
+}
+
+A b := new A;
+
+void main()
+{
+    b.foo();
+    b.bar();
+}

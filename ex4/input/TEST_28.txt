@@ -1,0 +1,10 @@
+class A {
+    int a := 5;
+    void foo() {PrintInt(a);}
+}
+
+A a := new A;
+
+void main() {
+    a.foo();
+}

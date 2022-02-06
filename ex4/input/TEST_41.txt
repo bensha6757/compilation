@@ -1,0 +1,37 @@
+class A {
+    void foo() {
+        PrintString("Ella");
+    }
+}
+
+class B extends A {
+    void foo() {
+        PrintString("Shoval");
+    }
+}
+
+class C extends A {
+    void foo() {
+        PrintString("Shahar");
+    }
+}
+
+array Aarray = A[];
+
+void main() {
+    Aarray a := new A[2];
+    B b :=  new B;
+    A c := b;
+    a[0] := b;
+    a[1] := new C;
+
+    a[0].foo();
+    a[1].foo();
+
+    if (b = a[0]) {
+        PrintString("true");
+    }
+    if (a[0] = b) {
+        PrintString("true");
+    }
+}

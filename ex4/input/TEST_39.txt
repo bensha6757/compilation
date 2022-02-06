@@ -1,0 +1,19 @@
+class A {
+    int bar() {
+        PrintString("bar");
+        return 1;
+    }
+    void bar2() {
+        PrintString("voidbar");
+    }
+    void foo() {
+        int x := bar();
+        bar2();
+    }
+
+}
+
+void main() {
+    A a := new A;
+    a.foo();
+}

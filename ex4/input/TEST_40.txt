@@ -1,0 +1,28 @@
+int a := 3;
+
+class A {
+    int a := 1;
+    void foo() {
+        PrintString("Shoval");
+        PrintInt(a);
+    }
+
+    void bar() {
+        foo();
+    }
+
+}
+
+class B extends A {
+    void foo() {
+        PrintString("Shahar");
+        PrintInt(a);
+    }
+}
+
+void main() {
+    A a := new B;
+    a.foo();
+    a.bar();
+    PrintInt(a.a);
+}

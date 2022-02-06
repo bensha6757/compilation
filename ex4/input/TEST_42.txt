@@ -1,0 +1,46 @@
+class A {
+    void foo() {
+        PrintString("Shoval");
+    }
+}
+
+array arrayType = A[];
+
+void main() {
+    arrayType x := new A[2];
+    arrayType y := nil;
+    A a := new A;
+    A b := nil;
+    if (x = nil) {
+        PrintString("nil");
+    }
+
+    if (nil = x) {
+        PrintString("nil");
+    }
+
+    if (x = nil) {
+        PrintString("nil");
+    }
+
+    if (nil = a) {
+        PrintString("nil");
+    }
+
+    if (a = nil) {
+        PrintString("nil");
+    }
+
+    if (b = nil) {
+        PrintString("nil");
+    }
+    if (nil = b) {
+        PrintString("nil");
+    }
+    if (y = nil) {
+        PrintString("nil");
+    }
+    if (nil = y) {
+        PrintString("nil");
+    }
+}

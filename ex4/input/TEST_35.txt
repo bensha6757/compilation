@@ -1,0 +1,25 @@
+void main()
+{
+    int a := 1;
+    if (a = 1) {
+        int a := 2;
+        if (a = 2) {
+            PrintString("Yay");
+        }
+    }
+    int b := 3;
+    if (a = 2) {
+        PrintString("NotYay");
+    }
+    if (a = 1) {
+        string a := "Ella";
+        PrintString(a);
+        PrintInt(b);
+    }
+    while (b = 3) {
+        b := b - 1;
+        int b := 3;
+        PrintInt(b);
+    }
+    PrintInt(b);
+}

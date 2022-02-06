@@ -1,0 +1,8 @@
+array IntArray = int[];
+IntArray row0 := new int[3];
+
+void main()
+{
+    row0[0] := 10;
+    PrintInt(row0[0]);
+}

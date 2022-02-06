@@ -1,0 +1,14 @@
+class A {
+    int i := 0;
+    int geti() {i := i + 1; return i;}
+}
+
+A a := new A;
+int i1 := a.geti();
+int i2 := a.geti();
+
+void main()
+{
+    PrintInt(i1);
+    PrintInt(i2);
+}

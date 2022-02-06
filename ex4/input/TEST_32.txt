@@ -1,0 +1,21 @@
+string a := "Shoval";
+
+void main() {
+    string b := "Ella";
+    string c := "Shahar";
+    string d := a;
+    string e := "Shoval";
+    if (a = b) {
+        PrintString("aEQb");
+    }
+    if (b = c) {
+        PrintString("bEQc");
+    }
+    if (d = a) {
+        PrintString("dEQa");
+    }
+    if (e = a) {
+        PrintString("eEQa");
+    }
+
+}

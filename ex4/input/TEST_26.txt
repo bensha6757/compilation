@@ -1,0 +1,14 @@
+void main()
+{
+	PrintInt(-32768 - 1);
+	PrintInt(32767);
+	PrintInt(32767 - -1);
+
+	PrintInt(32767 + 1);
+	PrintInt(-32768 + -1);
+
+	PrintInt(-32768 * 2);
+	PrintInt(-32768 + 100);
+	PrintInt(32767 * 2);
+}
+

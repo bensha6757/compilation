@@ -1,0 +1,14 @@
+array IntArray = int[];
+IntArray a := new int[3];
+
+void main()
+{
+    IntArray b := a;
+    IntArray c := new int[3];
+    if (a = b) {
+        PrintString("Same");
+    }
+    if ((a = c) = 0) {
+        PrintString("Different");
+    }
+}
