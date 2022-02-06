@@ -660,8 +660,8 @@ public class MIPSGenerator
         String strCopier = IRcommand.getFreshLabel("strcopier");
         fileWriter.format("%s:\n", strCopier);
 
-        fileWriter.print("\tor $t0, $a0, $zero\n"); // t0 = a0
-        fileWriter.print("\tor $t1, $a1, $zero\n"); // t1 = a1 (result)
+        fileWriter.print("\tor $t0, $a0, $zero\n"); // t0 = a0 str2
+        fileWriter.print("\tor $t1, $a1, $zero\n"); // t1 = a1 (result) with str1
 
         String loop = IRcommand.getFreshLabel("loop");
         String endLoop = IRcommand.getFreshLabel("end");
@@ -677,6 +677,7 @@ public class MIPSGenerator
         fileWriter.format("%s:\n", endLoop);
         fileWriter.print("\tor $v0, $t1, $zero\n"); // v0 = t1
         fileWriter.print("\tjr $ra\n");
+
         return strCopier;
     }
 
@@ -700,19 +701,21 @@ public class MIPSGenerator
         fileWriter.print("\tsw $t1 0($sp)\n");
         fileWriter.print("\tsubu $sp, $sp, 4\n");
         fileWriter.print("\tsw $t2 0($sp)\n");
+        fileWriter.print("\tsubu $sp, $sp, 4\n");
+        fileWriter.print("\tsw $t3 0($sp)\n");
 
         // Copy first string to result buffer
         fileWriter.print("\tlw $t0, 8($fp)\n"); // str1
         fileWriter.print("\tmove $a0, $t0\n"); // a0 = str1
         fileWriter.format("\tjal %s\n", strLen);
-        fileWriter.print("\tmove $t1, $v0\n"); // t1 = strlen(str1)
+        fileWriter.print("\tmove $t1, $v0\n"); // t1 = str1.length
 
         fileWriter.print("\tlw $t0, 12($fp)\n"); // str2
         fileWriter.print("\tmove $a0, $t0\n"); // a0 = str2
         fileWriter.format("\tjal %s\n", strLen);
-        fileWriter.print("\tmove $t0, $v0\n"); // t0 = strlen(str2)
+        fileWriter.print("\tmove $t0, $v0\n"); // t0 = str2.length
 
-        fileWriter.print("\tadd $t0, $t0, $t1\n"); // t0 = t0 + t1
+        fileWriter.print("\tadd $t0, $t0, $t1\n"); // t0 = t0 + t1 (res.length)
         fileWriter.print("\taddi $t0, $t0, 1\n"); // t0++
 
         fileWriter.print("\tmove $a0, $t0\n"); // allocate on heap
@@ -720,17 +723,22 @@ public class MIPSGenerator
         fileWriter.print("\tsyscall\n");
 
         fileWriter.print("\tmove $a1, $v0\n"); // new string address on $a1
-        fileWriter.print("\tlw $t0, 8($fp)\n"); // str1
+        fileWriter.print("\tmove $t3, $v0\n");
+        fileWriter.print("\tlw $t0, 8($fp)\n"); // t0 = str1
         fileWriter.print("\tmove $a0, $t0\n"); // a0 = str1
         fileWriter.format("\tjal %s\n", strCopier);
 
         // Concatenate second string on result buffer
         fileWriter.print("\tlw $t0, 12($fp)\n"); // str2
         fileWriter.print("\tmove $a0, $t0\n"); // a0 = str2
-        fileWriter.print("\tor $a1, $v0, $zero\n"); // a1 = endOf(t1)
+        fileWriter.print("\tor $a1, $v0, $zero\n"); // a1 = res (with str1 at the beginning)
         fileWriter.format("\tjal %s\n", strCopier);
 
+        fileWriter.format("\tmove $v0, $t3\n"); // res = t3
+
         // function epilogue
+        fileWriter.print("\tlw $t3 0($sp)\n");
+        fileWriter.print("\taddi $sp, $sp, 4\n");
         fileWriter.print("\tlw $t2 0($sp)\n");
         fileWriter.print("\taddi $sp, $sp, 4\n");
         fileWriter.print("\tlw $t1 0($sp)\n");

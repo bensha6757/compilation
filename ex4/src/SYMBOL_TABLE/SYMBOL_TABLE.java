@@ -108,6 +108,16 @@ public class SYMBOL_TABLE
         return true;
     }
 
+    public boolean checkIfVarWasDefinedInGlobalScope(String name) {
+        for (SYMBOL_TABLE_ENTRY e = table[hash(name)]; e != null && !e.checkIfVarIsGlobal(); e = e.next)
+        {
+            if (name.equals(e.name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // int foo(int i)
     public TYPE find(String name, String returnTypeName, TYPE_LIST params, boolean isFunction) throws FindException {
         if (name == null) return null;

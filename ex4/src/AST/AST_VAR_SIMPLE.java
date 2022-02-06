@@ -13,7 +13,7 @@ public class AST_VAR_SIMPLE extends AST_VAR
 	/* simple variable name */
 	/************************/
     TYPE_CLASS cls;
-
+    private boolean isVarGlobal = false;
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
@@ -66,6 +66,7 @@ public class AST_VAR_SIMPLE extends AST_VAR
             System.out.format(">> ERROR [%d:%d] ID %s does not exist\n",6,6,this.name);
 			this.error();
         }
+        isVarGlobal = SYMBOL_TABLE.getInstance().checkIfVarWasDefinedInGlobalScope(name);
         cls = SYMBOL_TABLE.getInstance().getLowestClass();
 
 		return t;
@@ -76,7 +77,7 @@ public class AST_VAR_SIMPLE extends AST_VAR
         TEMP dst = TEMP_FACTORY.getInstance().getFreshTEMP();
         if (IR.getInstance().isLocalVarExists(name)) {
             IR.getInstance().Add_IRcommand(new IRcommand_Load_Variable(dst, name));
-        } else if (cls != null && cls.getFieldOffset(name) != -1) {
+        } else if (cls != null && cls.getFieldOffset(name) != -1 && !isVarGlobal) {
             IR.getInstance().Add_IRcommand(new IRcommand_Load_This_Instance(dst, cls.getFieldOffset(name))); // load the field from this instance
         } else {
             IR.getInstance().Add_IRcommand(new IRcommand_Load_Global_Variable(dst, name));
