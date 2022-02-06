@@ -115,6 +115,15 @@ public class SYMBOL_TABLE
                 return false;
             }
         }
+
+        for (TYPE_CLASS fatherClass = curFather ; fatherClass != null ; fatherClass = fatherClass.father){
+            for (TYPE_LIST member = fatherClass.data_members ; member != null ; member = member.tail){
+                if (!member.isFunction() && member.name.equals(name)){
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
